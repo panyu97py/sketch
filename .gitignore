@@ -1,0 +1,8 @@
+dist/
+node_modules
+.idea
+.cache
+.DS_Store
+lerna-debug.log
+yarn-error.log
+coverage
