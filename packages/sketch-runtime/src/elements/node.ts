@@ -3,7 +3,7 @@ import Yoga, {Node as YogaNode} from 'yoga-layout';
 
 export abstract class SketchNode {
 
-    public layoutNode: YogaNode
+    public layout: YogaNode
 
     public parentNode: SketchNode | null = null
 
@@ -11,8 +11,8 @@ export abstract class SketchNode {
 
     public abstract render(): void
 
-    constructor() {
-        this.layoutNode = Yoga.Node.create()
+    protected constructor() {
+        this.layout = Yoga.Node.create()
     }
 
     public get _root(): SketchRoot | null {
@@ -22,7 +22,7 @@ export abstract class SketchNode {
     public appendChild(newChild: SketchNode) {
         newChild.parentNode = this
         this.childNodes.push(newChild)
-        this.layoutNode.insertChild(newChild.layoutNode, this.layoutNode.getChildCount())
+        this.layout.insertChild(newChild.layout, this.layout.getChildCount())
     }
 }
 

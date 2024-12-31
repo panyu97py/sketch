@@ -1,4 +1,4 @@
-export type YogaSupportedCSSProperties =
+type YogaSupportedCSSProperties =
     | 'flexDirection'
     | 'flex'
     | 'justifyContent'
