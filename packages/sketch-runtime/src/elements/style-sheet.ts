@@ -6,6 +6,6 @@ export class StyleSheet {
         return styles;
     }
 
-    static apply(sketchNode: SketchNode, style: StyleSheetCssProperties) {
+    static apply(sketchNode: SketchNode, style?: StyleSheetCssProperties) {
     }
 }

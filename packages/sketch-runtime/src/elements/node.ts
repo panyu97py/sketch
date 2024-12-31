@@ -11,7 +11,7 @@ export abstract class SketchNode {
 
     public abstract render(): void
 
-    protected constructor() {
+     protected constructor() {
         this.layout = Yoga.Node.create()
     }
 
