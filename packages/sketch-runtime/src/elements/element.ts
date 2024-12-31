@@ -1,5 +1,5 @@
 import {SketchNode} from "./node";
-import {StyleSheetCssProperties} from "../types/style-sheet";
+import {StyleSheetCssProperties} from "../types";
 import {StyleSheet} from "./style-sheet";
 
 export class SketchElement extends SketchNode {

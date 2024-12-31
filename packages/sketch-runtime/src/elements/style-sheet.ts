@@ -1,4 +1,4 @@
-import {StyleSheetCssProperties} from "../types/style-sheet";
+import {StyleSheetCssProperties} from "../types";
 import {SketchNode} from "./node";
 
 export class StyleSheet {
