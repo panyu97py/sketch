@@ -1,0 +1,10 @@
+{
+  "name": "@peintrejs/runtime",
+  "version": "0.0.0",
+  "main": "index.js",
+  "author": "yu.pan",
+  "license": "MIT",
+  "dependencies": {
+    "yoga-layout": "^3.2.1"
+  }
+}
