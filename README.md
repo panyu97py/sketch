@@ -1,4 +1,4 @@
-# peintre - 画家
+# sketch - 绘图工具
 
 ## canvas 绘图组件化
 
