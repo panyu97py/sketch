@@ -13,7 +13,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.2"
   }
