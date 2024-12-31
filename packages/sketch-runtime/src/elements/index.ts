@@ -1,3 +1,6 @@
 export * from './text'
 export * from './view'
 export * from './image'
+export * from './root'
+export * from './element'
+export * from './style-sheet'
