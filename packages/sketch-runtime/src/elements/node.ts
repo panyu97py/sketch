@@ -1,9 +1,9 @@
 import {SketchRoot} from "./root";
-import Yoga, {Node as YogaNode} from 'yoga-layout';
+import YogaLayout, {Node as YogaLayoutNode} from 'yoga-layout';
 
 export abstract class SketchNode {
 
-    public layout: YogaNode
+    public layout: YogaLayoutNode
 
     public parentNode: SketchNode | null = null
 
@@ -12,7 +12,7 @@ export abstract class SketchNode {
     public abstract render(): void
 
      protected constructor() {
-        this.layout = Yoga.Node.create()
+        this.layout = YogaLayout.Node.create()
     }
 
     public get _root(): SketchRoot | null {
