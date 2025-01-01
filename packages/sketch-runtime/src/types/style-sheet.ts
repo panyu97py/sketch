@@ -36,5 +36,4 @@ export interface StyleSheetCssProperties extends Pick<CSSStyleDeclaration, YogaS
     display?: 'flex' | 'none' | 'contents'
 }
 
-
 export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;

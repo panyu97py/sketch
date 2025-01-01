@@ -1,4 +1,4 @@
-import { SketchElement} from "./element";
+import { SketchElement } from './element'
 
 export class SketchView extends SketchElement {
 }

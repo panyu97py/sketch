@@ -1,4 +1,4 @@
 packages:
-  - '@sketchjs/runtime'
-  - '@sketchjs/example-h5-react'
+  - 'packages/*'
+  - 'example/*'
 
