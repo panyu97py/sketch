@@ -4,6 +4,8 @@ import { StyleSheet } from './style-sheet'
 import YogaLayout, { Node as YogaLayoutNode } from 'yoga-layout'
 
 export abstract class SketchElement extends SketchNode {
+  public displayName: string
+
   public readonly layout: YogaLayoutNode
 
   public readonly style?: StyleSheetCssProperties
@@ -17,6 +19,7 @@ export abstract class SketchElement extends SketchNode {
 
   public appendChild (newChild: SketchElement) {
     super.appendChild(newChild)
+    console.log('appendChild', { newChild }, this, this.layout.getChildCount())
     this.layout.insertChild(newChild.layout, this.layout.getChildCount())
   }
 }
