@@ -57,7 +57,7 @@ importers:
   example/example-h5-react:
     dependencies:
       '@sketchjs/runtime':
-        specifier: 0.0.0
+        specifier: workspace:*
         version: link:../../packages/sketch-runtime
       cra-template-typescript:
         specifier: 1.2.0
