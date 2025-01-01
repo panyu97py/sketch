@@ -1,9 +1,16 @@
 {
   "name": "@sketchjs/runtime",
   "version": "0.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "yu.pan",
   "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:dev": "jest --watch",
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
   "dependencies": {
     "lodash-es": "^4.17.21",
     "yoga-layout": "^3.2.1"

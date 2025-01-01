@@ -14,7 +14,7 @@ export class StyleSheet {
         Object.keys(style).forEach((cssProperty: keyof StyleSheetCssProperties) => {
             const {[cssProperty]: cssValue} = style;
             if (isEmpty(cssValue)) return
-            const {[cssValue]: yogaLayoutValue} = CSS_TO_YOGA_MAP[cssProperty] || {};
+            const {[cssValue!]: yogaLayoutValue} = CSS_TO_YOGA_MAP[cssProperty] || {};
             const finalValue = yogaLayoutValue || cssValue;
             switch (cssProperty) {
                 case 'width':

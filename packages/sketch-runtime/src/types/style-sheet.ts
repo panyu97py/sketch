@@ -1,3 +1,6 @@
+// 定义过滤空值的类型
+type NonEmpty<T> = T extends '' | null | undefined ? never : T;
+
 type YogaSupportedCSSProperties =
     | 'width'
     | 'minWidth'
@@ -33,4 +36,5 @@ export interface StyleSheetCssProperties extends Pick<CSSStyleDeclaration, YogaS
     display?: 'flex' | 'none' | 'contents'
 }
 
-export type StyleSheetCssValues = StyleSheetCssProperties[keyof StyleSheetCssProperties];
+
+export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;
