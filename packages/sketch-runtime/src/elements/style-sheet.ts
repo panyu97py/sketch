@@ -4,11 +4,23 @@ import { CSS_TO_YOGA_MAP } from '../constants'
 import { isEmpty } from '../utils'
 import { SketchElement } from './element'
 
+/**
+ * 样式工具类
+ */
 export class StyleSheet {
-  static create <T extends Record<string, StyleSheetCssProperties>> (styles:T) {
+  /**
+     * 创建样式
+     * @param styles
+     */
+  static create<T extends Record<string, StyleSheetCssProperties>> (styles: T) {
     return styles
   }
 
+  /**
+     * 应用样式
+     * @param sketchElement
+     * @param style
+     */
   static apply (sketchElement: SketchElement, style?: StyleSheetCssProperties) {
     if (!style) return
     Object.keys(style).forEach((cssProperty: keyof StyleSheetCssProperties) => {

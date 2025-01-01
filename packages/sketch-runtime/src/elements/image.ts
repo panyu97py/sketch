@@ -1,16 +1,35 @@
 import { SketchElement } from './element'
 import { StyleSheetCssProperties } from '../types'
 
+/**
+ * 图片缓存
+ */
 const imageCache = new Map<string, HTMLImageElement>()
 
+/**
+ * 图片元素
+ */
 export class SketchImage extends SketchElement {
+  /**
+     * 图片地址
+     * @private
+     */
   private readonly src: string
 
+  /**
+     * 构造函数
+     * @param src 图片地址
+     * @param style 样式
+     */
   constructor (src: string, style?: StyleSheetCssProperties) {
     super(style)
     this.src = src
   }
 
+  /**
+     * 加载图片
+     * @param src
+     */
   loadImage = async (src: string) => {
     if (!imageCache.has(src)) {
       const tempImageObj = document.createElement('img')
@@ -24,12 +43,15 @@ export class SketchImage extends SketchElement {
     return imageCache.get(src)!
   }
 
+  /**
+     * 渲染函数
+     */
   render = async () => {
     if (!this._root) return
 
     // 计算布局位置
     this._root.calculateLayout()
-    const { left, top } = this.getElementAbsolutePosition()
+    const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
 
     // 渲染元素
