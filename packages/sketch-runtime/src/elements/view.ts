@@ -5,6 +5,7 @@ export class SketchView extends SketchElement {
     if (!this._root) return
 
     // 计算布局位置
+    this._root.calculateLayout()
     const { left, top } = this.getElementAbsolutePosition()
     const { width, height } = this.getElementSize()
 

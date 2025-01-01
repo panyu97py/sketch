@@ -31,7 +31,6 @@ export abstract class SketchElement extends SketchNode {
   }
 
   public getElementAbsolutePosition = () => {
-    this._root?.calculateLayout()
     const defaultPosition = { top: 0, left: 0, bottom: 0, right: 0 }
     const parentPosition = (this.parentNode as SketchElement)?.getElementAbsolutePosition() || defaultPosition
     const relativePosition = this.calculateElementRelativePosition()
