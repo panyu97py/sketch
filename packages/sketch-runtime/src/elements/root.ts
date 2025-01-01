@@ -19,6 +19,13 @@ export class SketchRoot extends SketchElement {
     return this
   }
 
+  public setSize (width: number, height: number) {
+    this.canvas.width = width
+    this.canvas.height = height
+    this.layout.setWidth(width)
+    this.layout.setHeight(height)
+  }
+
   private recursiveRender (node: SketchNode) {
     const { childNodes } = node
     return Promise.all(childNodes.map((child) => {
