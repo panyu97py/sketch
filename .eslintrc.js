@@ -13,13 +13,10 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'jest', 'react'],
   rules: {
-    '@typescript-eslint/no-empty-function': 0,
-    '@typescript-eslint/no-explicit-any': 0,
-    '@typescript-eslint/no-var-requires': 0,
-    'no-use-before-define': ['error', {
-      variables: true,
-      functions: false,
-      classes: false // 允许类在被定义前使用
-    }]
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/ no-non-null-assertion': 'off',
+    'no-use-before-define': 'off'
   }
 }

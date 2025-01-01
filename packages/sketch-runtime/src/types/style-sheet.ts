@@ -1,13 +1,9 @@
 // 定义过滤空值的类型
 type NonEmpty<T> = T extends '' | null | undefined ? never : T;
 
+type Size = number | 'auto' | `${number}%`
+
 type YogaSupportedCSSProperties =
-    | 'width'
-    | 'minWidth'
-    | 'maxWidth'
-    | 'height'
-    | 'minHeight'
-    | 'maxHeight'
     | 'boxSizing'
     | 'flex'
     | 'flexDirection'
@@ -31,9 +27,16 @@ type YogaSupportedCSSProperties =
     | 'paddingBottom'
     | 'paddingLeft'
     | 'gap'
+    | 'backgroundColor'
 
-export interface StyleSheetCssProperties extends Pick<CSSStyleDeclaration, YogaSupportedCSSProperties> {
+export interface StyleSheetCssProperties extends Partial<Pick<CSSStyleDeclaration, YogaSupportedCSSProperties>> {
     display?: 'flex' | 'none' | 'contents'
+    width?: Size;
+    minWidth?: Size;
+    maxWidth?: Size;
+    height?: Size;
+    minHeight?: Size;
+    maxHeight?: Size;
 }
 
 export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;

@@ -1,10 +1,11 @@
 import { SketchElement } from './element'
 import { SketchNode } from './node'
+import YogaLayout from 'yoga-layout'
 
 export class SketchRoot extends SketchElement {
-  public ctx?: CanvasRenderingContext2D
+  public ctx: CanvasRenderingContext2D
 
-  public canvas?: HTMLCanvasElement
+  public canvas: HTMLCanvasElement
 
   constructor (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
     super()
@@ -24,10 +25,15 @@ export class SketchRoot extends SketchElement {
     })
   }
 
+  public calculateLayout = () => {
+    this.layout.calculateLayout('auto', 'auto', YogaLayout.DIRECTION_LTR)
+  }
+
   public render () {
     this.recursiveRender(this)
   }
 
-  public toDataURL () {
+  public toDataURL (type?: string, quality?: any) {
+    return this.canvas.toDataURL(type, quality)
   }
 }
