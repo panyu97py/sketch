@@ -16,6 +16,6 @@
     "yoga-layout": "^3.2.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.13"
+    "@types/lodash-es": "^4.17.12"
   }
 }
