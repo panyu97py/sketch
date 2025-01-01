@@ -17,9 +17,20 @@ export abstract class SketchElement extends SketchNode {
     StyleSheet.apply(this, this.style)
   }
 
+  public onMount () {}
+
   public appendChild (newChild: SketchElement) {
     super.appendChild(newChild)
     this.layout.insertChild(newChild.layout, this.layout.getChildCount())
+    newChild.applyOnMount()
+  }
+
+  public applyOnMount () {
+    if (!this._root) return
+    this.onMount()
+    this.childNodes.forEach(child => {
+      (child as SketchElement).applyOnMount()
+    })
   }
 
   public calculateElementRelativePosition = () => {

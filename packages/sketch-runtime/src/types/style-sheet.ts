@@ -3,6 +3,8 @@ type NonEmpty<T> = T extends '' | null | undefined ? never : T;
 
 type Size = number | 'auto' | `${number}%`
 
+type Color = `#${string}` | `rgba(${number}, ${number}, ${number}, ${number})`
+
 type YogaSupportedCSSProperties =
     | 'boxSizing'
     | 'flex'
@@ -37,6 +39,10 @@ export interface StyleSheetCssProperties extends Partial<Pick<CSSStyleDeclaratio
     paddingRight?: Size;
     paddingTop?: Size;
     paddingBottom?: Size;
+    color?: Color;
+    lineHeight?: number;
+    fontSize?: number;
+    fontWeight?: number;
 }
 
 export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;

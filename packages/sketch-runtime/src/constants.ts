@@ -1,5 +1,12 @@
 import YogaLayout from 'yoga-layout'
-import { StyleSheetCssProperties, StyleSheetCssValues } from './types'
+import { StyleSheetCssProperties, StyleSheetCssValues, FontStyle } from './types'
+
+export const DEFAULT_FONT_STYLE: Required<FontStyle> = {
+  fontSize: 20,
+  fontWeight: 400,
+  lineHeight: 20,
+  fontFamily: 'PingFang SC'
+}
 
 export const CSS_TO_YOGA_MAP: Partial<Record<keyof StyleSheetCssProperties, Record<StyleSheetCssValues, any>>> = {
   flexDirection: {
