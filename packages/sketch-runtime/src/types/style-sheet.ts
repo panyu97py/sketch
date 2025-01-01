@@ -1,11 +1,22 @@
 type YogaSupportedCSSProperties =
-    | 'flexDirection'
+    | 'width'
+    | 'minWidth'
+    | 'maxWidth'
+    | 'height'
+    | 'minHeight'
+    | 'maxHeight'
+    | 'boxSizing'
     | 'flex'
+    | 'flexDirection'
+    | 'flexWrap'
     | 'justifyContent'
     | 'alignItems'
     | 'alignSelf'
-    | 'width'
-    | 'height'
+    | 'position'
+    | 'top'
+    | 'right'
+    | 'bottom'
+    | 'left'
     | 'margin'
     | 'marginTop'
     | 'marginRight'
@@ -16,6 +27,10 @@ type YogaSupportedCSSProperties =
     | 'paddingRight'
     | 'paddingBottom'
     | 'paddingLeft'
-    | 'borderRadius';
+    | 'gap'
 
-export type StyleSheetCssProperties = Pick<CSSStyleDeclaration, YogaSupportedCSSProperties>
+export interface StyleSheetCssProperties extends Pick<CSSStyleDeclaration, YogaSupportedCSSProperties> {
+    display?: 'flex' | 'none' | 'contents'
+}
+
+export type StyleSheetCssValues = StyleSheetCssProperties[keyof StyleSheetCssProperties];

@@ -5,6 +5,10 @@
   "author": "yu.pan",
   "license": "MIT",
   "dependencies": {
+    "lodash-es": "^4.17.21",
     "yoga-layout": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.13"
   }
 }
