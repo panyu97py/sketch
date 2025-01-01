@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {SketchImage, SketchRoot, SketchView, StyleSheet} from '@sketchjs/runtime'
+import {SketchImage, SketchRoot, SketchText, SketchView, StyleSheet} from '@sketchjs/runtime'
 import {useToRef} from "./hooks";
 
 const style = StyleSheet.create({
     root: {
-        width: 300,
-        height: 150,
+        width: 1000,
+        height: 500,
     },
     listWrap: {
         width: 300,
@@ -30,6 +30,13 @@ const style = StyleSheet.create({
     image: {
         width: 50,
         height: 50,
+    },
+    text: {
+        color: '#ffffff',
+        width: 160,
+        lineHeight:40,
+        fontSize:40,
+        fontWeight: 700
     }
 })
 
@@ -44,20 +51,25 @@ function App() {
         if (!canvas || !ctx || isDrawing.current) return
         isDrawing.current = true
         const root = new SketchRoot(canvas, ctx)
+        root.setSize(1000, 500)
+        const rootView = new SketchView(style.root)
         const listWrap = new SketchView(style.listWrap)
-        listWrap.displayName='listWrap'
+        listWrap.displayName = 'listWrap'
         for (let i = 0; i < 5; i++) {
             const child = new SketchView(style.listItem)
             listWrap.appendChild(child)
         }
 
         const imageWrap = new SketchView(style.imageWrap)
-        imageWrap.displayName='imageWrap'
+        imageWrap.displayName = 'imageWrap'
         const image = new SketchImage(logo, style.image)
+        const text = new SketchText('Hello  World', style.text)
         imageWrap.appendChild(image)
-        root.appendChild(listWrap)
-        root.appendChild(imageWrap)
-        root.render().then(() => console.log('rendered'))
+        rootView.appendChild(text)
+        rootView.appendChild(listWrap)
+        rootView.appendChild(imageWrap)
+        root.appendChild(rootView)
+        root.render().then(() => console.log('rendered', {root}))
     })
 
     useEffect(() => {
@@ -68,7 +80,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
-                <canvas ref={canvasRef} style={{border:'solid 1px green'}}/>
+                <canvas ref={canvasRef} style={{border: 'solid 1px green',height:500,width:1000}}/>
                 <p>
                     Edit <code>src/App.tsx</code> and save to reload.
                 </p>
