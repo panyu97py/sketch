@@ -1,6 +1,7 @@
 # sketch - 绘图工具
 
 ## canvas 绘图组件化
+实现像写 RN 一样完成 canvas 2d 绘图
 
 ### 待办事项
 - [ ] 核心依赖[`yoga-layout`](https://www.yogalayout.dev/)
