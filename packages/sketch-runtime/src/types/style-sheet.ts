@@ -16,16 +16,6 @@ type YogaSupportedCSSProperties =
     | 'right'
     | 'bottom'
     | 'left'
-    | 'margin'
-    | 'marginTop'
-    | 'marginRight'
-    | 'marginBottom'
-    | 'marginLeft'
-    | 'padding'
-    | 'paddingTop'
-    | 'paddingRight'
-    | 'paddingBottom'
-    | 'paddingLeft'
     | 'gap'
     | 'backgroundColor'
 
@@ -37,6 +27,16 @@ export interface StyleSheetCssProperties extends Partial<Pick<CSSStyleDeclaratio
     height?: Size;
     minHeight?: Size;
     maxHeight?: Size;
+    margin?: Size;
+    marginTop?: Size;
+    marginRight?: Size;
+    marginBottom?: Size;
+    marginLeft?: Size;
+    padding?: Size;
+    paddingLeft?: Size;
+    paddingRight?: Size;
+    paddingTop?: Size;
+    paddingBottom?: Size;
 }
 
 export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;
