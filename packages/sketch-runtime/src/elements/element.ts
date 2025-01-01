@@ -21,4 +21,33 @@ export abstract class SketchElement extends SketchNode {
     super.appendChild(newChild)
     this.layout.insertChild(newChild.layout, this.layout.getChildCount())
   }
+
+  public calculateElementRelativePosition = () => {
+    const top = this.layout.getComputedTop()
+    const left = this.layout.getComputedLeft()
+    const bottom = this.layout.getComputedBottom()
+    const right = this.layout.getComputedRight()
+    return { top, left, bottom, right }
+  }
+
+  public getElementAbsolutePosition = () => {
+    this._root?.calculateLayout()
+    const defaultPosition = { top: 0, left: 0, bottom: 0, right: 0 }
+    const parentPosition = (this.parentNode as SketchElement)?.getElementAbsolutePosition() || defaultPosition
+    console.log({ parentPosition }, (this.parentNode as SketchElement)?.displayName)
+    const relativePosition = this.calculateElementRelativePosition()
+    return {
+      top: parentPosition.top + relativePosition.top,
+      left: parentPosition.left + relativePosition.left,
+      bottom: parentPosition.bottom + relativePosition.bottom,
+      right: parentPosition.right + relativePosition.right
+    }
+  }
+
+  public getElementSize = () => {
+    this._root?.calculateLayout()
+    const width = this.layout.getComputedWidth()
+    const height = this.layout.getComputedHeight()
+    return { width, height }
+  }
 }
