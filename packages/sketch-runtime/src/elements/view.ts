@@ -1,7 +1,7 @@
 import { SketchElement } from './element'
 
 export class SketchView extends SketchElement {
-  render = () => {
+  render = async () => {
     if (!this._root) return
 
     // 计算布局位置

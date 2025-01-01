@@ -5,7 +5,7 @@ export abstract class SketchNode {
 
   public childNodes: SketchNode[] = []
 
-    public abstract render(): void
+    public abstract render(): Promise<void>
 
     public get _root (): SketchRoot | null {
       return this.parentNode?._root || null

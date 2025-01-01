@@ -19,10 +19,9 @@ export class SketchRoot extends SketchElement {
 
   private recursiveRender (node: SketchNode) {
     const { childNodes } = node
-    childNodes.forEach((child) => {
-      child.render()
-      this.recursiveRender(child)
-    })
+    return Promise.all(childNodes.map((child) => {
+      return Promise.all([child.render(), this.recursiveRender(child)])
+    }))
   }
 
   public calculateLayout = () => {
@@ -30,7 +29,7 @@ export class SketchRoot extends SketchElement {
   }
 
   public render () {
-    this.recursiveRender(this)
+    return this.recursiveRender(this)
   }
 
   public toDataURL (type?: string, quality?: any) {
