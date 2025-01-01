@@ -11,6 +11,7 @@ export class SketchRoot extends SketchElement {
     super()
     this.ctx = ctx
     this.canvas = canvas
+    this.displayName = 'root'
   }
 
   public get _root (): SketchRoot {

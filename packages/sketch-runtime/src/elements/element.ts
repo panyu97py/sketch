@@ -19,7 +19,6 @@ export abstract class SketchElement extends SketchNode {
 
   public appendChild (newChild: SketchElement) {
     super.appendChild(newChild)
-    console.log('appendChild', { newChild }, this, this.layout.getChildCount())
     this.layout.insertChild(newChild.layout, this.layout.getChildCount())
   }
 }
