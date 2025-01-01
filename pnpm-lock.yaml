@@ -44,9 +44,6 @@ importers:
       eslint-plugin-react-hooks:
         specifier: ^4.6.0
         version: 4.6.2(eslint@8.57.1)
-      eslint-plugin-standard:
-        specifier: ^5.0.0
-        version: 5.0.0(eslint@8.57.1)
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.10.3)(babel-plugin-macros@3.1.0)
@@ -62,6 +59,9 @@ importers:
 
   example/example-h5-react:
     dependencies:
+      '@sketchjs/runtime':
+        specifier: 0.0.0
+        version: link:../../packages/sketch-runtime
       cra-template-typescript:
         specifier: 1.2.0
         version: 1.2.0
@@ -3314,12 +3314,6 @@ packages:
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
-
-  eslint-plugin-standard@5.0.0:
-    resolution: {integrity: sha512-eSIXPc9wBM4BrniMzJRBm2uoVuXz2EPa+NXPk2+itrVt+r5SbKFERx/IgrK/HmfjddyKVz2f+j+7gBRvu19xLg==}
-    deprecated: 'standard 16.0.0 and eslint-config-standard 16.0.0 no longer require the eslint-plugin-standard package. You can remove it from your dependencies with ''npm rm eslint-plugin-standard''. More info here: https://github.com/standard/standard/issues/1316'
-    peerDependencies:
-      eslint: '>=5.0.0'
 
   eslint-plugin-testing-library@5.11.1:
     resolution: {integrity: sha512-5eX9e1Kc2PqVRed3taaLnAAqPZGEX75C+M/rXzUAI3wIg/ZxzUm1OVAwfe/O+vE+6YXOLetSe9g5GKD2ecXipw==}
@@ -11535,10 +11529,6 @@ snapshots:
       semver: 6.3.1
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
-
-  eslint-plugin-standard@5.0.0(eslint@8.57.1):
-    dependencies:
-      eslint: 8.57.1
 
   eslint-plugin-testing-library@5.11.1(eslint@8.57.1)(typescript@5.7.2):
     dependencies:
