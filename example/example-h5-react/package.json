@@ -1,5 +1,5 @@
 {
-  "name": "example-h5-react",
+  "name": "@sketchjs/example-h5-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
