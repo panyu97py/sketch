@@ -11,7 +11,8 @@ export class SketchRoot extends SketchElement {
     super()
     this.ctx = ctx
     this.canvas = canvas
-    this.displayName = 'root'
+    const propertyOpt = { writable: false, enumerable: true, configurable: false }
+    Object.defineProperty(this, 'displayName', { ...propertyOpt, value: 'ROOT' })
   }
 
   public get _root (): SketchRoot {
