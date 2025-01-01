@@ -45,16 +45,18 @@ function App() {
         isDrawing.current = true
         const root = new SketchRoot(canvas, ctx)
         const listWrap = new SketchView(style.listWrap)
+        listWrap.displayName='listWrap'
         for (let i = 0; i < 5; i++) {
             const child = new SketchView(style.listItem)
             listWrap.appendChild(child)
         }
 
         const imageWrap = new SketchView(style.imageWrap)
+        imageWrap.displayName='imageWrap'
         const image = new SketchImage(logo, style.image)
         imageWrap.appendChild(image)
-        root.appendChild(imageWrap)
         root.appendChild(listWrap)
+        root.appendChild(imageWrap)
         root.render().then(() => console.log('rendered'))
     })
 
