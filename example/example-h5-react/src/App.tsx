@@ -51,8 +51,8 @@ function App() {
             const ctx = canvas?.getContext('2d')
             if (!canvas || !ctx) return
             sketchRef.current?.init(canvas, ctx)
-            sketchRef.current?.setSize(1000, 500)
             setTimeout(() => {
+                sketchRef.current?.setSize(1000, 500)
                 sketchRef.current?.render()?.then(() => console.log('rendered'))
                 console.log(sketchRef.current)
             }, 1000)
