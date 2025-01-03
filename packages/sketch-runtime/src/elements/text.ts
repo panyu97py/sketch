@@ -44,10 +44,23 @@ class SketchBaseText extends SketchElement {
       const tempCurLineText = curLineText + textItem
       const isLast = index === list.length - 1
       const { width = 0 } = this.calculateTextWidth(tempCurLineText) || {}
-      if (width > maxWidth && !isLast) return { curLineText: textItem, lineTextArr: [...lineTextArr, curLineText] }
-      if (isLast) return { curLineText: '', lineTextArr: [...lineTextArr, curLineText, textItem] }
-      return { curLineText: tempCurLineText, lineTextArr }
+
+      // 不是最后一个字符，当前行宽度小于最大宽度，需要将当前字符放到当前行计算
+      if (!isLast && width < maxWidth) return { curLineText: tempCurLineText, lineTextArr }
+
+      // 不是最后一个字符，当前行宽度大于最大宽度，需要将当前字符放到下一行计算
+      if (!isLast && width >= maxWidth) return { curLineText: textItem, lineTextArr: [...lineTextArr, curLineText] }
+
+      // 最后一个字符，当前行宽度小于最大宽度，需要将当前字符放到当前行
+      if (isLast && width < maxWidth) return { curLineText: '', lineTextArr: [...lineTextArr, tempCurLineText] }
+
+      // 最后一个字符，当前行宽度大于最大宽度，需要将当前字符放到下一行
+      if (isLast && width >= maxWidth) return { curLineText: '', lineTextArr: [...lineTextArr, curLineText, textItem] }
+
+      // 默认兜底，但不会被执行
+      return { curLineText: '', lineTextArr }
     }, intVal)
+    console.log({ lineTextArr })
     return lineTextArr
   }
 
