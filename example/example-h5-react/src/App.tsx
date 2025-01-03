@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {SketchImage, SketchRoot, SketchText, SketchView, StyleSheet} from '@sketchjs/runtime'
-import {useToRef} from "./hooks";
+import {SketchHandler, StyleSheet, Sketch} from '@sketchjs/react'
+
 
 const style = StyleSheet.create({
     root: {
@@ -33,54 +33,38 @@ const style = StyleSheet.create({
     },
     text: {
         color: '#ffffff',
-        width: 160,
-        lineHeight:40,
-        fontSize:40,
+        width: 1000,
+        lineHeight: 40,
+        fontSize: 40,
         fontWeight: 700
     }
 })
 
 function App() {
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
+    const sketchRef = React.useRef<SketchHandler>(null)
 
-    const isDrawing = React.useRef(false)
-
-    const draw = useToRef(() => {
-        const canvas = canvasRef.current
-        const ctx = canvas?.getContext('2d')
-        if (!canvas || !ctx || isDrawing.current) return
-        isDrawing.current = true
-        const root = new SketchRoot(canvas, ctx)
-        root.setSize(1000, 500)
-        const rootView = new SketchView(style.root)
-        const listWrap = new SketchView(style.listWrap)
-        listWrap.displayName = 'listWrap'
-        for (let i = 0; i < 5; i++) {
-            const child = new SketchView(style.listItem)
-            listWrap.appendChild(child)
-        }
-
-        const imageWrap = new SketchView(style.imageWrap)
-        imageWrap.displayName = 'imageWrap'
-        const image = new SketchImage(logo, style.image)
-        const text = new SketchText('Hello  World', style.text)
-        imageWrap.appendChild(image)
-        rootView.appendChild(text)
-        rootView.appendChild(listWrap)
-        rootView.appendChild(imageWrap)
-        root.appendChild(rootView)
-        root.render().then(() => console.log('rendered', {root}))
-    })
 
     useEffect(() => {
-        draw.current()
+        setTimeout(() => {
+            const canvas = canvasRef.current
+            const ctx = canvas?.getContext('2d')
+            if (!canvas || !ctx) return
+            sketchRef.current?.init(canvas, ctx)
+            sketchRef.current?.setSize(1000, 500)
+            setTimeout(() => {
+                sketchRef.current?.render()?.then(() => console.log('rendered'))
+                console.log(sketchRef.current)
+            }, 1000)
+        }, 1000)
     }, []);
 
     return (
         <div className="App">
             <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo"/>
-                <canvas ref={canvasRef} style={{border: 'solid 1px green',height:500,width:1000}}/>
+                <canvas ref={canvasRef} style={{border: 'solid 1px green', height: 500, width: 1000}}/>
+
                 <p>
                     Edit <code>src/App.tsx</code> and save to reload.
                 </p>
@@ -93,6 +77,19 @@ function App() {
                     Learn React
                 </a>
             </header>
+            <Sketch.Root ref={sketchRef}>
+                <Sketch.View style={style.root}>
+                    <Sketch.Text text="Hello  World!" style={style.text}/>
+                    <Sketch.View style={style.listWrap}>
+                        {new Array(5).fill(0).map((_, index) => (
+                            <Sketch.View style={style.listItem}/>
+                        ))}
+                    </Sketch.View>
+                    <Sketch.View style={style.imageWrap}>
+                        <Sketch.Image src={logo} style={style.image}/>
+                    </Sketch.View>
+                </Sketch.View>
+            </Sketch.Root>
         </div>
     );
 }
