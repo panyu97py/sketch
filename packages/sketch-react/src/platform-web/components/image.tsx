@@ -17,9 +17,11 @@ export const InternalSketchWebImage: React.FC<InternalSketchWebImageProps> = (pr
     return () => parent?.removeChild(sketchImage)
   }, [sketchImage, parent])
 
-  return React.Children.toArray(children).map((child: SketchElementChild) => {
+  const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child
     if (!React.isValidElement(child)) return null
     return React.cloneElement(child, { ...childProps, parent: sketchImage })
   })
+
+  return <>{childrenVNodes}</>
 }
