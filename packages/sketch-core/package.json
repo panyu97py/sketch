@@ -1,9 +1,0 @@
-{
-  "name": "@sketchjs/core",
-  "version": "0.0.0",
-  "main": "index.js",
-  "author": "yu.pan",
-  "license": "MIT",
-  "dependencies": {
-  }
-}
