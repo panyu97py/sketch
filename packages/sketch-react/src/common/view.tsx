@@ -14,7 +14,8 @@ export const InternalSketchView: React.FC<InternalSketchViewProps> = (props) => 
 
   useEffect(() => {
     parent?.appendChild(sketchView)
-  }, [sketchView])
+    return () => parent?.removeChild(sketchView)
+  }, [sketchView, parent])
 
   return React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child

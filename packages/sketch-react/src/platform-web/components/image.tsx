@@ -14,7 +14,8 @@ export const InternalSketchWebImage: React.FC<InternalSketchWebImageProps> = (pr
 
   useEffect(() => {
     parent?.appendChild(sketchImage)
-  }, [sketchImage])
+    return () => parent?.removeChild(sketchImage)
+  }, [sketchImage, parent])
 
   return React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child

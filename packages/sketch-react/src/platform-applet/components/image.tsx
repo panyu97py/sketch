@@ -10,14 +10,15 @@ export interface InternalSketchAppletImageProps extends SketchElementProps{
 export const InternalSketchAppletImage: React.FC<InternalSketchAppletImageProps> = (props) => {
   const { src = '', style, parent, children } = props
 
-  const sketchImage = useMemo(() => new SketchAppletImage(src, style), [src, style])
+  const sketchAppletImage = useMemo(() => new SketchAppletImage(src, style), [src, style])
 
   useEffect(() => {
-    parent?.appendChild(sketchImage)
-  }, [sketchImage])
+    parent?.appendChild(sketchAppletImage)
+    return () => parent?.removeChild(sketchAppletImage)
+  }, [sketchAppletImage, parent])
 
   return React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child
-    return React.cloneElement(child, { ...childProps, parent: sketchImage })
+    return React.cloneElement(child, { ...childProps, parent: sketchAppletImage })
   })
 }

@@ -14,7 +14,8 @@ export const InternalSketchText: React.FC<InternalSketchTextProps> = (props) => 
 
   useEffect(() => {
     parent?.appendChild(sketchText)
-  }, [sketchText])
+    return () => parent?.removeChild(sketchText)
+  }, [sketchText, parent])
 
   return null
 }

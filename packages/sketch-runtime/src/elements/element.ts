@@ -49,6 +49,15 @@ export abstract class SketchElement extends SketchNode {
   }
 
   /**
+   * 移除子元素
+   * @param child 子元素
+   */
+  public removeChild (child: SketchElement) {
+    super.removeChild(child)
+    this.layout.removeChild(child.layout)
+  }
+
+  /**
    * 执行初始化逻辑
    */
   public applyOnMount () {
