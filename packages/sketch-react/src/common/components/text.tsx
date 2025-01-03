@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { SketchElement, SketchText, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { useSketchElementRegister } from '../hooks'
 
 export interface InternalSketchTextProps {
     text?: string;
@@ -12,10 +13,7 @@ export const InternalSketchText: React.FC<InternalSketchTextProps> = (props) => 
 
   const sketchText = useMemo(() => new SketchText(text, style), [text, style])
 
-  useEffect(() => {
-    parent?.appendChild(sketchText)
-    return () => parent?.removeChild(sketchText)
-  }, [sketchText, parent])
+  useSketchElementRegister({ parent, target: sketchText })
 
   return null
 }

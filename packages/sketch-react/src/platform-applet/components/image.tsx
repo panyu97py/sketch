@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { SketchAppletImage } from '../elements'
 import { SketchElementChild, SketchElementProps } from '../../types'
+import { useSketchElementRegister } from '../../common/hooks'
 
 export interface InternalSketchAppletImageProps extends SketchElementProps{
     src?: string
@@ -12,10 +13,7 @@ export const InternalSketchAppletImage: React.FC<InternalSketchAppletImageProps>
 
   const sketchAppletImage = useMemo(() => new SketchAppletImage(src, style), [src, style])
 
-  useEffect(() => {
-    parent?.appendChild(sketchAppletImage)
-    return () => parent?.removeChild(sketchAppletImage)
-  }, [sketchAppletImage, parent])
+  useSketchElementRegister({ parent, target: sketchAppletImage })
 
   const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child

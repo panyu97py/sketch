@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { SketchView, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { SketchElementChild, SketchElementProps } from '../../types'
+import { useSketchElementRegister } from '../hooks'
 
 export interface InternalSketchViewProps extends SketchElementProps {
     style?: StyleSheetCssProperties
@@ -12,10 +13,7 @@ export const InternalSketchView: React.FC<InternalSketchViewProps> = (props) => 
 
   const sketchView = useMemo(() => new SketchView(style), [style])
 
-  useEffect(() => {
-    parent?.appendChild(sketchView)
-    return () => parent?.removeChild(sketchView)
-  }, [sketchView, parent])
+  useSketchElementRegister({ parent, target: sketchView })
 
   const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { SketchImage } from '@sketchjs/runtime'
 import { SketchElementChild, SketchElementProps } from '../../types'
+import { useSketchElementRegister } from '../../common/hooks'
 
 export interface InternalSketchWebImageProps extends SketchElementProps {
     src?: string
@@ -12,10 +13,7 @@ export const InternalSketchWebImage: React.FC<InternalSketchWebImageProps> = (pr
 
   const sketchImage = useMemo(() => new SketchImage(src, style), [src, style])
 
-  useEffect(() => {
-    parent?.appendChild(sketchImage)
-    return () => parent?.removeChild(sketchImage)
-  }, [sketchImage, parent])
+  useSketchElementRegister({ parent, target: sketchImage })
 
   const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child
