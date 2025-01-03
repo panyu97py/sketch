@@ -9,18 +9,18 @@ import { SketchElement } from './element'
  */
 export class StyleSheet {
   /**
-     * 创建样式
-     * @param styles
-     */
+   * 创建样式
+   * @param styles
+   */
   static create<T extends Record<string, StyleSheetCssProperties>> (styles: T) {
     return styles
   }
 
   /**
-     * 应用样式
-     * @param sketchElement
-     * @param style
-     */
+   * 应用样式
+   * @param sketchElement
+   * @param style
+   */
   static apply (sketchElement: SketchElement, style?: StyleSheetCssProperties) {
     if (!style) return
     Object.keys(style).forEach((cssProperty: keyof StyleSheetCssProperties) => {

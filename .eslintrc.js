@@ -17,6 +17,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/ no-non-null-assertion': 'off',
-    'no-use-before-define': 'off'
+    'no-use-before-define': 'off',
+    'capitalized-comments': ['error', 'always'],
+    'multiline-comment-style': ['error', 'starred-block']
   }
 }

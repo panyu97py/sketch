@@ -27,10 +27,19 @@ export abstract class SketchNode {
   }
 
   /**
-     * 插入根节点
+     * 插入子节点
      */
   public appendChild (newChild: SketchNode) {
     newChild.parentNode = this
     this.childNodes.push(newChild)
+  }
+
+
+  /**
+   * 移除子节点
+   * @param child
+   */
+  public removeChild (child: SketchNode) {
+    this.childNodes = this.childNodes.filter(item => item !== child)
   }
 }

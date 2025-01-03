@@ -7,9 +7,9 @@ import { DEFAULT_FONT_STYLE } from '../constants'
  */
 class SketchBaseText extends SketchElement {
   /**
-     * 生成文本样式
-     * @param fontStyle
-     */
+   * 生成文本样式
+   * @param fontStyle
+   */
   generateFontStyle = (fontStyle: FontStyle) => {
     const finalFontStyle = { ...DEFAULT_FONT_STYLE, ...fontStyle }
     const { fontSize, fontWeight, lineHeight, fontFamily } = finalFontStyle
@@ -17,9 +17,9 @@ class SketchBaseText extends SketchElement {
   }
 
   /**
-     * 计算文本宽度
-     * @param text
-     */
+   * 计算文本宽度
+   * @param text
+   */
   calculateTextWidth = (text: string) => {
     if (!this._root) return
     this._root.ctx.save()
@@ -31,10 +31,10 @@ class SketchBaseText extends SketchElement {
   }
 
   /**
-     * 根据宽度拆分文本
-     * @param text
-     * @param maxWidth
-     */
+   * 根据宽度拆分文本
+   * @param text
+   * @param maxWidth
+   */
   splitTextByWidth = (text: string, maxWidth: number) => {
     if (!this._root) return []
     const textArr = `${text}`.split('')
@@ -52,8 +52,8 @@ class SketchBaseText extends SketchElement {
   }
 
   /**
-     * 渲染函数
-     */
+   * 渲染函数
+   */
   render = async () => Promise.resolve()
 }
 
@@ -62,24 +62,24 @@ class SketchBaseText extends SketchElement {
  */
 class SketchSingLineText extends SketchBaseText {
   /**
-     * 文本内容
-     */
+   * 文本内容
+   */
   private readonly text: string
 
   /**
-     * 构造函数
-     * @param text 文本内容
-     * @param style 样式
-     */
+   * 构造函数
+   * @param text 文本内容
+   * @param style 样式
+   */
   constructor (text: string, style?: StyleSheetCssProperties) {
     super(style)
     this.text = text
   }
 
   /**
-     * 元素初始化
-     * @desc 初始化设计元素高度
-     */
+   * 元素初始化
+   * @desc 初始化设计元素高度
+   */
   onMount () {
     super.onMount()
     const { height, lineHeight } = this.style || {}
@@ -87,8 +87,8 @@ class SketchSingLineText extends SketchBaseText {
   }
 
   /**
-     * 渲染函数
-     */
+   * 渲染函数
+   */
   render = async () => {
     if (!this._root) return
 
@@ -113,24 +113,24 @@ class SketchSingLineText extends SketchBaseText {
  */
 export class SketchText extends SketchBaseText {
   /**
-     * 文本内容
-     */
+   * 文本内容
+   */
   private readonly text: string
 
   /**
-     * 构造函数
-     * @param text 文本内容
-     * @param style 样式
-     */
+   * 构造函数
+   * @param text 文本内容
+   * @param style 样式
+   */
   constructor (text: string, style?: StyleSheetCssProperties) {
     super(style)
     this.text = text
   }
 
   /**
-     * 元素初始化
-     * @desc 初始化基于宽度拆分文字
-     */
+   * 元素初始化
+   * @desc 初始化基于宽度拆分文字
+   */
   public onMount () {
     super.onMount()
     if (!this._root) return
@@ -146,7 +146,7 @@ export class SketchText extends SketchBaseText {
   }
 
   /**
-     * 渲染函数
-     */
+   * 渲染函数
+   */
   render = async () => Promise.resolve()
 }

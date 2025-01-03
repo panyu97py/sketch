@@ -1,0 +1,26 @@
+{
+  "name": "@sketchjs/react",
+  "version": "0.0.1-alpha.2",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "yu.pan",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "test:dev": "jest --watch",
+    "build": "tsc",
+    "prepublish": "npm run build"
+  },
+  "peerDependencies": {
+    "@tarojs/taro": "^3.3.0",
+    "react": "^17.0.2"
+  },
+  "dependencies": {
+    "@sketchjs/runtime": "^0.0.1-alpha.2"
+  },
+  "devDependencies": {
+    "@tarojs/taro": "^3.3.0",
+    "@types/node": "^22.10.5",
+    "react": "^17.0.2"
+  }
+}

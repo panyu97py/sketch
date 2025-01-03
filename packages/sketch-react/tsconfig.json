@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "module": "ESNext",
+    "declaration": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "jsx": "react",  // or "react-jsx" for React 17+
+  },
+  "include": ["src"],
+}
