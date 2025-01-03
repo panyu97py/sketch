@@ -15,25 +15,24 @@ export abstract class SketchNode {
   public childNodes: SketchNode[] = []
 
   /**
-     * 父节点
-     */
+   * 父节点
+   */
   public parentNode: SketchNode | null = null
 
   /**
-     * 获取根节点
-     */
+   * 获取根节点
+   */
   public get _root (): SketchRoot | null {
     return this.parentNode?._root || null
   }
 
   /**
-     * 插入子节点
-     */
+   * 插入子节点
+   */
   public appendChild (newChild: SketchNode) {
     newChild.parentNode = this
     this.childNodes.push(newChild)
   }
-
 
   /**
    * 移除子节点

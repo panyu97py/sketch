@@ -91,10 +91,13 @@ importers:
     devDependencies:
       '@tarojs/taro':
         specifier: ^3.3.0
-        version: 3.6.35(@tarojs/helper@3.6.35)(@tarojs/runtime@3.6.35(@tarojs/shared@3.6.35))
+        version: 3.6.35(@tarojs/helper@3.6.35)(@tarojs/runtime@3.6.35(@tarojs/shared@3.6.35))(@types/react@19.0.2)
       '@types/node':
         specifier: ^22.10.5
         version: 22.10.5
+      '@types/react':
+        specifier: ^19.0.2
+        version: 19.0.2
       react:
         specifier: ^17.0.2
         version: 17.0.2
@@ -8020,11 +8023,13 @@ snapshots:
 
   '@tarojs/shared@3.6.35': {}
 
-  '@tarojs/taro@3.6.35(@tarojs/helper@3.6.35)(@tarojs/runtime@3.6.35(@tarojs/shared@3.6.35))':
+  '@tarojs/taro@3.6.35(@tarojs/helper@3.6.35)(@tarojs/runtime@3.6.35(@tarojs/shared@3.6.35))(@types/react@19.0.2)':
     dependencies:
       '@tarojs/api': 3.6.35
       '@tarojs/helper': 3.6.35
       '@tarojs/runtime': 3.6.35(@tarojs/shared@3.6.35)
+    optionalDependencies:
+      '@types/react': 19.0.2
 
   '@tootallnate/once@1.1.2': {}
 
