@@ -19,6 +19,7 @@ export const InternalSketchAppletImage: React.FC<InternalSketchAppletImageProps>
 
   return React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child
+    if (!React.isValidElement(child)) return null
     return React.cloneElement(child, { ...childProps, parent: sketchAppletImage })
   })
 }
