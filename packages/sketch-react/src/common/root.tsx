@@ -1,31 +1,27 @@
-import React, { useEffect, useImperativeHandle, useMemo } from 'react'
+import React, { useImperativeHandle, useState } from 'react'
 import { SketchRoot } from '@sketchjs/runtime'
 import { SketchElementChild, SketchHandler } from '../types'
 
 export interface InternalSketchRootProps {
-    canvasNode?: HTMLCanvasElement
-    canvasCtx?: CanvasRenderingContext2D
-    width?: number;
-    height?: number;
     children?: SketchElementChild |SketchElementChild[]
 }
 
 export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketchRootProps>((props, ref) => {
-  const { canvasNode, canvasCtx, width = 300, height = 150, children } = props
+  const { children } = props
 
-  const sketchRoot = useMemo(() => {
-    if (!canvasNode || !canvasCtx) return
-    return new SketchRoot(canvasNode, canvasCtx)
-  }, [canvasCtx, canvasNode])
+  const [sketchRoot, setSketchRoot] = useState<SketchRoot >()
+
+  const initSketchRoot = (canvasNode:HTMLCanvasElement, canvasCtx:CanvasRenderingContext2D) => {
+    const sketchRoot = new SketchRoot(canvasNode, canvasCtx)
+    setSketchRoot(sketchRoot)
+  }
 
   useImperativeHandle(ref, () => ({
+    init: initSketchRoot,
     render: () => sketchRoot?.render(),
-    toDataURL: (type?: string, quality?: any) => sketchRoot?.toDataURL(type, quality) || ''
+    toDataURL: (type?: string, quality?: any) => sketchRoot?.toDataURL(type, quality) || '',
+    setSize: (width: number, height: number) => sketchRoot?.setSize(width, height)
   }), [sketchRoot])
-
-  useEffect(() => {
-    sketchRoot?.setSize(width, height)
-  }, [width, height, sketchRoot])
 
   return React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child
