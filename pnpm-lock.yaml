@@ -60,6 +60,9 @@ importers:
 
   example/example-h5-react:
     dependencies:
+      '@sketchjs/react':
+        specifier: workspace:*
+        version: link:../../packages/sketch-react
       '@sketchjs/runtime':
         specifier: workspace:*
         version: link:../../packages/sketch-runtime
