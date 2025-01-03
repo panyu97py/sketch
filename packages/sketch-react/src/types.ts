@@ -9,6 +9,8 @@ export interface SketchElementProps {
 }
 
 export interface SketchHandler {
-    render: () => void
+    render: () => Promise<void>
+    setSize: (width: number, height: number) => void
     toDataURL: (type?: string, quality?: any) => string
+    init: (canvasNode:HTMLCanvasElement, canvasCtx:CanvasRenderingContext2D) => void
 }
