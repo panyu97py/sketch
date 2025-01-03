@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 import {SketchHandler, StyleSheet, Sketch} from '@sketchjs/react'
 
