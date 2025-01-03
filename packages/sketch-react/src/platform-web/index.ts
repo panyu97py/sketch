@@ -1,6 +1,4 @@
-import { InternalSketchRoot } from '../common/root'
-import { InternalSketchView } from '../common/view'
-import { InternalSketchText } from '../common/text'
+import { InternalSketchRoot, InternalSketchView, InternalSketchText } from '../common/components'
 import { InternalSketchWebImage } from './components/image'
 
 export const Sketch = Object.assign({}, {

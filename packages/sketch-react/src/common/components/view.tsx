@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { SketchView, StyleSheetCssProperties } from '@sketchjs/runtime'
-import { SketchElementChild, SketchElementProps } from '../types'
+import { SketchElementChild, SketchElementProps } from '../../types'
 
 export interface InternalSketchViewProps extends SketchElementProps {
     style?: StyleSheetCssProperties
