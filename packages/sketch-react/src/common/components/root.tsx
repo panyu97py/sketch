@@ -2,37 +2,38 @@ import React, { useImperativeHandle, useRef, useState } from 'react'
 import { SketchElement, SketchRoot } from '@sketchjs/runtime'
 import noop from 'lodash-es/noop'
 import { SketchElementChild, SketchHandler } from '../../types'
-import { InternalSketchRootCtx, InternalSketchRootCtxVal, useToRef } from '../hooks'
+import { InternalSketchRootCtx, InternalSketchRootCtxVal } from '../hooks'
+
+const DEFAULT_WIDTH = 300
+
+const DEFAULT_HEIGHT = 150
 
 export interface InternalSketchRootProps {
+    width?: number;
+    height?: number;
     children?: SketchElementChild | SketchElementChild[];
     onSketchReady?: () => void;
 }
 
 export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketchRootProps>((props, ref) => {
-  const { children, onSketchReady = noop } = props
+  const { width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, children, onSketchReady = noop } = props
 
   const [sketchRoot, setSketchRoot] = useState<SketchRoot>()
-
-  const sketchRootRef = useToRef(sketchRoot)
 
   const sketchElementSetRef = useRef(new Set<SketchElement>())
 
   const initSketchRoot = (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => {
     const sketchRoot = new SketchRoot(canvasNode, canvasCtx)
+    sketchRoot?.setSize(width, height)
     setSketchRoot(sketchRoot)
   }
 
   const renderSketch = () => {
-    return sketchRootRef.current?.render()
-  }
-
-  const setSketchSize = (width: number, height: number) => {
-    return sketchRootRef.current?.setSize(width, height)
+    return sketchRoot?.render()
   }
 
   const sketchToDataURL = (type?: string, quality?: any) => {
-    return sketchRootRef.current?.toDataURL(type, quality) || ''
+    return sketchRoot?.toDataURL(type, quality) || ''
   }
 
   const registerSketchElement = (sketchElement: SketchElement) => {
@@ -53,7 +54,6 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
   useImperativeHandle(ref, () => ({
     sketchRoot,
     init: initSketchRoot,
-    setSize: setSketchSize,
     render: renderSketch,
     toDataURL: sketchToDataURL
   }))

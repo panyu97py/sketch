@@ -10,7 +10,6 @@ export interface SketchElementProps extends Record<string, any> {
 
 export interface SketchHandler {
     render: () => Promise<void>
-    setSize: (width: number, height: number) => void
     toDataURL: (type?: string, quality?: any) => string
     init: (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => void
 }
