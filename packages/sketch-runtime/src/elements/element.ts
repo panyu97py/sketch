@@ -13,6 +13,11 @@ export abstract class SketchElement extends SketchNode {
   public displayName: string
 
   /**
+   * 是否准备就绪
+   */
+  public isMounted = false
+
+  /**
    * 布局节点
    */
   public readonly layout: YogaLayoutNode
@@ -36,7 +41,9 @@ export abstract class SketchElement extends SketchNode {
   /**
    *元素初始化
    */
-  public onMount () {}
+  public onMount () {
+    this.isMounted = true
+  }
 
   /**
    * 添加子元素

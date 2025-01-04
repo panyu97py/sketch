@@ -1,18 +1,22 @@
-import React, { useImperativeHandle, useState } from 'react'
-import { SketchRoot } from '@sketchjs/runtime'
+import React, { useImperativeHandle, useRef, useState } from 'react'
+import { SketchElement, SketchRoot } from '@sketchjs/runtime'
+import noop from 'lodash-es/noop'
 import { SketchElementChild, SketchHandler } from '../../types'
-import { useToRef } from '../hooks'
+import { InternalSketchRootCtx, InternalSketchRootCtxVal, useToRef } from '../hooks'
 
 export interface InternalSketchRootProps {
-    children?: SketchElementChild | SketchElementChild[]
+    children?: SketchElementChild | SketchElementChild[];
+    onSketchReady?: () => void;
 }
 
 export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketchRootProps>((props, ref) => {
-  const { children } = props
+  const { children, onSketchReady = noop } = props
 
   const [sketchRoot, setSketchRoot] = useState<SketchRoot>()
 
   const sketchRootRef = useToRef(sketchRoot)
+
+  const sketchElementSetRef = useRef(new Set<SketchElement>())
 
   const initSketchRoot = (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => {
     const sketchRoot = new SketchRoot(canvasNode, canvasCtx)
@@ -31,6 +35,21 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
     return sketchRootRef.current?.toDataURL(type, quality) || ''
   }
 
+  const registerSketchElement = (sketchElement: SketchElement) => {
+    sketchElementSetRef.current.add(sketchElement)
+  }
+
+  const unregisterSketchElement = (sketchElement: SketchElement) => {
+    sketchElementSetRef.current.delete(sketchElement)
+  }
+
+  const triggerSketchElementUpdate = () => {
+    const sketchElements = Array.from(sketchElementSetRef.current)
+    const isAllSketchElementMounted = sketchElements.every((sketchElement) => sketchElement.isMounted)
+    if (!isAllSketchElementMounted || !sketchElements.length) return
+    onSketchReady()
+  }
+
   useImperativeHandle(ref, () => ({
     sketchRoot,
     init: initSketchRoot,
@@ -45,7 +64,17 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
     return React.cloneElement(child, { ...childProps, parent: sketchRoot })
   })
 
-  return <>{childrenVNodes}</>
+  const ctxVal:InternalSketchRootCtxVal = {
+    registerSketchElement,
+    unregisterSketchElement,
+    triggerSketchElementUpdate
+  }
+
+  return (
+      <InternalSketchRootCtx.Provider value={ctxVal}>
+        {childrenVNodes}
+      </InternalSketchRootCtx.Provider>
+  )
 })
 
 InternalSketchRoot.displayName = 'SketchRoot'

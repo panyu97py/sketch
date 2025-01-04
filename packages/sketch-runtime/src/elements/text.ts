@@ -60,7 +60,6 @@ class SketchBaseText extends SketchElement {
       // 默认兜底，但不会被执行
       return { curLineText: '', lineTextArr }
     }, intVal)
-    console.log({ lineTextArr })
     return lineTextArr
   }
 
@@ -94,9 +93,9 @@ class SketchSingLineText extends SketchBaseText {
    * @desc 初始化设计元素高度
    */
   onMount () {
-    super.onMount()
     const { height, lineHeight } = this.style || {}
     this.layout.setHeight(height || lineHeight)
+    super.onMount()
   }
 
   /**
@@ -145,7 +144,6 @@ export class SketchText extends SketchBaseText {
    * @desc 初始化基于宽度拆分文字
    */
   public onMount () {
-    super.onMount()
     if (!this._root) return
     const { lineHeight = 0 } = this.style || {}
     const { width } = this.getElementSize()
@@ -156,6 +154,7 @@ export class SketchText extends SketchBaseText {
       const textElement = new SketchSingLineText(lineText, this.style)
       this.appendChild(textElement)
     })
+    super.onMount()
   }
 
   /**
