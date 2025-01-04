@@ -7,30 +7,20 @@ const style = StyleSheet.create({
     root: {
         width: 500,
         height: 500,
-        padding: 50
-    },
-    logoWrap: {
-        width: 500,
-        height: 200,
-        flexDirection: 'row',
         justifyContent: 'center',
+        alignItems: 'center'
     },
     logo: {
         width: 200,
         height: 200
     },
-    textWrap: {
-        width: 500,
-        height: 200,
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
     text: {
         width: 500,
+        marginTop: 20,
         color: '#ffffff',
         fontSize: 50,
         fontWeight: 400,
-        lineHeight: 100,
+        lineHeight: 50,
         textAlign: 'center'
     }
 })
@@ -57,12 +47,8 @@ function App() {
             <canvas className="sketch-canvas" ref={canvasRef}/>
             <Sketch.Root ref={sketchRef} width={500} height={500} onSketchReady={handleSketchReady}>
                 <Sketch.View style={style.root}>
-                    <Sketch.View style={style.logoWrap}>
-                        <Sketch.Image src={logo} style={style.logo}/>
-                    </Sketch.View>
-                    <Sketch.View style={style.logoWrap}>
-                        <Sketch.Text text="Hello  World!" style={style.text}/>
-                    </Sketch.View>
+                    <Sketch.Image src={logo} style={style.logo}/>
+                    <Sketch.Text text="Hello  World!" style={style.text}/>
                 </Sketch.View>
             </Sketch.Root>
         </div>
