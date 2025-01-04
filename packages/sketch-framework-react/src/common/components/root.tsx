@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useRef, useState } from 'react'
 import { SketchElement, SketchRoot } from '@sketchjs/runtime'
 import noop from 'lodash-es/noop'
-import { SketchElementChild, SketchHandler } from '../../types'
+import { SketchElementChild, SketchHandler } from '../types'
 import { InternalSketchRootCtx, InternalSketchRootCtxVal } from '../hooks'
 
 const DEFAULT_WIDTH = 300

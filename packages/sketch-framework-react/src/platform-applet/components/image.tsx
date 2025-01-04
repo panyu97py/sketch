@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { SketchAppletImage } from '../elements'
-import { SketchElementChild, SketchElementProps } from '../../types'
+import { SketchElementChild, SketchElementProps } from '../../common/types'
 import { useSketchElementRegister } from '../../common/hooks'
 
 export interface InternalSketchAppletImageProps extends SketchElementProps{
