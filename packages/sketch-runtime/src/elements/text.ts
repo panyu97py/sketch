@@ -95,7 +95,7 @@ class SketchSingLineText extends SketchBaseText {
   onMount () {
     const { height, lineHeight } = this.style || {}
     this.layout.setHeight(height || lineHeight)
-    super.onMount()
+    return super.onMount()
   }
 
   calculateTextElementPositionByStyle = () => {
@@ -169,7 +169,7 @@ export class SketchText extends SketchBaseText {
       const textElement = new SketchSingLineText(lineText, this.style)
       this.appendChild(textElement)
     })
-    super.onMount()
+    return super.onMount()
   }
 
   /**

@@ -1,4 +1,4 @@
-import YogaLayout from 'yoga-layout'
+import { Edge } from 'yoga-layout/load'
 import { StyleSheetCssProperties } from '../types'
 import { CSS_TO_YOGA_MAP } from '../constants'
 import { isEmpty } from '../utils'
@@ -26,8 +26,8 @@ export class StyleSheet {
     Object.keys(style).forEach((cssProperty: keyof StyleSheetCssProperties) => {
       const { [cssProperty]: cssValue } = style
       if (isEmpty(cssValue)) return
-      const { [cssValue!]: yogaLayoutValue } = CSS_TO_YOGA_MAP[cssProperty] || {}
-      const finalValue = yogaLayoutValue || cssValue
+      const { [cssValue!]: EdgeValue } = CSS_TO_YOGA_MAP[cssProperty] || {}
+      const finalValue = EdgeValue || cssValue
       switch (cssProperty) {
         case 'display':
           return sketchElement.layout.setDisplay(finalValue)
@@ -60,33 +60,33 @@ export class StyleSheet {
         case 'position':
           return sketchElement.layout.setPositionType(finalValue)
         case 'top':
-          return sketchElement.layout.setPosition(YogaLayout.EDGE_TOP, finalValue)
+          return sketchElement.layout.setPosition(Edge.Top, finalValue)
         case 'right':
-          return sketchElement.layout.setPosition(YogaLayout.EDGE_RIGHT, finalValue)
+          return sketchElement.layout.setPosition(Edge.Right, finalValue)
         case 'bottom':
-          return sketchElement.layout.setPosition(YogaLayout.EDGE_BOTTOM, finalValue)
+          return sketchElement.layout.setPosition(Edge.Bottom, finalValue)
         case 'left':
-          return sketchElement.layout.setPosition(YogaLayout.EDGE_LEFT, finalValue)
+          return sketchElement.layout.setPosition(Edge.Left, finalValue)
         case 'margin':
-          return sketchElement.layout.setMargin(YogaLayout.EDGE_ALL, finalValue)
+          return sketchElement.layout.setMargin(Edge.All, finalValue)
         case 'marginTop':
-          return sketchElement.layout.setMargin(YogaLayout.EDGE_TOP, finalValue)
+          return sketchElement.layout.setMargin(Edge.Top, finalValue)
         case 'marginRight':
-          return sketchElement.layout.setMargin(YogaLayout.EDGE_RIGHT, finalValue)
+          return sketchElement.layout.setMargin(Edge.Right, finalValue)
         case 'marginBottom':
-          return sketchElement.layout.setMargin(YogaLayout.EDGE_BOTTOM, finalValue)
+          return sketchElement.layout.setMargin(Edge.Bottom, finalValue)
         case 'marginLeft':
-          return sketchElement.layout.setMargin(YogaLayout.EDGE_LEFT, finalValue)
+          return sketchElement.layout.setMargin(Edge.Left, finalValue)
         case 'padding':
-          return sketchElement.layout.setPadding(YogaLayout.EDGE_ALL, finalValue)
+          return sketchElement.layout.setPadding(Edge.All, finalValue)
         case 'paddingTop':
-          return sketchElement.layout.setPadding(YogaLayout.EDGE_TOP, finalValue)
+          return sketchElement.layout.setPadding(Edge.Top, finalValue)
         case 'paddingRight':
-          return sketchElement.layout.setPadding(YogaLayout.EDGE_RIGHT, finalValue)
+          return sketchElement.layout.setPadding(Edge.Right, finalValue)
         case 'paddingBottom':
-          return sketchElement.layout.setPadding(YogaLayout.EDGE_BOTTOM, finalValue)
+          return sketchElement.layout.setPadding(Edge.Bottom, finalValue)
         case 'paddingLeft':
-          return sketchElement.layout.setPadding(YogaLayout.EDGE_LEFT, finalValue)
+          return sketchElement.layout.setPadding(Edge.Left, finalValue)
         default:
           break
       }

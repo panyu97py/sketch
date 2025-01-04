@@ -1,7 +1,7 @@
+import { loadYoga, Node as YogaLayoutNode } from 'yoga-layout/load'
 import { SketchNode } from './node'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
-import YogaLayout, { Node as YogaLayoutNode } from 'yoga-layout'
 
 /**
  * 设计元素
@@ -20,7 +20,7 @@ export abstract class SketchElement extends SketchNode {
   /**
    * 布局节点
    */
-  public readonly layout: YogaLayoutNode
+  public layout: YogaLayoutNode
 
   /**
    * 样式
@@ -33,9 +33,10 @@ export abstract class SketchElement extends SketchNode {
    */
   constructor (style?: StyleSheetCssProperties) {
     super()
-    this.style = style
-    this.layout = YogaLayout.Node.create()
-    StyleSheet.apply(this, this.style)
+    this.style = style;
+    // TODO layout 异步逻辑
+    // this.layout = (await loadYoga()).Node.create()
+    // StyleSheet.apply(this, this.style)
   }
 
   /**

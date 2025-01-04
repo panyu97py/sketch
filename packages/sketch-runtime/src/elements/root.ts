@@ -1,6 +1,6 @@
 import { SketchElement } from './element'
 import { SketchNode } from './node'
-import YogaLayout from 'yoga-layout'
+import { Direction } from 'yoga-layout/load'
 
 /**
  * 画布根节点
@@ -64,7 +64,7 @@ export class SketchRoot extends SketchElement {
    * 计算布局
    */
   public calculateLayout = () => {
-    this.layout.calculateLayout('auto', 'auto', YogaLayout.DIRECTION_LTR)
+    this.layout.calculateLayout('auto', 'auto', Direction.LTR)
   }
 
   /**

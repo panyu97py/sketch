@@ -8,6 +8,9 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "jsx": "react",  // or "react-jsx" for React 17+
+    "paths": {
+      "yoga-layout/load": ["node_modules/yoga-layout/dist/src/load.d.ts"]
+    },
   },
   "include": ["src"],
 }
