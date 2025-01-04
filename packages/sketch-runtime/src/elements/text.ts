@@ -98,6 +98,20 @@ class SketchSingLineText extends SketchBaseText {
     super.onMount()
   }
 
+  calculateTextElementPositionByStyle = () => {
+    const { textAlign = 'left' } = this.style || {}
+    const { left, ...otherPositionInfo } = this.calculateElementAbsolutePosition()
+    const { width: elementWidth } = this.getElementSize()
+    const { width: textWidth = 0 } = this.calculateTextWidth(this.text) || {}
+    const finalLeft = (() => {
+      if (textAlign === 'left') return left
+      if (textAlign === 'right') return elementWidth
+      if (textAlign === 'center') return left + elementWidth / 2
+    })()
+    const finalRight = finalLeft + textWidth
+    return { left: finalLeft, right: finalRight, ...otherPositionInfo }
+  }
+
   /**
    * 渲染函数
    */
@@ -106,15 +120,16 @@ class SketchSingLineText extends SketchBaseText {
 
     // 计算布局位置
     this._root.calculateLayout()
-    const { left, top } = this.calculateElementAbsolutePosition()
+    const { left, top } = this.calculateTextElementPositionByStyle()
     const { width, height } = this.getElementSize()
 
     // 渲染元素
-    const { color = 'black', fontSize, fontWeight, lineHeight } = this.style || {}
+    const { color = 'black', textAlign = 'left' } = this.style || {}
     this._root.ctx.save()
     this._root.ctx.textBaseline = 'bottom'
     this._root.ctx.fillStyle = color
-    this._root.ctx.font = this.generateFontStyle({ fontSize, fontWeight, lineHeight })
+    this._root.ctx.textAlign = textAlign
+    this._root.ctx.font = this.generateFontStyle(this.style as FontStyle)
     this._root.ctx.fillText(this.text, left, top + height, width)
     this._root.ctx.restore()
   }

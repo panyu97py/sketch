@@ -43,6 +43,7 @@ export interface StyleSheetCssProperties extends Partial<Pick<CSSStyleDeclaratio
     lineHeight?: number;
     fontSize?: number;
     fontWeight?: number;
+    textAlign?: CanvasTextAlign
 }
 
 export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;
