@@ -1,92 +1,67 @@
 import React, {useEffect} from 'react';
+import {SketchHandler, StyleSheet, Sketch} from '@sketchjs/react'
 import logo from './logo.png';
 import './App.css';
-import {SketchHandler, StyleSheet, Sketch} from '@sketchjs/react'
-
 
 const style = StyleSheet.create({
     root: {
-        width: 1000,
+        width: 500,
         height: 500,
+        padding: 50
     },
-    listWrap: {
-        width: 300,
-        height: 50,
-        backgroundColor: 'red',
+    logoWrap: {
+        width: 500,
+        height: 200,
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between'
+        justifyContent: 'center',
     },
-    listItem: {
-        width: 50,
-        height: 50,
-        backgroundColor: 'yellow'
+    logo: {
+        width: 200,
+        height: 200
     },
-    imageWrap: {
-        width: 300,
-        height: 50,
-        backgroundColor: 'pink',
-    },
-    image: {
-        width: 50,
-        height: 50,
+    textWrap: {
+        width: 500,
+        height: 200,
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
     text: {
+        width: 500,
         color: '#ffffff',
-        width: 1000,
-        lineHeight: 40,
-        fontSize: 40,
-        fontWeight: 700
+        fontSize: 50,
+        fontWeight: 400,
+        lineHeight: 100,
+        textAlign: 'center'
     }
 })
 
 function App() {
-    const canvasRef = React.useRef<HTMLCanvasElement>(null)
+
     const sketchRef = React.useRef<SketchHandler>(null)
 
+    const canvasRef = React.useRef<HTMLCanvasElement>(null)
+
+    const handleSketchReady = () => {
+        sketchRef.current?.render()?.then(() => console.log('rendered'))
+    }
 
     useEffect(() => {
-        setTimeout(() => {
-            const canvas = canvasRef.current
-            const ctx = canvas?.getContext('2d')
-            if (!canvas || !ctx) return
-            sketchRef.current?.init(canvas, ctx)
-            setTimeout(() => {
-                sketchRef.current?.setSize(1000, 500)
-                sketchRef.current?.render()?.then(() => console.log('rendered'))
-                console.log(sketchRef.current)
-            }, 1000)
-        }, 1000)
+        const canvas = canvasRef.current
+        const ctx = canvas?.getContext('2d')
+        if (!canvas || !ctx) return
+        sketchRef.current?.init(canvas, ctx)
     }, []);
 
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <canvas ref={canvasRef} style={{border: 'solid 1px green', height: 500, width: 1000}}/>
-
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-            <Sketch.Root ref={sketchRef}>
+            <canvas className="sketch-canvas" ref={canvasRef}/>
+            <Sketch.Root ref={sketchRef} width={500} height={500} onSketchReady={handleSketchReady}>
                 <Sketch.View style={style.root}>
-                    <Sketch.Text text="Hello  World!" style={style.text}/>
-                    <Sketch.View style={style.listWrap}>
-                        {new Array(5).fill(0).map((_, index) => (
-                            <Sketch.View style={style.listItem}/>
-                        ))}
+                    <Sketch.View style={style.logoWrap}>
+                        <Sketch.Image src={logo} style={style.logo}/>
                     </Sketch.View>
-                    <Sketch.View style={style.imageWrap}>
-                        <Sketch.Image src={logo} style={style.image}/>
+                    <Sketch.View style={style.logoWrap}>
+                        <Sketch.Text text="Hello  World!" style={style.text}/>
                     </Sketch.View>
                 </Sketch.View>
             </Sketch.Root>
