@@ -213,7 +213,7 @@ importers:
   packages/sketch-framework-react:
     dependencies:
       '@sketchjs/runtime':
-        specifier: ^0.0.1-alpha.3
+        specifier: workspace:*
         version: link:../sketch-runtime
       lodash-es:
         specifier: ^4.17.21
