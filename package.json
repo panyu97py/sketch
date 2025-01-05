@@ -14,6 +14,7 @@
     "version:release": "cross-env pnpm version ${1:-${VERSION_TYPE:-patch}} --filter @sketchjs/*  --workspace-root",
     "version:prerelease": "cross-env pnpm version prerelease --preid ${1:-${PREID_TAG:-alpha}} --filter @sketchjs/*  --workspace-root",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
+    "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
     "clear-all": "pnpm -r exec rm -rf node_modules"
   },
   "keywords": [],
