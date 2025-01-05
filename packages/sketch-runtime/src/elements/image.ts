@@ -1,5 +1,10 @@
-import { SketchElement } from './element'
+import { CreateSketchElementOpt, SketchElement } from './element'
 import { StyleSheetCssProperties } from '../types'
+import { StyleSheet } from './style-sheet'
+
+interface CreateSketchImageOpt extends CreateSketchElementOpt {
+  src: string
+}
 
 /**
  * 图片缓存
@@ -21,9 +26,17 @@ export class SketchImage extends SketchElement {
    * @param src 图片地址
    * @param style 样式
    */
-  constructor (src: string, style?: StyleSheetCssProperties) {
+  protected constructor (src: string, style?: StyleSheetCssProperties) {
     super(style)
     this.src = src
+  }
+
+  public static async create (opt: CreateSketchImageOpt) {
+    const { src, style } = opt
+    const element = new SketchImage(src, style)
+    await element.initializeLayout()
+    StyleSheet.apply(element, style)
+    return element
   }
 
   /**
@@ -51,8 +64,14 @@ export class SketchImage extends SketchElement {
 
     // 计算布局位置
     this._root.calculateLayout()
-    const { left, top } = this.calculateElementAbsolutePosition()
-    const { width, height } = this.getElementSize()
+    const {
+      left,
+      top
+    } = this.calculateElementAbsolutePosition()
+    const {
+      width,
+      height
+    } = this.getElementSize()
 
     // 渲染元素
     const { backgroundColor = 'transparent' } = this.style || {}

@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { SketchImage } from '@sketchjs/runtime'
 import { SketchElementChild, SketchElementProps } from '../../common/types'
-import { useSketchElementRegister } from '../../common/hooks'
+import { useAsyncMemo, useSketchElementRegister } from '../../common/hooks'
 
 export interface InternalSketchWebImageProps extends SketchElementProps {
     src?: string
@@ -11,7 +11,7 @@ export interface InternalSketchWebImageProps extends SketchElementProps {
 export const InternalSketchWebImage: React.FC<InternalSketchWebImageProps> = (props) => {
   const { src = '', style, parent, children } = props
 
-  const sketchImage = useMemo(() => new SketchImage(src, style), [src, style])
+  const sketchImage = useAsyncMemo(() => SketchImage.create({ src, style }), [src, style])
 
   useSketchElementRegister({ parent, target: sketchImage })
 

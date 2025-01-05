@@ -1,7 +1,7 @@
 {
   "name": "@sketchjs/react",
   "version": "0.0.1-alpha.3",
-  "main": "index.js",
+  "main": "dist/platform-web/index.js",
   "types": "dist/types.d.ts",
   "author": "yu.pan",
   "license": "MIT",

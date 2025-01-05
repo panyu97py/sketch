@@ -1,6 +1,7 @@
-import { SketchElement } from './element'
+import { CreateSketchElementOpt, SketchElement } from './element'
 import { FontStyle, StyleSheetCssProperties } from '../types'
 import { DEFAULT_FONT_STYLE } from '../constants'
+import { StyleSheet } from './style-sheet'
 
 /**
  * 基础文本元素
@@ -69,6 +70,10 @@ class SketchBaseText extends SketchElement {
   render = async () => Promise.resolve()
 }
 
+interface CreateSketchSingLineTextOpt extends CreateSketchElementOpt{
+    text: string,
+}
+
 /**
  * 单行文本元素
  */
@@ -83,9 +88,16 @@ class SketchSingLineText extends SketchBaseText {
    * @param text 文本内容
    * @param style 样式
    */
-  constructor (text: string, style?: StyleSheetCssProperties) {
+  protected constructor (text: string, style?: StyleSheetCssProperties) {
     super(style)
     this.text = text
+  }
+
+  public static async create (opt: CreateSketchSingLineTextOpt) {
+    const { text, style } = opt
+    const element = new SketchSingLineText(text, style)
+    await element.initializeLayout()
+    return element
   }
 
   /**
@@ -149,26 +161,34 @@ export class SketchText extends SketchBaseText {
    * @param text 文本内容
    * @param style 样式
    */
-  constructor (text: string, style?: StyleSheetCssProperties) {
+  protected constructor (text: string, style?: StyleSheetCssProperties) {
     super(style)
     this.text = text
+  }
+
+  public static async create (opt: CreateSketchSingLineTextOpt) {
+    const { text, style } = opt
+    const element = new SketchText(text, style)
+    await element.initializeLayout()
+    StyleSheet.apply(element, style)
+    return element
   }
 
   /**
    * 元素初始化
    * @desc 初始化基于宽度拆分文字
    */
-  public onMount () {
+  public async onMount () {
     if (!this._root) return
     const { lineHeight = 0 } = this.style || {}
     const { width } = this.getElementSize()
     const lineTextArr = this.splitTextByWidth(this.text, width)
     const height = lineTextArr.length * lineHeight
     this.layout.setHeight(height)
-    lineTextArr.forEach((lineText) => {
-      const textElement = new SketchSingLineText(lineText, this.style)
-      this.appendChild(textElement)
-    })
+    await Promise.all(lineTextArr.map(async (lineText) => {
+      const textElement = await SketchSingLineText.create({ text: lineText, style: this.style })
+      return this.appendChild(textElement)
+    }))
     return super.onMount()
   }
 

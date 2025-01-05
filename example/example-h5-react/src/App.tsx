@@ -7,6 +7,10 @@ const style = StyleSheet.create({
     root: {
         width: 500,
         height: 500,
+    },
+    rootView: {
+        width: 500,
+        height: 500,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -32,6 +36,7 @@ function App() {
     const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
     const handleSketchReady = () => {
+        console.log('sketch ready')
         sketchRef.current?.render()?.then(() => console.log('rendered'))
     }
 
@@ -45,8 +50,8 @@ function App() {
     return (
         <div className="App">
             <canvas className="sketch-canvas" ref={canvasRef}/>
-            <Sketch.Root ref={sketchRef} width={500} height={500} onSketchReady={handleSketchReady}>
-                <Sketch.View style={style.root}>
+            <Sketch.Root style={style.root} ref={sketchRef}  onSketchReady={handleSketchReady}>
+                <Sketch.View style={style.rootView}>
                     <Sketch.Image src={logo} style={style.logo}/>
                     <Sketch.Text text="Hello  World!" style={style.text}/>
                 </Sketch.View>

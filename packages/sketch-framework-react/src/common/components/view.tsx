@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { SketchView, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { SketchElementChild, SketchElementProps } from '../types'
-import { useSketchElementRegister } from '../hooks'
+import { useSketchElementRegister, useAsyncMemo } from '../hooks'
 
 export interface InternalSketchViewProps extends SketchElementProps {
     style?: StyleSheetCssProperties
@@ -11,7 +11,7 @@ export interface InternalSketchViewProps extends SketchElementProps {
 export const InternalSketchView: React.FC<InternalSketchViewProps> = (props) => {
   const { style, parent, children } = props
 
-  const sketchView = useMemo(() => new SketchView(style), [style])
+  const sketchView = useAsyncMemo(() => SketchView.create({ style }), [style])
 
   useSketchElementRegister({ parent, target: sketchView })
 

@@ -1,30 +1,24 @@
 import React, { useImperativeHandle, useRef, useState } from 'react'
-import { SketchElement, SketchRoot } from '@sketchjs/runtime'
+import { SketchElement, SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
 import noop from 'lodash-es/noop'
 import { SketchElementChild, SketchHandler } from '../types'
 import { InternalSketchRootCtx, InternalSketchRootCtxVal } from '../hooks'
 
-const DEFAULT_WIDTH = 300
-
-const DEFAULT_HEIGHT = 150
-
 export interface InternalSketchRootProps {
-    width?: number;
-    height?: number;
+    style?: StyleSheetCssProperties
     children?: SketchElementChild | SketchElementChild[];
     onSketchReady?: () => void;
 }
 
 export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketchRootProps>((props, ref) => {
-  const { width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, children, onSketchReady = noop } = props
+  const { style, children, onSketchReady = noop } = props
 
   const [sketchRoot, setSketchRoot] = useState<SketchRoot>()
 
   const sketchElementSetRef = useRef(new Set<SketchElement>())
 
-  const initSketchRoot = (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => {
-    const sketchRoot = new SketchRoot(canvasNode, canvasCtx)
-    sketchRoot?.setSize(width, height)
+  const initSketchRoot = async (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => {
+    const sketchRoot = await SketchRoot.create({ canvas: canvasNode, ctx: canvasCtx, style })
     setSketchRoot(sketchRoot)
   }
 

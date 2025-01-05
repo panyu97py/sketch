@@ -1,12 +1,17 @@
-import { loadYoga, Node as YogaLayoutNode } from 'yoga-layout/load'
+import { Node as YogaLayoutNode } from 'yoga-layout/load'
+import Yoga from 'yoga-layout'
 import { SketchNode } from './node'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
 
+export interface CreateSketchElementOpt{
+    style?: StyleSheetCssProperties
+}
+
 /**
  * 设计元素
  */
-export abstract class SketchElement extends SketchNode {
+export class SketchElement extends SketchNode {
   /**
    * 显示名称
    */
@@ -31,18 +36,34 @@ export abstract class SketchElement extends SketchNode {
    * 构造函数
    * @param style 样式
    */
-  constructor (style?: StyleSheetCssProperties) {
+  protected constructor (style?: StyleSheetCssProperties) {
     super()
-    this.style = style;
-    // TODO layout 异步逻辑
-    // this.layout = (await loadYoga()).Node.create()
-    // StyleSheet.apply(this, this.style)
+    this.style = style
+  }
+
+  /**
+   * 静态工厂方法，返回异步初始化后的实例
+   */
+  public static async create (opt: CreateSketchElementOpt) {
+    const { style } = opt
+    const element = new SketchElement(style)
+    await element.initializeLayout()
+    StyleSheet.apply(element, style)
+    return element
+  }
+
+  /**
+   * 异步加载和初始化布局
+   */
+  public async initializeLayout () {
+    // const yoga = await loadYoga()
+    this.layout = Yoga.Node.create()
   }
 
   /**
    *元素初始化
    */
-  public onMount () {
+  public async onMount () {
     this.isMounted = true
   }
 
@@ -50,10 +71,10 @@ export abstract class SketchElement extends SketchNode {
    * 添加子元素
    * @param newChild 子元素
    */
-  public appendChild (newChild: SketchElement) {
+  public async appendChild (newChild: SketchElement) {
     super.appendChild(newChild)
     this.layout.insertChild(newChild.layout, this.layout.getChildCount())
-    newChild.applyOnMount()
+    await newChild.applyOnMount()
   }
 
   /**
@@ -68,12 +89,12 @@ export abstract class SketchElement extends SketchNode {
   /**
    * 执行初始化逻辑
    */
-  public applyOnMount () {
+  public async applyOnMount () {
     if (!this._root) return
-    this.onMount()
-    this.childNodes.forEach(child => {
-      (child as SketchElement).applyOnMount()
-    })
+    await this.onMount()
+    return Promise.all(this.childNodes.map(child => {
+      return (child as SketchElement).applyOnMount()
+    }))
   }
 
   /**
@@ -110,5 +131,9 @@ export abstract class SketchElement extends SketchNode {
     const width = this.layout.getComputedWidth()
     const height = this.layout.getComputedHeight()
     return { width, height }
+  }
+
+  render () {
+    return Promise.resolve()
   }
 }

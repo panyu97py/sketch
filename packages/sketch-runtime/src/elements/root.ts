@@ -1,6 +1,13 @@
-import { SketchElement } from './element'
+import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchNode } from './node'
 import { Direction } from 'yoga-layout/load'
+import { StyleSheetCssProperties } from '../types'
+import { StyleSheet } from './style-sheet'
+
+interface CreateSketchRootOpt extends CreateSketchElementOpt {
+    ctx: CanvasRenderingContext2D,
+    canvas: HTMLCanvasElement,
+}
 
 /**
  * 画布根节点
@@ -20,13 +27,25 @@ export class SketchRoot extends SketchElement {
    * 构造函数
    * @param canvas 画布元素
    * @param ctx 画布上下文
+   * @param style
    */
-  constructor (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-    super()
+  protected constructor (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, style?: StyleSheetCssProperties) {
+    super(style)
     this.ctx = ctx
     this.canvas = canvas
     const propertyOpt = { writable: false, enumerable: true, configurable: false }
     Object.defineProperty(this, 'displayName', { ...propertyOpt, value: 'ROOT' })
+  }
+
+  public static async create (opt: CreateSketchRootOpt) {
+    const { canvas, ctx, style } = opt
+    const element = new SketchRoot(canvas, ctx, style)
+    await element.initializeLayout()
+    StyleSheet.apply(element, style)
+    const { width, height } = element.getElementSize()
+    canvas.width = width
+    canvas.height = height
+    return element
   }
 
   /**
@@ -34,18 +53,6 @@ export class SketchRoot extends SketchElement {
    */
   public get _root (): SketchRoot {
     return this
-  }
-
-  /**
-   * 设置画布大小
-   * @param width
-   * @param height
-   */
-  public setSize (width: number, height: number) {
-    this.canvas.width = width
-    this.canvas.height = height
-    this.layout.setWidth(width)
-    this.layout.setHeight(height)
   }
 
   /**
