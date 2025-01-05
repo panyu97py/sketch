@@ -5,9 +5,7 @@
 
 ### 待办事项
 - [x] 核心依赖[`yoga-layout`](https://www.yogalayout.dev/)
-- [ ] 小程序能力实现参考[`mp_canvas_drawer`](https://github.com/kuckboy1994/mp_canvas_drawer)
-- [ ] 单元测试
+- [x] `web`端 `example` 完善
+- [ ] 小程序实现`yoga-layout`的正确引入（目前由于`yoga-layout`使用了`WebAssembly`，所以在小程序中无法正确引入）
 - [ ] README.md 完善
-- [ ] example 完善
-- [ ] 实现插件系统，可以通过插件注册 `helper`、元素组件 如：碰撞检测、二维码组件
-  
+- [ ] 单元测试
