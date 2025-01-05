@@ -1,8 +1,8 @@
 import { Node as YogaLayoutNode } from 'yoga-layout/load'
-import Yoga from 'yoga-layout'
 import { SketchNode } from './node'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
+import { YogaLayoutUtils } from '../utils'
 
 export interface CreateSketchElementOpt{
     style?: StyleSheetCssProperties
@@ -56,8 +56,8 @@ export class SketchElement extends SketchNode {
    * 异步加载和初始化布局
    */
   public async initializeLayout () {
-    // const yoga = await loadYoga()
-    this.layout = Yoga.Node.create()
+    const yoga = await YogaLayoutUtils.load()
+    this.layout = yoga.Node.create()
   }
 
   /**
