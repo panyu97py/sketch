@@ -11,8 +11,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter @sketchjs/* build",
-    "version:release": "pnpm version patch --filter @sketchjs/*  --workspace-root",
-    "version:prerelease": "pnpm version prerelease --preid alpha --workspace-root",
+    "version:prerelease": "pnpm version prerelease --preid alpha && pnpm --parallel -r --aggregate-output --filter=@sketchjs/* exec pnpm version ${npm_package_version}",
+    "version:release": "pnpm version patch && pnpm --parallel -r --aggregate-output --filter=@sketchjs/* exec pnpm version ${npm_package_version}",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
     "clear-all": "pnpm -r exec rm -rf node_modules"
