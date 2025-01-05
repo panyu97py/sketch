@@ -64,14 +64,8 @@ export class SketchImage extends SketchElement {
 
     // 计算布局位置
     this._root.calculateLayout()
-    const {
-      left,
-      top
-    } = this.calculateElementAbsolutePosition()
-    const {
-      width,
-      height
-    } = this.getElementSize()
+    const { left, top } = this.calculateElementAbsolutePosition()
+    const { width, height } = this.getElementSize()
 
     // 渲染元素
     const { backgroundColor = 'transparent' } = this.style || {}
