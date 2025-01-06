@@ -5,6 +5,10 @@
   "types": "dist/index.d.ts",
   "author": "yu.pan",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/panyu97py/sketch.git"
+  },
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
