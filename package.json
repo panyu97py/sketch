@@ -8,6 +8,9 @@
     "packages/*",
     "example/*"
   ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter @sketchjs/* build",
