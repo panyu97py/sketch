@@ -15,6 +15,7 @@
     "version:release": "pnpm version patch && pnpm --parallel -r --aggregate-output --filter=@sketchjs/* exec pnpm version ${npm_package_version}",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
+    "release": "pnpm publish --filter=@sketchjs/* --access public",
     "clear-all": "pnpm -r exec rm -rf node_modules"
   },
   "keywords": [],
