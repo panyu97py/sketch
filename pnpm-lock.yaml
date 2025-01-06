@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  yoga-layout:
+    hash: lv4g5cbwjm4wcuikdlwi6wgeja
+    path: patches/yoga-layout.patch
+
 importers:
 
   .:
@@ -242,7 +247,7 @@ importers:
         version: 4.17.21
       yoga-layout:
         specifier: ^3.2.1
-        version: 3.2.1
+        version: 3.2.1(patch_hash=lv4g5cbwjm4wcuikdlwi6wgeja)
     devDependencies:
       '@types/lodash-es':
         specifier: ^4.17.12
@@ -20628,7 +20633,7 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-  yoga-layout@3.2.1: {}
+  yoga-layout@3.2.1(patch_hash=lv4g5cbwjm4wcuikdlwi6wgeja): {}
 
   yup@1.6.1:
     dependencies:

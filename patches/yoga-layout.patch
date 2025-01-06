@@ -1,0 +1,46 @@
+diff --git a/dist/src/index.d.ts b/dist/src/index.d.ts
+index 961435dccadb2269d5e527c159705283a45f16e8..48ff9b748e1b7589da51e418a22529763259cf51 100644
+--- a/dist/src/index.d.ts
++++ b/dist/src/index.d.ts
+@@ -6,7 +6,7 @@
+  *
+  * @format
+  */
+-export type { Config, DirtiedFunction, MeasureFunction, Node, } from './wrapAssembly.ts';
+-declare const Yoga: import("./wrapAssembly.ts").Yoga;
++export type { Config, DirtiedFunction, MeasureFunction, Node, } from './wrapAssembly';
++declare const Yoga: import("./wrapAssembly").Yoga;
+ export default Yoga;
+-export * from './generated/YGEnums.ts';
++export * from './generated/YGEnums';
+diff --git a/dist/src/load.d.ts b/dist/src/load.d.ts
+index ca61f08aea09ee34ed74f024937288ca2bac18d7..c33627e253350e180e79083e4c066f56d721d4cf 100644
+--- a/dist/src/load.d.ts
++++ b/dist/src/load.d.ts
+@@ -6,6 +6,6 @@
+  *
+  * @format
+  */
+-export type { Config, DirtiedFunction, MeasureFunction, Node, Yoga, } from './wrapAssembly.ts';
+-export declare function loadYoga(): Promise<import("./wrapAssembly.ts").Yoga>;
+-export * from './generated/YGEnums.ts';
++export type { Config, DirtiedFunction, MeasureFunction, Node, Yoga, } from './wrapAssembly';
++export declare function loadYoga(): Promise<import("./wrapAssembly").Yoga>;
++export * from './generated/YGEnums';
+diff --git a/dist/src/wrapAssembly.d.ts b/dist/src/wrapAssembly.d.ts
+index 739e937ecdc8c32ed535675a812a452dfbc344a3..38e10258f5f35a3815fd8089a1efcff1314334f4 100644
+--- a/dist/src/wrapAssembly.d.ts
++++ b/dist/src/wrapAssembly.d.ts
+@@ -6,9 +6,9 @@
+  *
+  * @format
+  */
+-import { Unit, Direction } from './generated/YGEnums.ts';
+-import YGEnums from './generated/YGEnums.ts';
+-import type { Align, BoxSizing, Display, Edge, Errata, ExperimentalFeature, FlexDirection, Gutter, Justify, MeasureMode, Overflow, PositionType, Wrap } from './generated/YGEnums.ts';
++import { Unit, Direction } from './generated/YGEnums';
++import YGEnums from './generated/YGEnums';
++import type { Align, BoxSizing, Display, Edge, Errata, ExperimentalFeature, FlexDirection, Gutter, Justify, MeasureMode, Overflow, PositionType, Wrap } from './generated/YGEnums';
+ type Layout = {
+     left: number;
+     right: number;
