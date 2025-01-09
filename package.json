@@ -14,8 +14,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter @sketchjs/* build",
-    "version:prerelease": "pnpm version prerelease --preid alpha && pnpm --parallel -r --aggregate-output --filter=@sketchjs/* exec pnpm version ${npm_package_version}",
-    "version:release": "pnpm version patch && pnpm --parallel -r --aggregate-output --filter=@sketchjs/* exec pnpm version ${npm_package_version}",
+    "version": "pnpm version patch --filter=@sketchjs/*",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
     "release": "pnpm publish --filter=@sketchjs/* --access public",
@@ -25,6 +24,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.27.11",
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
     "debug": "^4.3.7",
