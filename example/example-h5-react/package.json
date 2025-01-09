@@ -1,12 +1,12 @@
 {
   "name": "example-h5-react",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "private": true,
   "dependencies": {
     "@sketchjs/react": "workspace:*",
     "cra-template-typescript": "1.2.0",
     "react": "^18.0.0",
-    "react-dom":  "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-scripts": "5.0.1"
   },
   "scripts": {
@@ -34,7 +34,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react":  "^18.0.0",
+    "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0"
   }
 }
