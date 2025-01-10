@@ -41,18 +41,20 @@ const Index: React.FC = () => {
   }
 
   const initCanvas = async () => {
-    const canvasCtx = Taro.createCanvasContext('sketch-canvas')
-    console.log({ canvasCtx })
+    const canvasNode: Taro.Canvas = await new Promise((resolve) => {
+      Taro.createSelectorQuery().select('#sketch-canvas').fields({ node: true }, (res) => resolve(res?.node)).exec()
+    })
+    const canvasCtx = canvasNode.getContext('2d')
+    sketchRef.current?.init(canvasNode as any, canvasCtx as any)
   }
 
   useEffect(() => {
-    console.log('initCanvas')
     initCanvas()
   }, [])
 
   return (
-    <View className='index'>
-      <Canvas id='sketch-canvas' />
+    <View className='index-view'>
+      <Canvas id='sketch-canvas' type='2d' className='sketch-canvas' />
       <Sketch.Root style={style.root} ref={sketchRef} onSketchReady={handleSketchReady}>
         <Sketch.View style={style.rootView}>
           <Sketch.Image src={logo} style={style.logo} />
