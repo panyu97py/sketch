@@ -20,6 +20,7 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
     plugins: [],
     defineConstants: {
       'process.env.SKETCH_PLATFORM': '"APPLET"',  // 使用小程序端 sketch 实现
+      'process.env.YOGA_USE_WASM': 'false',  // 使用小程序端 sketch 实现
     },
     copy: {
       patterns: [

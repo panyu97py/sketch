@@ -14,7 +14,8 @@ const style = StyleSheet.create({
     width: 500,
     height: 500,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor:'#282c34'
   },
   logo: {
     width: 200,

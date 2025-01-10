@@ -1,9 +1,21 @@
-import { SketchElement } from './element'
+import { CreateSketchElementOpt, SketchElement } from './element'
+import { StyleSheet } from './style-sheet'
 
 /**
  * 视图元素
  */
 export class SketchView extends SketchElement {
+  /**
+   * 静态工厂方法，返回异步初始化后的实例
+   */
+  public static async create (opt: CreateSketchElementOpt) {
+    const { style } = opt
+    const element = new SketchView(style)
+    await element.initializeLayout()
+    StyleSheet.apply(element, style)
+    return element
+  }
+
   /**
    * 渲染函数
    */
