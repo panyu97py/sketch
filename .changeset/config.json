@@ -6,7 +6,7 @@
     ["@sketchjs/runtime", "@sketchjs/react"]
   ],
   "linked": [],
-  "access": "restricted",
+  "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
