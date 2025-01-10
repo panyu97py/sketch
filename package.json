@@ -14,7 +14,9 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter @sketchjs/* build",
-    "version": "pnpm version patch --filter=@sketchjs/*",
+    "changeset:alpha": "pnpm changeset pre enter alpha",
+    "changeset:release": "pnpm changeset pre exit & pnpm changeset",
+    "version": "pnpm changeset version",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
     "release": "pnpm publish --filter=@sketchjs/* --access public",
