@@ -45,10 +45,5 @@
   },
   "dependencies": {
     "cross-env": "^7.0.3"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "yoga-layout": "patches/yoga-layout.patch"
-    }
   }
 }

@@ -1,6 +1,6 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchNode } from './node'
-import { Direction } from 'yoga-layout/load'
+import { Direction } from '@sketchjs/yoga-layout/load'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
 

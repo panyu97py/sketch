@@ -1,4 +1,4 @@
-import { loadYoga, Yoga } from 'yoga-layout/load'
+import { loadYoga, Yoga } from '@sketchjs/yoga-layout/load'
 
 export class YogaLayoutUtils {
   private static instance: Promise<Yoga>
