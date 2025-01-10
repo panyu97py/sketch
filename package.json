@@ -19,7 +19,7 @@
     "version": "pnpm changeset && pnpm changeset version",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
-    "release": "pnpm publish --filter=@sketchjs/* --access public",
+    "release": "pnpm changeset publish",
     "clear-all": "pnpm -r exec rm -rf node_modules"
   },
   "keywords": [],
