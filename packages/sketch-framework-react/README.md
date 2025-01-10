@@ -84,6 +84,18 @@ export default App;
 
 ### Taro 小程序使用`sketch`实现`Canvas` 2d 绘图
 
+```ts
+import { defineConfig } from '@tarojs/cli'
+
+export default defineConfig({
+  defineConstants: {
+    'process.env.SKETCH_PLATFORM': '"APPLET"',  // 使用小程序端 sketch 实现
+    'process.env.YOGA_USE_WASM': 'false',  // 不使用 WASM 实现
+  },
+})
+
+```
+
 ```tsx
 import { View, Canvas } from '@tarojs/components'
 import { SketchHandler, StyleSheet, Sketch } from '@sketchjs/react'
