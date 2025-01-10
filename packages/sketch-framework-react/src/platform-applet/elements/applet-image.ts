@@ -1,11 +1,24 @@
-import { SketchImage } from '@sketchjs/runtime'
 import Taro from '@tarojs/taro'
+import { CreateSketchElementOpt, SketchImage, StyleSheet } from '@sketchjs/runtime'
+
+interface CreateSketchAppletImageOpt extends CreateSketchElementOpt {
+  src: string
+}
+
 /**
  * 图片缓存
  */
 const imageCache = new Map<string, HTMLImageElement>()
 
 export class SketchAppletImage extends SketchImage {
+  public static async create (opt: CreateSketchAppletImageOpt) {
+    const { src, style } = opt
+    const element = new SketchAppletImage(src, style)
+    await element.initializeLayout()
+    StyleSheet.apply(element, style)
+    return element
+  }
+
   /**
    * 加载图片
    * @param url
