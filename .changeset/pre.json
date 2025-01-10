@@ -5,9 +5,11 @@
     "example-applet-react": "0.0.1-alpha.3",
     "example-h5-react": "0.0.1-alpha.3",
     "@sketchjs/react": "0.0.1-alpha.3",
-    "@sketchjs/runtime": "0.0.1-alpha.3"
+    "@sketchjs/runtime": "0.0.1-alpha.3",
+    "@sketchjs/yoga-layout": "0.0.1-alpha.4"
   },
   "changesets": [
-    "forty-poets-prove"
+    "forty-poets-prove",
+    "swift-pianos-tell"
   ]
 }
