@@ -6,6 +6,10 @@
  *
  * @format
  */
-export type { Config, DirtiedFunction, MeasureFunction, Node, Yoga } from './wrapAssembly'
-export declare function loadYoga(): Promise<import('./wrapAssembly').Yoga>;
+
+import loadYogaImpl from '../binaries/yoga-wasm-base64-esm'
+import wrapAssembly from './wrapAssembly'
+export async function loadYoga () {
+  return wrapAssembly(await loadYogaImpl())
+}
 export * from './generated/YGEnums'

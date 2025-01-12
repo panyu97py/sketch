@@ -1,4 +1,4 @@
-import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout/load'
+import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout'
 import { SketchNode } from './node'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'

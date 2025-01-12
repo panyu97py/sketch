@@ -1,8 +1,8 @@
+import { Direction } from '@sketchjs/yoga-layout'
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { SketchNode } from './node'
-import { Direction } from '@sketchjs/yoga-layout/load'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
+import { SketchNode } from './node'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
     ctx: CanvasRenderingContext2D,
