@@ -1,4 +1,4 @@
-import { Justify, Align, FlexDirection, Wrap, BoxSizing, PositionType } from '@sketchjs/yoga-layout/load'
+import { Justify, Align, FlexDirection, Wrap, BoxSizing, PositionType } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties, StyleSheetCssValues, FontStyle } from './types'
 
 export const DEFAULT_FONT_STYLE: Required<FontStyle> = {

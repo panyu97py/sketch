@@ -1,4 +1,4 @@
-import { Edge } from '@sketchjs/yoga-layout/load'
+import { Edge } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties } from '../types'
 import { CSS_TO_YOGA_MAP } from '../constants'
 import { isEmpty } from '../utils'
