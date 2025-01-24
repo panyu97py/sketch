@@ -3,6 +3,7 @@
   "version": "0.0.1-alpha.6",
   "description": "",
   "main": "index.js",
+  "types": "dist/types.d.ts",
   "author": "yu.pan",
   "license": "MIT",
   "repository": {
