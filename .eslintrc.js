@@ -16,8 +16,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    'react/jsx-indent': ['error', 2], // 标签使用 2 个空格缩进
-    'react/jsx-indent-props': ['error', 2], // 属性使用 2 个空格缩进
     'no-use-before-define': 'off'
   }
 }
