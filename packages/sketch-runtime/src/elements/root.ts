@@ -75,6 +75,9 @@ export class SketchRoot extends SketchView {
     this.layout.calculateLayout('auto', 'auto', Direction.LTR)
   }
 
+  /**
+   * 渲染自己的样式
+   */
   public async renderSelf () {
     return super.render()
   }
