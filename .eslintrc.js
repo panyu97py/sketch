@@ -8,7 +8,8 @@ module.exports = {
   extends: [
     'standard',
     'plugin:@typescript-eslint/recommended',
-    'plugin:react/recommended'
+    'plugin:react/recommended',
+    'plugin:vue/recommended'
   ],
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'jest', 'react'],

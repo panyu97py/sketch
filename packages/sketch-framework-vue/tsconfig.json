@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.root.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "module": "ESNext",
+    "declaration": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
+  },
+  "include": [
+    "src",
+    "shims-vue.d.ts"
+  ]
+}
