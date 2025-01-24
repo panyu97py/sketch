@@ -1,4 +1,4 @@
-import vue from 'vue'
+import { DefineComponent } from 'vue'
 import { InternalSketchRootProps, InternalSketchViewProps, InternalSketchTextProps } from './common/components'
 import { SketchElementProps } from './common/types'
 
@@ -10,8 +10,8 @@ interface InternalSketchImageProps extends SketchElementProps {
 }
 
 export declare const Sketch: {
-  Root: vue.DefineComponent<InternalSketchRootProps>
-  View: vue.DefineComponent<InternalSketchViewProps>
-  Text: vue.DefineComponent<InternalSketchTextProps>
-  Image: vue.DefineComponent<InternalSketchImageProps>
+  Root: DefineComponent<InternalSketchRootProps>
+  View: DefineComponent<InternalSketchViewProps>
+  Text: DefineComponent<InternalSketchTextProps>
+  Image: DefineComponent<InternalSketchImageProps>
 }
