@@ -9,10 +9,6 @@
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
   },
-  "exports": {
-    ".": "./src/index.js",
-    "./load": "./src/load.js"
-  },
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
