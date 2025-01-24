@@ -12,7 +12,6 @@ export const useSketchElementRegister = (opt:Opt) => {
   const { parent, target } = opt
 
   const { registerSketchElement = noop, unregisterSketchElement = noop, triggerSketchElementUpdate = noop } = useInternalSketchRootCtx()
-  // const { registerSketchElement = noop, unregisterSketchElement = noop } = useInternalSketchRootCtx()
 
   /**
    * 将 target 元素添加到 parent 元素

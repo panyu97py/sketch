@@ -7,11 +7,11 @@ import { InternalSketchRootCtx, InternalSketchRootCtxVal } from '../hooks'
 export interface InternalSketchRootProps {
     style?: StyleSheetCssProperties
     children?: SketchElementChild | SketchElementChild[];
-    onSketchReady?: () => void;
+    onReady?: () => void;
 }
 
 export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketchRootProps>((props, ref) => {
-  const { style, children, onSketchReady = noop } = props
+  const { style, children, onReady = noop } = props
 
   const [sketchRoot, setSketchRoot] = useState<SketchRoot>()
 
@@ -22,7 +22,7 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
     setSketchRoot(sketchRoot)
   }
 
-  const renderSketch = () => {
+  const renderSketch = async () => {
     return sketchRoot?.render()
   }
 
@@ -42,7 +42,7 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
     const sketchElements = Array.from(sketchElementSetRef.current)
     const isAllSketchElementMounted = sketchElements.every((sketchElement) => sketchElement.isMounted)
     if (!isAllSketchElementMounted || !sketchElements.length) return
-    onSketchReady()
+    onReady()
   }
 
   useImperativeHandle(ref, () => ({
@@ -65,9 +65,9 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
   }
 
   return (
-      <InternalSketchRootCtx.Provider value={ctxVal}>
-        {childrenVNodes}
-      </InternalSketchRootCtx.Provider>
+    <InternalSketchRootCtx.Provider value={ctxVal}>
+      {childrenVNodes}
+    </InternalSketchRootCtx.Provider>
   )
 })
 

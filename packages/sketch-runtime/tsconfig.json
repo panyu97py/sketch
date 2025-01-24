@@ -7,7 +7,7 @@
     "declaration": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "jsx": "react",  // or "react-jsx" for React 17+
+    "jsx": "react-jsx",  // or "react-jsx" for React 17+
   },
   "include": ["src"],
 }

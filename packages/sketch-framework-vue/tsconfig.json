@@ -7,7 +7,11 @@
     "declaration": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "jsx": "react-jsx",  // or "react-jsx" for React 17+
+    "jsx": "preserve",
+    "jsxImportSource": "vue"
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "shims-vue.d.ts"
+  ]
 }

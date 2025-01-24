@@ -19,7 +19,7 @@ export class SketchView extends SketchElement {
   /**
    * 渲染函数
    */
-  render = async () => {
+  async render () {
     if (!this._root) return
 
     // 计算布局位置

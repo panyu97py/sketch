@@ -1,8 +1,9 @@
 import { Direction } from '@sketchjs/yoga-layout'
-import { CreateSketchElementOpt, SketchElement } from './element'
+import { CreateSketchElementOpt } from './element'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
 import { SketchNode } from './node'
+import { SketchView } from './view'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
     ctx: CanvasRenderingContext2D,
@@ -12,7 +13,7 @@ interface CreateSketchRootOpt extends CreateSketchElementOpt {
 /**
  * 画布根节点
  */
-export class SketchRoot extends SketchElement {
+export class SketchRoot extends SketchView {
   /**
    * 画布上下文
    */
@@ -75,10 +76,18 @@ export class SketchRoot extends SketchElement {
   }
 
   /**
+   * 渲染自己的样式
+   */
+  public async renderSelf () {
+    return super.render()
+  }
+
+  /**
    * 渲染函数
    */
-  public render () {
-    return this.recursiveRender(this)
+  public async render () {
+    await this.renderSelf()
+    await this.recursiveRender(this)
   }
 
   /**

@@ -13,6 +13,6 @@ interface InternalSketchImageProps extends SketchElementProps{
 export declare const Sketch: {
     Root: React.ForwardRefExoticComponent<InternalSketchRootProps & React.RefAttributes<SketchHandler>>;
     View: React.FC<InternalSketchViewProps>;
-    Text:React.FC<InternalSketchTextProps>;
+    Text: React.FC<InternalSketchTextProps>;
     Image: React.FC<InternalSketchImageProps>;
 }

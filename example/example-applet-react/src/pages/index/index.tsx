@@ -9,13 +9,13 @@ const style = StyleSheet.create({
   root: {
     width: 500,
     height: 500,
+    backgroundColor:'#282c34'
   },
   rootView: {
     width: 500,
     height: 500,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#282c34'
   },
   logo: {
     width: 200,
@@ -56,7 +56,7 @@ const Index: React.FC = () => {
   return (
     <View className='index-view'>
       <Canvas id='sketch-canvas' type='2d' className='sketch-canvas' />
-      <Sketch.Root style={style.root} ref={sketchRef} onSketchReady={handleSketchReady}>
+      <Sketch.Root style={style.root} ref={sketchRef} onReady={handleSketchReady}>
         <Sketch.View style={style.rootView}>
           <Sketch.Image src={logo} style={style.logo} />
           <Sketch.Text text='Hello  World!' style={style.text} />
