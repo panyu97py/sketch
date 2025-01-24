@@ -50,7 +50,7 @@ function App() {
     return (
         <div className="App">
             <canvas className="sketch-canvas" ref={canvasRef}/>
-            <Sketch.Root style={style.root} ref={sketchRef}  onSketchReady={handleSketchReady}>
+            <Sketch.Root style={style.root} ref={sketchRef}  onReady={handleSketchReady}>
                 <Sketch.View style={style.rootView}>
                     <Sketch.Image src={logo} style={style.logo}/>
                     <Sketch.Text text="Hello  World!" style={style.text}/>
