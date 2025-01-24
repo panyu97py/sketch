@@ -6,8 +6,8 @@ import { SketchElementProps } from '../types'
 export type InternalSketchViewProps = SketchElementProps
 
 export const InternalSketchView = defineComponent({
+  name: 'SketchView',
   setup: () => {
-
     const props = defineProps<InternalSketchViewProps>()
 
     const { parent, style } = props

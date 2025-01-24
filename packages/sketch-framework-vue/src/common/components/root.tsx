@@ -1,7 +1,6 @@
-
 import { defineEmits, defineProps, defineExpose, ref, defineComponent } from 'vue'
 import { SketchElement, SketchRoot } from '@sketchjs/runtime'
-import { useInternalSketchRootCtxProvider } from '../hooks';
+import { useInternalSketchRootCtxProvider } from '../hooks'
 import { SketchElementProps, SketchHandler } from '../types'
 
 export type InternalSketchRootProps = Omit<SketchElementProps, 'parent'>
@@ -10,9 +9,9 @@ export interface InternalSketchRootEmits {
   (event: 'ready'): void;
 }
 
-
 export const InternalSketchRoot = defineComponent({
-  setup:()=>{
+  name: 'SketchRoot',
+  setup: () => {
     const emit = defineEmits<InternalSketchRootEmits>()
 
     const props = defineProps<InternalSketchRootProps>()
@@ -21,9 +20,8 @@ export const InternalSketchRoot = defineComponent({
 
     const sketchRoot = ref<SketchRoot>()
 
-
     const initSketchRoot = async (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => {
-      const {style} = props
+      const { style } = props
       sketchRoot.value = await SketchRoot.create({ canvas: canvasNode, ctx: canvasCtx, style })
     }
 
@@ -34,7 +32,6 @@ export const InternalSketchRoot = defineComponent({
     const sketchToDataURL = (type?: string, quality?: any) => {
       return sketchRoot.value?.toDataURL(type, quality) || ''
     }
-
 
     const registerSketchElement = (sketchElement: SketchElement) => {
       return sketchElementSetRef.value.add(sketchElement)
@@ -63,6 +60,6 @@ export const InternalSketchRoot = defineComponent({
       unregisterSketchElement,
       triggerSketchElementUpdate
     })
-    return ()=> <slot parent={sketchRoot}/>
+    return () => <slot parent={sketchRoot}/>
   }
 })

@@ -8,6 +8,7 @@ export interface InternalSketchTextProps extends SketchElementProps {
 }
 
 export const InternalSketchAppletImage = defineComponent({
+  name: 'SketchAppletImage',
   setup: () => {
     const props = defineProps<InternalSketchTextProps>()
 

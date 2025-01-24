@@ -8,8 +8,8 @@ export interface InternalSketchTextProps extends SketchElementProps {
 }
 
 export const InternalSketchText = defineComponent({
+  name: 'SketchText',
   setup: () => {
-
     const props = defineProps<InternalSketchTextProps>()
 
     const { text = '', parent, style } = props
