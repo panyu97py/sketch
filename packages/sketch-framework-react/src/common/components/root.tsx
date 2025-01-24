@@ -22,7 +22,7 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
     setSketchRoot(sketchRoot)
   }
 
-  const renderSketch = () => {
+  const renderSketch = async () => {
     return sketchRoot?.render()
   }
 
@@ -65,9 +65,9 @@ export const InternalSketchRoot = React.forwardRef<SketchHandler, InternalSketch
   }
 
   return (
-      <InternalSketchRootCtx.Provider value={ctxVal}>
-        {childrenVNodes}
-      </InternalSketchRootCtx.Provider>
+    <InternalSketchRootCtx.Provider value={ctxVal}>
+      {childrenVNodes}
+    </InternalSketchRootCtx.Provider>
   )
 })
 

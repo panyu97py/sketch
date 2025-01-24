@@ -25,7 +25,7 @@ export const InternalSketchRoot = defineComponent({
       sketchRoot.value = await SketchRoot.create({ canvas: canvasNode, ctx: canvasCtx, style })
     }
 
-    const renderSketch = () => {
+    const renderSketch = async () => {
       return sketchRoot.value?.render()
     }
 

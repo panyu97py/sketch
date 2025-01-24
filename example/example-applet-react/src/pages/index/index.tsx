@@ -9,13 +9,13 @@ const style = StyleSheet.create({
   root: {
     width: 500,
     height: 500,
+    backgroundColor:'#282c34'
   },
   rootView: {
     width: 500,
     height: 500,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#282c34'
   },
   logo: {
     width: 200,
