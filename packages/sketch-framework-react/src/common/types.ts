@@ -7,9 +7,3 @@ export interface SketchElementProps extends Record<string, any> {
     parent?: SketchElement;
     style?: StyleSheetCssProperties;
 }
-
-export interface SketchHandler {
-    render: () => Promise<void>
-    toDataURL: (type?: string, quality?: any) => string
-    init: (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => void
-}

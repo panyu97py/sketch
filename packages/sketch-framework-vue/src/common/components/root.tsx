@@ -1,9 +1,11 @@
-import { defineEmits, defineProps, defineExpose, ref, defineComponent } from 'vue'
+import { defineEmits, defineProps, ref, watchEffect, defineComponent } from 'vue'
 import { SketchElement, SketchRoot } from '@sketchjs/runtime'
 import { useInternalSketchRootCtxProvider } from '../hooks'
-import { SketchElementProps, SketchHandler } from '../types'
+import { SketchElementProps } from '../types'
 
-export type InternalSketchRootProps = Omit<SketchElementProps, 'parent'>
+export interface InternalSketchRootProps extends Omit<SketchElementProps, 'parent'> {
+  sketch?: SketchRoot
+}
 
 export interface InternalSketchRootEmits {
   (event: 'ready'): void;
@@ -14,24 +16,9 @@ export const InternalSketchRoot = defineComponent({
   setup: () => {
     const emit = defineEmits<InternalSketchRootEmits>()
 
-    const props = defineProps<InternalSketchRootProps>()
+    const { sketch, style } = defineProps<InternalSketchRootProps>()
 
     const sketchElementSetRef = ref<Set<SketchElement>>(new Set())
-
-    const sketchRoot = ref<SketchRoot>()
-
-    const initSketchRoot = async (canvasNode: HTMLCanvasElement, canvasCtx: CanvasRenderingContext2D) => {
-      const { style } = props
-      sketchRoot.value = await SketchRoot.create({ canvas: canvasNode, ctx: canvasCtx, style })
-    }
-
-    const renderSketch = async () => {
-      return sketchRoot.value?.render()
-    }
-
-    const sketchToDataURL = (type?: string, quality?: any) => {
-      return sketchRoot.value?.toDataURL(type, quality) || ''
-    }
 
     const registerSketchElement = (sketchElement: SketchElement) => {
       return sketchElementSetRef.value.add(sketchElement)
@@ -47,12 +34,9 @@ export const InternalSketchRoot = defineComponent({
       if (!isAllSketchElementMounted || !sketchElements.length) return
       emit('ready')
     }
-
-    defineExpose<SketchHandler>({
-      sketchRoot,
-      init: initSketchRoot,
-      render: renderSketch,
-      toDataURL: sketchToDataURL
+    watchEffect(() => {
+      if (!sketch) return
+      sketch.setStyle(style)
     })
 
     useInternalSketchRootCtxProvider({
@@ -60,6 +44,6 @@ export const InternalSketchRoot = defineComponent({
       unregisterSketchElement,
       triggerSketchElementUpdate
     })
-    return () => <slot parent={sketchRoot}/>
+    return () => <slot parent={sketch}/>
   }
 })

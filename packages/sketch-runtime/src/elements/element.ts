@@ -30,26 +30,21 @@ export class SketchElement extends SketchNode {
   /**
    * 样式
    */
-  public readonly style?: StyleSheetCssProperties
-
-  /**
-   * 构造函数
-   * @param style 样式
-   */
-  protected constructor (style?: StyleSheetCssProperties) {
-    super()
-    this.style = style
-  }
+  public style?: StyleSheetCssProperties
 
   /**
    * 静态工厂方法，返回异步初始化后的实例
    */
   public static async create (opt: CreateSketchElementOpt) {
-    const { style } = opt
-    const element = new SketchElement(style)
-    await element.initializeLayout()
-    StyleSheet.apply(element, style)
+    const element = new SketchElement()
+    await element.init(opt)
     return element
+  }
+
+  public async init (opt: CreateSketchElementOpt) {
+    const { style } = opt
+    await this.initializeLayout()
+    this.setStyle(style)
   }
 
   /**
@@ -58,6 +53,15 @@ export class SketchElement extends SketchNode {
   public async initializeLayout () {
     const yoga = await YogaLayoutUtils.load()
     this.layout = yoga.Node.create()
+  }
+
+  /**
+   * 设置样式
+   * @param style
+   */
+  public setStyle (style?: StyleSheetCssProperties) {
+    this.style = style
+    StyleSheet.apply(this, this.style)
   }
 
   /**
@@ -90,7 +94,7 @@ export class SketchElement extends SketchNode {
    * 执行初始化逻辑
    */
   public async applyOnMount () {
-    if (!this._root) return
+    if (!this._root?.isMounted) return
     await this.onMount()
     return Promise.all(this.childNodes.map(child => {
       return (child as SketchElement).applyOnMount()

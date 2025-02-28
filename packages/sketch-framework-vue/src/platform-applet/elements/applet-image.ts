@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { CreateSketchElementOpt, SketchImage, StyleSheet } from '@sketchjs/runtime'
+import { CreateSketchElementOpt, SketchImage } from '@sketchjs/runtime'
 
 interface CreateSketchAppletImageOpt extends CreateSketchElementOpt {
   src: string
@@ -12,10 +12,8 @@ const imageCache = new Map<string, HTMLImageElement>()
 
 export class SketchAppletImage extends SketchImage {
   public static async create (opt: CreateSketchAppletImageOpt) {
-    const { src, style } = opt
-    const element = new SketchAppletImage(src, style)
-    await element.initializeLayout()
-    StyleSheet.apply(element, style)
+    const element = new SketchAppletImage()
+    await element.init(opt)
     return element
   }
 

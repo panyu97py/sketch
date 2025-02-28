@@ -1,7 +1,6 @@
 import { Direction } from '@sketchjs/yoga-layout'
 import { CreateSketchElementOpt } from './element'
 import { StyleSheetCssProperties } from '../types'
-import { StyleSheet } from './style-sheet'
 import { SketchNode } from './node'
 import { SketchView } from './view'
 
@@ -26,27 +25,28 @@ export class SketchRoot extends SketchView {
 
   /**
    * 构造函数
-   * @param canvas 画布元素
-   * @param ctx 画布上下文
-   * @param style
    */
-  protected constructor (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, style?: StyleSheetCssProperties) {
-    super(style)
-    this.ctx = ctx
-    this.canvas = canvas
+  constructor () {
+    super()
     const propertyOpt = { writable: false, enumerable: true, configurable: false }
     Object.defineProperty(this, 'displayName', { ...propertyOpt, value: 'ROOT' })
   }
 
-  public static async create (opt: CreateSketchRootOpt) {
-    const { canvas, ctx, style } = opt
-    const element = new SketchRoot(canvas, ctx, style)
-    await element.initializeLayout()
-    StyleSheet.apply(element, style)
-    const { width, height } = element.getElementSize()
-    canvas.width = width
-    canvas.height = height
+  public static async create (opt:CreateSketchRootOpt) {
+    const element = new SketchRoot()
+    await element.init(opt)
     return element
+  }
+
+  /**
+   * 设置样式
+   * @param style
+   */
+  public setStyle (style?: StyleSheetCssProperties) {
+    super.setStyle(style)
+    const { width, height } = this.getElementSize()
+    this.canvas.width = width
+    this.canvas.height = height
   }
 
   /**
@@ -80,6 +80,18 @@ export class SketchRoot extends SketchView {
    */
   public async renderSelf () {
     return super.render()
+  }
+
+  /**
+   * 初始化
+   * @param opt
+   */
+  public async init (opt:CreateSketchRootOpt) {
+    const { ctx, canvas } = opt
+    this.canvas = canvas
+    this.ctx = ctx
+    await super.init(opt)
+    await this.applyOnMount()
   }
 
   /**

@@ -1,6 +1,4 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { StyleSheetCssProperties } from '../types'
-import { StyleSheet } from './style-sheet'
 
 interface CreateSketchImageOpt extends CreateSketchElementOpt {
   src: string
@@ -19,24 +17,18 @@ export class SketchImage extends SketchElement {
    * 图片地址
    * @private
    */
-  private readonly src: string
-
-  /**
-   * 构造函数
-   * @param src 图片地址
-   * @param style 样式
-   */
-  protected constructor (src: string, style?: StyleSheetCssProperties) {
-    super(style)
-    this.src = src
-  }
+  private src: string
 
   public static async create (opt: CreateSketchImageOpt) {
-    const { src, style } = opt
-    const element = new SketchImage(src, style)
-    await element.initializeLayout()
-    StyleSheet.apply(element, style)
+    const element = new SketchImage()
+    await element.init(opt)
     return element
+  }
+
+  async init (opt: CreateSketchImageOpt) {
+    await super.init(opt)
+    const { src } = opt
+    this.src = src
   }
 
   /**

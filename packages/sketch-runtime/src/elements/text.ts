@@ -1,7 +1,6 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { FontStyle, StyleSheetCssProperties } from '../types'
+import { FontStyle } from '../types'
 import { DEFAULT_FONT_STYLE } from '../constants'
-import { StyleSheet } from './style-sheet'
 
 /**
  * 基础文本元素
@@ -81,23 +80,18 @@ class SketchSingLineText extends SketchBaseText {
   /**
    * 文本内容
    */
-  private readonly text: string
-
-  /**
-   * 构造函数
-   * @param text 文本内容
-   * @param style 样式
-   */
-  protected constructor (text: string, style?: StyleSheetCssProperties) {
-    super(style)
-    this.text = text
-  }
+  private text: string
 
   public static async create (opt: CreateSketchSingLineTextOpt) {
-    const { text, style } = opt
-    const element = new SketchSingLineText(text, style)
-    await element.initializeLayout()
+    const element = new SketchSingLineText()
+    await element.init(opt)
     return element
+  }
+
+  public async init (opt: CreateSketchSingLineTextOpt) {
+    const { text } = opt
+    this.text = text
+    await super.init(opt)
   }
 
   /**
@@ -154,24 +148,18 @@ export class SketchText extends SketchBaseText {
   /**
    * 文本内容
    */
-  private readonly text: string
-
-  /**
-   * 构造函数
-   * @param text 文本内容
-   * @param style 样式
-   */
-  protected constructor (text: string, style?: StyleSheetCssProperties) {
-    super(style)
-    this.text = text
-  }
+  private text: string
 
   public static async create (opt: CreateSketchSingLineTextOpt) {
-    const { text, style } = opt
-    const element = new SketchText(text, style)
-    await element.initializeLayout()
-    StyleSheet.apply(element, style)
+    const element = new SketchText()
+    await element.init(opt)
     return element
+  }
+
+  public async init (opt: CreateSketchSingLineTextOpt) {
+    const { text } = opt
+    this.text = text
+    await super.init(opt)
   }
 
   /**

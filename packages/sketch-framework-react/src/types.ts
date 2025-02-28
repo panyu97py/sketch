@@ -1,5 +1,5 @@
 import React from 'react'
-import { SketchElementChild, SketchElementProps, SketchHandler } from './common/types'
+import { SketchElementChild, SketchElementProps } from './common/types'
 import { InternalSketchRootProps, InternalSketchViewProps, InternalSketchTextProps } from './common/components'
 
 export * from '@sketchjs/runtime'
@@ -11,7 +11,7 @@ interface InternalSketchImageProps extends SketchElementProps{
 }
 
 export declare const Sketch: {
-    Root: React.ForwardRefExoticComponent<InternalSketchRootProps & React.RefAttributes<SketchHandler>>;
+    Root: React.FC<InternalSketchRootProps>;
     View: React.FC<InternalSketchViewProps>;
     Text: React.FC<InternalSketchTextProps>;
     Image: React.FC<InternalSketchImageProps>;
