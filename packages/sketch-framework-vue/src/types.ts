@@ -1,6 +1,7 @@
 import { DefineComponent } from 'vue'
 import { InternalSketchRootProps, InternalSketchViewProps, InternalSketchTextProps } from './common/components'
 import { SketchElementProps } from './common/types'
+import { SketchRoot } from '@sketchjs/runtime'
 
 export * from '@sketchjs/runtime'
 export * from './common/types'
@@ -14,4 +15,5 @@ export declare const Sketch: {
   View: DefineComponent<InternalSketchViewProps>
   Text: DefineComponent<InternalSketchTextProps>
   Image: DefineComponent<InternalSketchImageProps>
+  useSketch: ()=> SketchRoot;
 }

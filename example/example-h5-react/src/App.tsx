@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { SketchHandler, StyleSheet, Sketch } from '@sketchjs/react'
+import { StyleSheet, Sketch } from '@sketchjs/react'
 import logo from './logo.png'
 import './App.css'
 
@@ -31,26 +31,26 @@ const style = StyleSheet.create({
 })
 
 function App () {
-  const sketchRef = React.useRef<SketchHandler>(null)
+  const sketch = Sketch.useSketch()
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
   const handleSketchReady = () => {
     console.log('sketch ready')
-    sketchRef.current?.render()?.then(() => console.log('rendered'))
+    sketch.render()?.then(() => console.log('rendered'))
   }
 
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
-    sketchRef.current?.init(canvas, ctx)
+    sketch.init({ canvas, ctx })
   }, [])
 
   return (
     <div className="App">
       <canvas className="sketch-canvas" ref={canvasRef}/>
-      <Sketch.Root style={style.root} ref={sketchRef} onReady={handleSketchReady}>
+      <Sketch.Root style={style.root} sketch={sketch} onReady={handleSketchReady}>
         <Sketch.View style={style.rootView}>
           <Sketch.Image src={logo} style={style.logo}/>
           <Sketch.Text text="Hello  World!" style={style.text}/>

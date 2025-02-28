@@ -105,7 +105,7 @@ export class SketchRoot extends SketchView {
   /**
    * 输出为图片
    */
-  public toDataURL (type?: string, quality?: any) {
+  public toDataURL (type: string, quality?: any) {
     return this.canvas.toDataURL(type, quality)
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { SketchElementChild, SketchElementProps } from './common/types'
 import { InternalSketchRootProps, InternalSketchViewProps, InternalSketchTextProps } from './common/components'
+import { SketchRoot } from '@sketchjs/runtime'
 
 export * from '@sketchjs/runtime'
 export * from './common/types'
@@ -15,4 +16,5 @@ export declare const Sketch: {
     View: React.FC<InternalSketchViewProps>;
     Text: React.FC<InternalSketchTextProps>;
     Image: React.FC<InternalSketchImageProps>;
+    useSketch: ()=> SketchRoot;
 }

@@ -16,9 +16,9 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
+    "@sketchjs/yoga-layout": "workspace:*",
     "lodash-es": "^4.17.21",
-    "patch-package": "^8.0.0",
-    "@sketchjs/yoga-layout": "workspace:*"
+    "patch-package": "^8.0.0"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12"
