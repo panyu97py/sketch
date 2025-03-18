@@ -2,6 +2,7 @@ import { Direction } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties } from '../types'
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
+import { sketchRuntimeDebug } from '../utils'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
     ctx: CanvasRenderingContext2D,
@@ -21,6 +22,14 @@ export class SketchRoot extends SketchView {
    * 画布元素
    */
   public canvas?: HTMLCanvasElement
+
+  get enableDebug () {
+    return sketchRuntimeDebug.enabled
+  }
+
+  set enableDebug (value: boolean) {
+    sketchRuntimeDebug.enabled = value
+  }
 
   /**
    * 构造函数
@@ -108,6 +117,7 @@ export class SketchRoot extends SketchView {
    * 渲染函数
    */
   public async render () {
+    sketchRuntimeDebug('SketchRoot.render', { node: this })
     await super.render()
     await this.recursiveRender(this)
   }
