@@ -39,6 +39,7 @@ function App () {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
+    // TODO 两次 effect 会有问题
     sketch.init({ canvas, ctx }).then(() => sketch.render())
   }, [])
 
