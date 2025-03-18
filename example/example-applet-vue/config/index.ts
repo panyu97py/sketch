@@ -4,10 +4,10 @@ import devConfig from './dev'
 import prodConfig from './prod'
 
 // https://taro-docs.jd.com/docs/next/config#defineconfig-辅助函数
-export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
-  const baseConfig: UserConfigExport<'webpack5'> = {
+export default defineConfig(async (merge, { command, mode }) => {
+  const baseConfig: UserConfigExport = {
     projectName: 'example-applet-vue',
-    date: '2025-3-7',
+    date: '2025-3-19',
     designWidth: 750,
     deviceRatio: {
       640: 2.34 / 2,
@@ -37,6 +37,12 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
           enable: true,
           config: {
 
+          }
+        },
+        url: {
+          enable: true,
+          config: {
+            limit: 1024 // 设定转换尺寸上限
           }
         },
         cssModules: {
@@ -89,9 +95,6 @@ export default defineConfig<'webpack5'>(async (merge, { command, mode }) => {
       }
     }
   }
-
-  process.env.BROWSERSLIST_ENV = process.env.NODE_ENV
-
   if (process.env.NODE_ENV === 'development') {
     // 本地开发构建配置（不混淆压缩）
     return merge({}, baseConfig, devConfig)

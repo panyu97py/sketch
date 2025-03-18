@@ -36,9 +36,11 @@ const Index: React.FC = () => {
 
   const sketch = Sketch.useSketch()
 
+  sketch.enableLog = true
+
+  // TODO 还存在问题
   const handleSketchReady = () => {
-    console.log('sketch ready')
-    sketch.render()?.then(() => console.log('rendered'))
+    sketch.render()
   }
 
   const initCanvas = async () => {
@@ -49,7 +51,7 @@ const Index: React.FC = () => {
     })
     const canvasCtx = canvasNode.getContext('2d')
     if (!canvasNode || !canvasCtx) return
-    return sketch.init({canvas:canvasNode, ctx: canvasCtx})
+    return sketch.init({canvas:canvasNode, ctx: canvasCtx}).then(()=>sketch.render())
   }
 
   useEffect(() => {
@@ -59,7 +61,7 @@ const Index: React.FC = () => {
   return (
     <View className='index-view'>
       <Canvas id='sketch-canvas' type='2d' className='sketch-canvas' />
-      <Sketch.Root style={style.root} onReady={handleSketchReady}>
+      <Sketch.Root sketch={sketch} style={style.root} onReady={handleSketchReady}>
         <Sketch.View style={style.rootView}>
           <Sketch.Image src={logo} style={style.logo} />
           <Sketch.Text text='Hello  World!' style={style.text} />

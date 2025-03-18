@@ -1,5 +1,4 @@
-import type { UserConfigExport } from "@tarojs/cli"
-
+import type { UserConfigExport } from "@tarojs/cli";
 export default {
    logger: {
     quiet: false,
@@ -7,4 +6,4 @@ export default {
   },
   mini: {},
   h5: {}
-} satisfies UserConfigExport<'webpack5'>
+} satisfies UserConfigExport

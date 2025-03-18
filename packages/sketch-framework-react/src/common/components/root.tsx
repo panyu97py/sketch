@@ -11,6 +11,7 @@ export interface InternalSketchRootProps {
   sketch?: SketchRoot
   style?: StyleSheetCssProperties;
   children?: SketchElementChild | SketchElementChild[];
+  // TODO 还存在问题
   onReady?: () => void
 }
 
@@ -20,8 +21,8 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
   const sketchRef = useToRef(sketch)
 
   const handleSketchElementUpdate = useDebounce(() => {
+    log('sketchReadyToRender', { sketch: sketchRef.current, initialized: sketchRef.current?.initialized })
     if (!sketchRef.current?.initialized) return
-    log('sketchReadyToRender',{ sketch: sketchRef.current })
     onReady()
   }, 10, debounceOpt)
 

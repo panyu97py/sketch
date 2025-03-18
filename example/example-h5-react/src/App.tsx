@@ -33,6 +33,8 @@ const style = StyleSheet.create({
 function App () {
   const sketch = Sketch.useSketch()
 
+  sketch.enableLog = true
+
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
   const handleToDataURL = () => {
@@ -48,7 +50,6 @@ function App () {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
-    sketch.enableLog = true
     sketch.init({ canvas, ctx })
   }, [])
 

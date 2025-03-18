@@ -29,6 +29,7 @@
   "license": "ISC",
   "devDependencies": {
     "@changesets/cli": "^2.27.11",
+    "@tarojs/cli": "^3.6.35",
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
     "debug": "^4.3.7",
