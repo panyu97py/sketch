@@ -1,35 +1,15 @@
-import React, { useEffect, useRef } from 'react'
-import { SketchElement, SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
-import noop from 'lodash-es/noop'
+import React, { useEffect } from 'react'
+import { SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { SketchElementChild } from '../types'
-import { InternalSketchRootCtx, InternalSketchRootCtxVal } from '../hooks'
 
 export interface InternalSketchRootProps {
-    sketch?: SketchRoot
-    style?: StyleSheetCssProperties;
-    children?: SketchElementChild | SketchElementChild[];
-    onReady?: () => void;
+  sketch?: SketchRoot
+  style?: StyleSheetCssProperties;
+  children?: SketchElementChild | SketchElementChild[];
 }
 
 export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
-  const { style, sketch, children, onReady = noop } = props
-
-  const sketchElementSetRef = useRef(new Set<SketchElement>())
-
-  const registerSketchElement = (sketchElement: SketchElement) => {
-    sketchElementSetRef.current.add(sketchElement)
-  }
-
-  const unregisterSketchElement = (sketchElement: SketchElement) => {
-    sketchElementSetRef.current.delete(sketchElement)
-  }
-
-  const triggerSketchElementUpdate = () => {
-    const sketchElements = Array.from(sketchElementSetRef.current)
-    const isAllSketchElementMounted = sketchElements.every((sketchElement) => sketchElement.isMounted)
-    if (!isAllSketchElementMounted || !sketchElements.length) return
-    onReady()
-  }
+  const { style, sketch, children } = props
 
   const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child
@@ -37,22 +17,12 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
     return React.cloneElement(child, { ...childProps, parent: sketch })
   })
 
-  const ctxVal:InternalSketchRootCtxVal = {
-    registerSketchElement,
-    unregisterSketchElement,
-    triggerSketchElementUpdate
-  }
-
   useEffect(() => {
     if (!sketch) return
     sketch.setStyle(style)
   }, [sketch, style])
 
-  return (
-    <InternalSketchRootCtx.Provider value={ctxVal}>
-      {childrenVNodes}
-    </InternalSketchRootCtx.Provider>
-  )
+  return childrenVNodes
 }
 
 InternalSketchRoot.displayName = 'SketchRoot'

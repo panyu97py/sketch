@@ -35,6 +35,11 @@ function App () {
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
+  const handleToDataURL = () => {
+    const dataUrl = sketch.toDataURL('image/png', 1)
+    console.log({ dataUrl })
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
@@ -43,7 +48,7 @@ function App () {
   }, [])
 
   return (
-    <div className="App">
+    <div className="App" onClick={handleToDataURL}>
       <canvas className="sketch-canvas" ref={canvasRef}/>
       <Sketch.Root style={style.root} sketch={sketch}>
         <Sketch.View style={style.view}>
