@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@sketchjs/yoga-layout": "workspace:*",
+    "@types/debug": "^4.1.12",
+    "debug": "^4.3.7",
     "lodash-es": "^4.17.21",
     "patch-package": "^8.0.0"
   },

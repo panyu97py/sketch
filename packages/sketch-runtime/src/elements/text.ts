@@ -1,6 +1,7 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { FontStyle } from '../types'
+import { FontStyle, StyleSheetCssProperties } from '../types'
 import { DEFAULT_FONT_STYLE } from '../constants'
+import { sketchRuntimeDebug } from '../utils'
 
 /**
  * 基础文本元素
@@ -21,7 +22,7 @@ class SketchBaseText extends SketchElement {
    * @param text
    */
   calculateTextWidth = (text: string) => {
-    if (!this._root) return
+    if (!this._root?.ctx) return
     this._root.ctx.save()
     const { fontSize, fontWeight, lineHeight } = this.style || {}
     this._root.ctx.font = this.generateFontStyle({ fontSize, fontWeight, lineHeight })
@@ -80,28 +81,31 @@ class SketchSingLineText extends SketchBaseText {
   /**
    * 文本内容
    */
-  private text: string
+  private readonly text: string
 
-  public static async create (opt: CreateSketchSingLineTextOpt) {
-    const element = new SketchSingLineText()
-    await element.init(opt)
-    return element
+  /**
+   * 构造函数
+   * @param text 文本内容
+   * @param style 样式
+   */
+  protected constructor (text: string, style?: StyleSheetCssProperties) {
+    super(style)
+    this.text = text
   }
 
-  public async init (opt: CreateSketchSingLineTextOpt) {
-    const { text } = opt
-    this.text = text
-    await super.init(opt)
+  public static create (opt: CreateSketchSingLineTextOpt) {
+    const { text, style } = opt
+    return new SketchSingLineText(text, style)
   }
 
   /**
    * 元素初始化
    * @desc 初始化设计元素高度
    */
-  onMount () {
+  async onMount () {
+    await super.onMount()
     const { height, lineHeight } = this.style || {}
-    this.layout.setHeight(height || lineHeight)
-    return super.onMount()
+    this.layout!.setHeight(height || lineHeight)
   }
 
   calculateTextElementPositionByStyle = () => {
@@ -122,12 +126,14 @@ class SketchSingLineText extends SketchBaseText {
    * 渲染函数
    */
   render = async () => {
-    if (!this._root) return
+    if (!this._root || !this._root.ctx) return
 
     // 计算布局位置
     this._root.calculateLayout()
     const { left, top } = this.calculateTextElementPositionByStyle()
     const { width, height } = this.getElementSize()
+
+    sketchRuntimeDebug('SketchSingLineText.render', { left, top, width, height, node: this })
 
     // 渲染元素
     const { color = 'black', textAlign = 'left' } = this.style || {}
@@ -148,18 +154,21 @@ export class SketchText extends SketchBaseText {
   /**
    * 文本内容
    */
-  private text: string
+  private readonly text: string
 
-  public static async create (opt: CreateSketchSingLineTextOpt) {
-    const element = new SketchText()
-    await element.init(opt)
-    return element
+  /**
+   * 构造函数
+   * @param text 文本内容
+   * @param style 样式
+   */
+  protected constructor (text: string, style?: StyleSheetCssProperties) {
+    super(style)
+    this.text = text
   }
 
-  public async init (opt: CreateSketchSingLineTextOpt) {
-    const { text } = opt
-    this.text = text
-    await super.init(opt)
+  public static create (opt: CreateSketchSingLineTextOpt) {
+    const { text, style } = opt
+    return new SketchText(text, style)
   }
 
   /**
@@ -168,16 +177,16 @@ export class SketchText extends SketchBaseText {
    */
   public async onMount () {
     if (!this._root) return
+    await super.onMount()
     const { lineHeight = 0 } = this.style || {}
     const { width } = this.getElementSize()
     const lineTextArr = this.splitTextByWidth(this.text, width)
     const height = lineTextArr.length * lineHeight
-    this.layout.setHeight(height)
-    await Promise.all(lineTextArr.map(async (lineText) => {
-      const textElement = await SketchSingLineText.create({ text: lineText, style: this.style })
+    this.layout!.setHeight(height)
+    lineTextArr.forEach((lineText) => {
+      const textElement = SketchSingLineText.create({ text: lineText, style: this.style })
       return this.appendChild(textElement)
-    }))
-    return super.onMount()
+    })
   }
 
   /**

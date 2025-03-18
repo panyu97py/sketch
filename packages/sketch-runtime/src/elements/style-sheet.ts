@@ -25,7 +25,7 @@ export class StyleSheet {
     if (!style) return
     Object.keys(style).forEach((cssProperty: keyof StyleSheetCssProperties) => {
       const { [cssProperty]: cssValue } = style
-      if (isEmpty(cssValue)) return
+      if (isEmpty(cssValue) || !sketchElement.layout) return
       const { [cssValue!]: EdgeValue } = CSS_TO_YOGA_MAP[cssProperty] || {}
       const finalValue = EdgeValue || cssValue
       switch (cssProperty) {

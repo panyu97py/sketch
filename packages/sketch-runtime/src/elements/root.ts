@@ -1,7 +1,6 @@
 import { Direction } from '@sketchjs/yoga-layout'
-import { CreateSketchElementOpt } from './element'
 import { StyleSheetCssProperties } from '../types'
-import { SketchNode } from './node'
+import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
@@ -16,37 +15,27 @@ export class SketchRoot extends SketchView {
   /**
    * 画布上下文
    */
-  public ctx: CanvasRenderingContext2D
+  public ctx?: CanvasRenderingContext2D
 
   /**
    * 画布元素
    */
-  public canvas: HTMLCanvasElement
+  public canvas?: HTMLCanvasElement
 
   /**
    * 构造函数
    */
-  constructor () {
-    super()
+  constructor (canvas?: HTMLCanvasElement, ctx?: CanvasRenderingContext2D, style?: StyleSheetCssProperties) {
+    super(style)
+    this.ctx = ctx
+    this.canvas = canvas
     const propertyOpt = { writable: false, enumerable: true, configurable: false }
     Object.defineProperty(this, 'displayName', { ...propertyOpt, value: 'ROOT' })
   }
 
-  public static async create (opt:CreateSketchRootOpt) {
-    const element = new SketchRoot()
-    await element.init(opt)
-    return element
-  }
-
-  /**
-   * 设置样式
-   * @param style
-   */
-  public setStyle (style?: StyleSheetCssProperties) {
-    super.setStyle(style)
-    const { width, height } = this.getElementSize()
-    this.canvas.width = width
-    this.canvas.height = height
+  public static create (opt:CreateSketchRootOpt) {
+    const { canvas, ctx, style } = opt
+    return new SketchRoot(canvas, ctx, style)
   }
 
   /**
@@ -61,7 +50,7 @@ export class SketchRoot extends SketchView {
    * @param node
    * @private
    */
-  private recursiveRender (node: SketchNode) {
+  private recursiveRender (node: SketchElement) {
     const { childNodes } = node
     return Promise.all(childNodes.map((child) => {
       return Promise.all([child.render(), this.recursiveRender(child)])
@@ -69,17 +58,39 @@ export class SketchRoot extends SketchView {
   }
 
   /**
+   * 初始化画布大小
+   * @private
+   */
+  private setCanvasSize () {
+    if (!this.isMounted || !this.canvas) return
+    const { width, height } = this.getElementSize()
+    this.canvas.width = width
+    this.canvas.height = height
+  }
+
+  /**
+   * 设置样式
+   * @param style
+   */
+  public setStyle (style?: StyleSheetCssProperties) {
+    super.setStyle(style)
+    this.setCanvasSize()
+  }
+
+  /**
    * 计算布局
    */
   public calculateLayout = () => {
+    if (!this.layout) return
     this.layout.calculateLayout('auto', 'auto', Direction.LTR)
   }
 
   /**
-   * 渲染自己的样式
+   * 元素初始化
    */
-  public async renderSelf () {
-    return super.render()
+  public async onMount () {
+    await super.onMount()
+    this.setCanvasSize()
   }
 
   /**
@@ -88,9 +99,8 @@ export class SketchRoot extends SketchView {
    */
   public async init (opt:CreateSketchRootOpt) {
     const { ctx, canvas } = opt
-    this.canvas = canvas
     this.ctx = ctx
-    await super.init(opt)
+    this.canvas = canvas
     await this.applyOnMount()
   }
 
@@ -98,7 +108,7 @@ export class SketchRoot extends SketchView {
    * 渲染函数
    */
   public async render () {
-    await this.renderSelf()
+    await super.render()
     await this.recursiveRender(this)
   }
 
@@ -106,6 +116,7 @@ export class SketchRoot extends SketchView {
    * 输出为图片
    */
   public toDataURL (type: string, quality?: any) {
+    if (!this.canvas) return
     return this.canvas.toDataURL(type, quality)
   }
 }

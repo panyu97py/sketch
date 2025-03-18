@@ -1,5 +1,5 @@
-import { defineComponent, defineProps } from 'vue'
-import { useAsyncComputed, useSketchElementRegister } from '../../common/hooks'
+import { computed, defineComponent, defineProps } from 'vue'
+import { useSketchElementRegister } from '../../common/hooks'
 import { SketchElementProps } from '../../common/types'
 import { SketchAppletImage } from '../elements'
 
@@ -14,7 +14,7 @@ export const InternalSketchAppletImage = defineComponent({
 
     const { src = '', parent, style } = props
 
-    const sketchAppletImage = useAsyncComputed(() => SketchAppletImage.create({ src, style }))
+    const sketchAppletImage = computed(() => SketchAppletImage.create({ src, style }))
 
     useSketchElementRegister({ parent, target: sketchAppletImage })
   }

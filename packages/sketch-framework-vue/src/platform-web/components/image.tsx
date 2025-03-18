@@ -1,6 +1,6 @@
-import { defineComponent, defineProps } from 'vue'
+import { computed, defineComponent, defineProps } from 'vue'
 import { SketchImage } from '@sketchjs/runtime'
-import { useAsyncComputed, useSketchElementRegister } from '../../common/hooks'
+import { useSketchElementRegister } from '../../common/hooks'
 import { SketchElementProps } from '../../common/types'
 
 export interface InternalSketchWebImageProps extends SketchElementProps {
@@ -14,7 +14,7 @@ export const InternalSketchWebImage = defineComponent({
 
     const { src = '', parent, style } = props
 
-    const sketchWebImage = useAsyncComputed(() => SketchImage.create({ src, style }))
+    const sketchWebImage = computed(() => SketchImage.create({ src, style }))
 
     useSketchElementRegister({ parent, target: sketchWebImage })
   }

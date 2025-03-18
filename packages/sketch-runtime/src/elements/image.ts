@@ -1,4 +1,6 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
+import { StyleSheetCssProperties } from '../types'
+import { sketchRuntimeDebug } from '../utils'
 
 interface CreateSketchImageOpt extends CreateSketchElementOpt {
   src: string
@@ -17,18 +19,21 @@ export class SketchImage extends SketchElement {
    * 图片地址
    * @private
    */
-  private src: string
+  private readonly src: string
 
-  public static async create (opt: CreateSketchImageOpt) {
-    const element = new SketchImage()
-    await element.init(opt)
-    return element
+  /**
+   * 构造函数
+   * @param src 图片地址
+   * @param style 样式
+   */
+  protected constructor (src: string, style?: StyleSheetCssProperties) {
+    super(style)
+    this.src = src
   }
 
-  async init (opt: CreateSketchImageOpt) {
-    await super.init(opt)
-    const { src } = opt
-    this.src = src
+  public static create (opt: CreateSketchImageOpt) {
+    const { src, style } = opt
+    return new SketchImage(src, style)
   }
 
   /**
@@ -52,12 +57,14 @@ export class SketchImage extends SketchElement {
    * 渲染函数
    */
   render = async () => {
-    if (!this._root) return
+    if (!this._root || !this._root.ctx) return
 
     // 计算布局位置
     this._root.calculateLayout()
     const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
+
+    sketchRuntimeDebug('SketchImage.render', { left, top, width, height, node: this })
 
     // 渲染元素
     const { backgroundColor = 'transparent' } = this.style || {}

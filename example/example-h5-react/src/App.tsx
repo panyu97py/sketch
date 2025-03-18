@@ -9,7 +9,7 @@ const style = StyleSheet.create({
     height: 500,
     backgroundColor: '#282c34'
   },
-  rootView: {
+  view: {
     width: 500,
     height: 500,
     justifyContent: 'center',
@@ -35,23 +35,18 @@ function App () {
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
-  const handleSketchReady = () => {
-    console.log('sketch ready')
-    sketch.render()?.then(() => console.log('rendered'))
-  }
-
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
-    sketch.init({ canvas, ctx })
+    sketch.init({ canvas, ctx }).then(() => sketch.render())
   }, [])
 
   return (
     <div className="App">
       <canvas className="sketch-canvas" ref={canvasRef}/>
-      <Sketch.Root style={style.root} sketch={sketch} onReady={handleSketchReady}>
-        <Sketch.View style={style.rootView}>
+      <Sketch.Root style={style.root} sketch={sketch}>
+        <Sketch.View style={style.view}>
           <Sketch.Image src={logo} style={style.logo}/>
           <Sketch.Text text="Hello  World!" style={style.text}/>
         </Sketch.View>

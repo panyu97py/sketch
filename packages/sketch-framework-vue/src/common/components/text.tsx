@@ -1,6 +1,6 @@
-import { defineComponent, defineProps } from 'vue'
+import { computed, defineComponent, defineProps } from 'vue'
 import { SketchText } from '@sketchjs/runtime'
-import { useAsyncComputed, useSketchElementRegister } from '../hooks'
+import { useSketchElementRegister } from '../hooks'
 import { SketchElementProps } from '../types'
 
 export interface InternalSketchTextProps extends SketchElementProps {
@@ -14,7 +14,7 @@ export const InternalSketchText = defineComponent({
 
     const { text = '', parent, style } = props
 
-    const sketchText = useAsyncComputed(() => SketchText.create({ text, style }))
+    const sketchText = computed(() => SketchText.create({ text, style }))
 
     useSketchElementRegister({ parent, target: sketchText })
 

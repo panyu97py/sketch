@@ -11,10 +11,9 @@ interface CreateSketchAppletImageOpt extends CreateSketchElementOpt {
 const imageCache = new Map<string, HTMLImageElement>()
 
 export class SketchAppletImage extends SketchImage {
-  public static async create (opt: CreateSketchAppletImageOpt) {
-    const element = new SketchAppletImage()
-    await element.init(opt)
-    return element
+  public static create (opt: CreateSketchAppletImageOpt) {
+    const { src, style } = opt
+    return new SketchAppletImage(src, style)
   }
 
   /**
