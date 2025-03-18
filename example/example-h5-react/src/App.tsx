@@ -40,17 +40,22 @@ function App () {
     console.log({ dataUrl })
   }
 
+  const handleSketchUpdate = () => {
+    return sketch.render()
+  }
+
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
-    sketch.init({ canvas, ctx }).then(() => sketch.render())
+    sketch.enableLog = true
+    sketch.init({ canvas, ctx })
   }, [])
 
   return (
     <div className="App" onClick={handleToDataURL}>
       <canvas className="sketch-canvas" ref={canvasRef}/>
-      <Sketch.Root style={style.root} sketch={sketch}>
+      <Sketch.Root style={style.root} sketch={sketch} onReady={handleSketchUpdate}>
         <Sketch.View style={style.view}>
           <Sketch.Image src={logo} style={style.logo}/>
           <Sketch.Text text="Hello  World!" style={style.text}/>

@@ -1,6 +1,6 @@
 import debounce from 'lodash/debounce'
 import { useToRef } from './useToRef'
-import { DebounceSettings } from 'lodash'
+import type { DebounceSettings } from 'lodash'
 
 type Effect = (...args: any) => any
 

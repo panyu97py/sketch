@@ -1,10 +1,7 @@
-import { SketchElement } from '@sketchjs/runtime'
 import React, { useContext } from 'react'
 
 export interface InternalSketchRootCtxVal {
-    registerSketchElement?: (sketchElement: SketchElement) => void
-    unregisterSketchElement?: (sketchElement: SketchElement) => void
-    triggerSketchElementUpdate?: () => void
+    reportSketchElementUpdate?: () => void
 }
 
 export const InternalSketchRootCtx = React.createContext<InternalSketchRootCtxVal>({})

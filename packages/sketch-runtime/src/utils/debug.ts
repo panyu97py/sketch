@@ -1,3 +1,3 @@
 import debug from 'debug'
 
-export const sketchRuntimeDebug = debug('sketch:runtime')
+export const log = debug('sketch')

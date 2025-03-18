@@ -1,7 +1,7 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { FontStyle, StyleSheetCssProperties } from '../types'
 import { DEFAULT_FONT_STYLE } from '../constants'
-import { sketchRuntimeDebug } from '../utils'
+import { log } from '../utils'
 
 /**
  * 基础文本元素
@@ -126,14 +126,14 @@ class SketchSingLineText extends SketchBaseText {
    * 渲染函数
    */
   render = async () => {
-    if (!this._root || !this._root.ctx) return
+    if (!this._root?.ctx) return
 
     // 计算布局位置
     this._root.calculateLayout()
     const { left, top } = this.calculateTextElementPositionByStyle()
     const { width, height } = this.getElementSize()
 
-    sketchRuntimeDebug('SketchSingLineText.render', { left, top, width, height, node: this })
+    log('SketchSingLineText.render', { left, top, width, height, node: this })
 
     // 渲染元素
     const { color = 'black', textAlign = 'left' } = this.style || {}

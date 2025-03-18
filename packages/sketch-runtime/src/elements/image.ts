@@ -1,6 +1,6 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { StyleSheetCssProperties } from '../types'
-import { sketchRuntimeDebug } from '../utils'
+import { log } from '../utils'
 
 interface CreateSketchImageOpt extends CreateSketchElementOpt {
   src: string
@@ -57,14 +57,14 @@ export class SketchImage extends SketchElement {
    * 渲染函数
    */
   render = async () => {
-    if (!this._root || !this._root.ctx) return
+    if (!this._root?.ctx) return
 
     // 计算布局位置
     this._root.calculateLayout()
     const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
 
-    sketchRuntimeDebug('SketchImage.render', { left, top, width, height, node: this })
+    log('SketchImage.render', { left, top, width, height, node: this })
 
     // 渲染元素
     const { backgroundColor = 'transparent' } = this.style || {}

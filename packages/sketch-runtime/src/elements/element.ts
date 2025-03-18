@@ -1,7 +1,7 @@
 import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
-import { sketchRuntimeDebug, YogaLayoutUtils } from '../utils'
+import { log, YogaLayoutUtils } from '../utils'
 import { SketchRoot } from './root'
 
 const defaultPosition = { top: 0, left: 0, bottom: 0, right: 0 }
@@ -87,7 +87,7 @@ export class SketchElement {
    * 元素初始化
    */
   public async onMount () {
-    sketchRuntimeDebug('SketchElement.onMount', { node: this })
+    log('SketchElement.onMount', { node: this })
     const yoga = await YogaLayoutUtils.load()
     this.layout = yoga.Node.create()
     const { layout: parentLayout } = this.parentNode || {}
@@ -100,18 +100,20 @@ export class SketchElement {
    * 元素销毁
    */
   public onUnmount () {
+    log('SketchElement.onUnmount', { node: this })
     if (!this.layout) return
     this.layout.free()
   }
 
   /**
    * 添加子元素
-   * @param newChild 子元素
+   * @param child 子元素
    */
-  public async appendChild (newChild: SketchElement) {
-    newChild.parentNode = this
-    this.childNodes.push(newChild)
-    await newChild.applyOnMount()
+  public async appendChild (child: SketchElement) {
+    log('SketchElement.appendChild', { node: this, child })
+    child.parentNode = this
+    this.childNodes.push(child)
+    await child.applyOnMount()
   }
 
   /**
@@ -119,6 +121,7 @@ export class SketchElement {
    * @param child 子元素
    */
   public removeChild (child: SketchElement) {
+    log('SketchElement.removeChild', { node: this, child })
     this.childNodes = this.childNodes.filter(item => item !== child)
     child.onUnmount()
   }
