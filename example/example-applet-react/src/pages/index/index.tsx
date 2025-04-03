@@ -5,6 +5,8 @@ import React, { useEffect } from 'react'
 import Taro from '@tarojs/taro'
 import './index.less'
 
+Sketch.debug = true
+
 const style = StyleSheet.create({
   root: {
     width: 500,
@@ -35,8 +37,6 @@ const style = StyleSheet.create({
 const Index: React.FC = () => {
 
   const sketch = Sketch.useSketch()
-
-  sketch.enableLog = true
 
   // TODO 还存在问题
   const handleSketchReady = () => {

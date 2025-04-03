@@ -3,6 +3,8 @@ import { StyleSheet, Sketch } from '@sketchjs/react'
 import logo from './logo.png'
 import './App.css'
 
+Sketch.debug = true
+
 const style = StyleSheet.create({
   root: {
     width: 500,
@@ -32,8 +34,6 @@ const style = StyleSheet.create({
 
 function App () {
   const sketch = Sketch.useSketch()
-
-  sketch.enableLog = true
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
 
