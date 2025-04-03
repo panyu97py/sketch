@@ -142,6 +142,15 @@ export class SketchRoot extends SketchView {
   }
 
   /**
+   * 移除事件监听
+   * @param eventType
+   * @param listener
+   */
+  public removeEventListener (eventType:EventType, listener:EventListener) {
+    return this.eventEmit?.removeEventListener(eventType, listener)
+  }
+
+  /**
    * 触发事件监听
    * @param event
    */
