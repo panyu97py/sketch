@@ -6,7 +6,7 @@ import { SketchRoot } from '@sketchjs/runtime'
 export * from '@sketchjs/runtime'
 export * from './common/types'
 
-interface InternalSketchImageProps extends SketchElementProps{
+interface InternalSketchImageProps extends SketchElementProps {
     src?: string;
     children?: SketchElementChild|SketchElementChild[];
 }
@@ -17,4 +17,5 @@ export declare const Sketch: {
     Text: React.FC<InternalSketchTextProps>;
     Image: React.FC<InternalSketchImageProps>;
     useSketch: ()=> SketchRoot;
+    debug: boolean
 }

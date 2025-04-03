@@ -1,30 +1,23 @@
 import noop from 'lodash/noop'
 import React, { useEffect } from 'react'
-import { SketchRoot, StyleSheetCssProperties, log } from '@sketchjs/runtime'
-import { InternalSketchRootCtxVal, InternalSketchRootCtx, useDebounce, useToRef } from '../hooks'
+import { SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { useToRef } from '../hooks'
 import { SketchElementChild } from '../types'
-import type { DebounceSettings } from 'lodash'
-
-const debounceOpt:DebounceSettings = {leading: false, trailing: true}
 
 export interface InternalSketchRootProps {
   sketch?: SketchRoot
   style?: StyleSheetCssProperties;
   children?: SketchElementChild | SketchElementChild[];
-  // TODO 还存在问题
   onReady?: () => void
+  onUpdate?: () => void
 }
 
 export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
-  const { style, sketch, children, onReady = noop } = props
+  const { style, sketch, children, onReady = noop, onUpdate = noop } = props
 
-  const sketchRef = useToRef(sketch)
+  const onReadyRef = useToRef(onReady)
 
-  const handleSketchElementUpdate = useDebounce(() => {
-    log('sketchReadyToRender', { sketch: sketchRef.current, initialized: sketchRef.current?.initialized })
-    if (!sketchRef.current?.initialized) return
-    onReady()
-  }, 10, debounceOpt)
+  const onUpdateRef = useToRef(onUpdate)
 
   const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
     const { props: childProps } = child
@@ -35,15 +28,12 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
   useEffect(() => {
     if (!sketch) return
     sketch.setStyle(style)
+    sketch.addEventListener('initialized', onReadyRef.current)
+    sketch.addEventListener('elementUpdate', onUpdateRef.current)
   }, [sketch, style])
 
-  const ctxVal:InternalSketchRootCtxVal = { reportSketchElementUpdate: handleSketchElementUpdate }
 
-  return (
-    <InternalSketchRootCtx.Provider value={ctxVal}>
-      {childrenVNodes}
-    </InternalSketchRootCtx.Provider>
-  )
+  return <>{childrenVNodes}</>
 }
 
 InternalSketchRoot.displayName = 'SketchRoot'

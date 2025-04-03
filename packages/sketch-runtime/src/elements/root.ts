@@ -2,12 +2,14 @@ import { Direction } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties } from '../types'
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
-import { log } from '../utils'
+import { CustomEvent, EventEmitter, EventListener, log } from '../utils'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
     ctx: CanvasRenderingContext2D,
     canvas: HTMLCanvasElement,
 }
+
+type EventType = 'elementUpdate'|'initialized'
 
 /**
  * 画布根节点
@@ -24,23 +26,10 @@ export class SketchRoot extends SketchView {
   public canvas?: HTMLCanvasElement
 
   /**
-   * 已初始化完成
+   * 事件系统
+   * @private
    */
-  public initialized: boolean
-
-  /**
-   * log 开启状态
-   */
-  get enableLog () {
-    return log.enabled
-  }
-
-  /**
-   * 设置 log 开启状态
-   */
-  set enableLog (value: boolean) {
-    log.enabled = value
-  }
+  private eventEmit?:EventEmitter
 
   /**
    * 构造函数
@@ -49,6 +38,7 @@ export class SketchRoot extends SketchView {
     super(style)
     this.ctx = ctx
     this.canvas = canvas
+    this.eventEmit = new EventEmitter()
     const propertyOpt = { writable: false, enumerable: true, configurable: false }
     Object.defineProperty(this, 'displayName', { ...propertyOpt, value: 'ROOT' })
   }
@@ -122,7 +112,7 @@ export class SketchRoot extends SketchView {
     this.ctx = ctx
     this.canvas = canvas
     await this.applyOnMount()
-    this.initialized = true
+    this.dispatchEvent(new CustomEvent('initialized', this))
   }
 
   /**
@@ -140,5 +130,22 @@ export class SketchRoot extends SketchView {
   public toDataURL (type: string, quality?: any) {
     if (!this.canvas) return
     return this.canvas.toDataURL(type, quality)
+  }
+
+  /**
+   * 新增事件监听
+   * @param eventType
+   * @param listener
+   */
+  public addEventListener (eventType:EventType, listener:EventListener) {
+    return this.eventEmit?.addEventListener(eventType, listener)
+  }
+
+  /**
+   * 触发事件监听
+   * @param event
+   */
+  public dispatchEvent (event:CustomEvent) {
+    return this.eventEmit?.dispatchEvent(event)
   }
 }
