@@ -39,13 +39,16 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
 
   useEffect(() => {
     sketch?.setStyle(style)
+  }, [sketch, style])
+
+  useEffect(() => {
     sketch?.addEventListener('initialized', handleSketchInitialized)
     sketch?.addEventListener('elementUpdate', handleSketchElementUpdate)
     return ()=>{
       sketch?.removeEventListener('initialized',handleSketchInitialized)
       sketch?.removeEventListener('elementUpdate',handleSketchElementUpdate)
     }
-  }, [sketch, style])
+  }, [sketch])
 
 
   return <>{childrenVNodes}</>
