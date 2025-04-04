@@ -43,7 +43,11 @@ function App () {
   }
 
   const handleSketchUpdate = () => {
-    return sketch.render()
+    console.log('sketch update')
+  }
+
+  const handleSketchInitialized = () => {
+    console.log('sketch initialized')
   }
 
   useEffect(() => {
@@ -56,7 +60,7 @@ function App () {
   return (
     <div className="App" onClick={handleToDataURL}>
       <canvas className="sketch-canvas" ref={canvasRef}/>
-      <Sketch.Root style={style.root} sketch={sketch} onReady={handleSketchUpdate}>
+      <Sketch.Root style={style.root} sketch={sketch} onReady={handleSketchInitialized} onUpdate={handleSketchUpdate}>
         <Sketch.View style={style.view}>
           <Sketch.Image src={logo} style={style.logo}/>
           <Sketch.Text text="Hello  World!" style={style.text}/>
