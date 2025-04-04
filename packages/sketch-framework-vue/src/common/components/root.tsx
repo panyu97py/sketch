@@ -1,6 +1,5 @@
-import { defineEmits, defineProps, ref, watchEffect, defineComponent } from 'vue'
-import { SketchElement, SketchRoot } from '@sketchjs/runtime'
-import { useInternalSketchRootCtxProvider } from '../hooks'
+import { defineEmits, defineProps, watchEffect, defineComponent } from 'vue'
+import { SketchRoot } from '@sketchjs/runtime'
 import { SketchElementProps } from '../types'
 
 export interface InternalSketchRootProps extends Omit<SketchElementProps, 'parent'> {
@@ -9,6 +8,7 @@ export interface InternalSketchRootProps extends Omit<SketchElementProps, 'paren
 
 export interface InternalSketchRootEmits {
   (event: 'ready'): void;
+  (event: 'update'): void;
 }
 
 export const InternalSketchRoot = defineComponent({
@@ -16,34 +16,36 @@ export const InternalSketchRoot = defineComponent({
   setup: () => {
     const emit = defineEmits<InternalSketchRootEmits>()
 
-    const { sketch, style } = defineProps<InternalSketchRootProps>()
+    const { sketch, style }  = defineProps<InternalSketchRootProps>()
 
-    const sketchElementSetRef = ref<Set<SketchElement>>(new Set())
-
-    const registerSketchElement = (sketchElement: SketchElement) => {
-      return sketchElementSetRef.value.add(sketchElement)
-    }
-
-    const unregisterSketchElement = (sketchElement: SketchElement) => {
-      return sketchElementSetRef.value.delete(sketchElement)
-    }
-
-    const triggerSketchElementUpdate = () => {
-      const sketchElements = Array.from(sketchElementSetRef.value)
-      const isAllSketchElementMounted = sketchElements.every((sketchElement) => sketchElement.isMounted)
-      if (!isAllSketchElementMounted || !sketchElements.length) return
+    const handleSketchInitialized = () => {
+      sketch?.render()
       emit('ready')
     }
+
+    const handleSketchElementUpdate = () => {
+      sketch?.render()
+      emit('update')
+    }
+
+    watchEffect((onCleanup) => {
+      if (!sketch) return
+
+      sketch.addEventListener('initialized', handleSketchInitialized)
+      sketch.addEventListener('elementUpdate', handleSketchElementUpdate)
+
+      // 组件卸载时清理
+      onCleanup(() => {
+        sketch?.removeEventListener('initialized', handleSketchInitialized)
+        sketch?.removeEventListener('elementUpdate', handleSketchElementUpdate)
+      })
+    })
+
     watchEffect(() => {
       if (!sketch) return
       sketch.setStyle(style)
     })
 
-    useInternalSketchRootCtxProvider({
-      registerSketchElement,
-      unregisterSketchElement,
-      triggerSketchElementUpdate
-    })
     return () => <slot parent={sketch}/>
   }
 })

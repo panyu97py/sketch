@@ -16,4 +16,5 @@ export declare const Sketch: {
   Text: DefineComponent<InternalSketchTextProps>
   Image: DefineComponent<InternalSketchImageProps>
   useSketch: ()=> SketchRoot;
+  debug: boolean
 }
