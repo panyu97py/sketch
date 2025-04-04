@@ -8,6 +8,7 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",  // or "react-jsx" for React 17+
+    "jsxImportSource": "react"
   },
   "include": ["src"],
 }
