@@ -2,7 +2,7 @@ import { Direction } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties } from '../types'
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
-import { CustomEvent, EventEmitter, EventListener, log } from '../utils'
+import { Event, EventEmitter, EventListener, log } from '../utils'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
     ctx: CanvasRenderingContext2D,
@@ -112,7 +112,7 @@ export class SketchRoot extends SketchView {
     this.ctx = ctx
     this.canvas = canvas
     await this.applyOnMount()
-    this.dispatchEvent(new CustomEvent('initialized', this))
+    this.dispatchEvent(new Event('initialized', this))
   }
 
   /**
@@ -154,7 +154,7 @@ export class SketchRoot extends SketchView {
    * 触发事件监听
    * @param event
    */
-  public dispatchEvent (event:CustomEvent) {
+  public dispatchEvent (event:Event) {
     return this.eventEmit?.dispatchEvent(event)
   }
 }

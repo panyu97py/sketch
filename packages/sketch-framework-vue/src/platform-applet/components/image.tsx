@@ -1,21 +1,29 @@
-import { computed, defineComponent, defineProps } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import { useSketchElementRegister } from '../../common/hooks'
-import { SketchElementProps } from '../../common/types'
 import { SketchAppletImage } from '../elements'
+import { SketchElement, StyleSheetCssProperties } from '@sketchjs/runtime'
 
-export interface InternalSketchTextProps extends SketchElementProps {
-  src?: string;
-}
+export const SketchImageProps = {
+  src: String,
+  parent: Object as PropType<SketchElement>,
+  style: Object as PropType<StyleSheetCssProperties>,
+};
 
 export const InternalSketchAppletImage = defineComponent({
   name: 'SketchAppletImage',
-  setup: () => {
-    const props = defineProps<InternalSketchTextProps>()
+  props: SketchImageProps,
+  setup: (props,{ slots }) => {
 
     const { src = '', parent, style } = props
 
     const sketchAppletImage = computed(() => SketchAppletImage.create({ src, style }))
 
-    useSketchElementRegister({ parent, target: sketchAppletImage })
+    useSketchElementRegister({ parent, target: sketchAppletImage.value })
+
+    return () => (
+      <template>
+        {slots.default ? slots.default({ parent: sketchAppletImage.value }) : null}
+      </template>
+    )
   }
 })

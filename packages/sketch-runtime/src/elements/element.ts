@@ -1,7 +1,7 @@
 import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
-import { CustomEvent, log, YogaLayoutUtils } from '../utils'
+import { Event, log, YogaLayoutUtils } from '../utils'
 import { SketchRoot } from './root'
 
 const defaultPosition = { top: 0, left: 0, bottom: 0, right: 0 }
@@ -114,7 +114,7 @@ export class SketchElement {
     child.parentNode = this
     this.childNodes.push(child)
     await child.applyOnMount()
-    this._root?.dispatchEvent(new CustomEvent('elementUpdate', child))
+    this._root?.dispatchEvent(new Event('elementUpdate', child))
   }
 
   /**
@@ -125,7 +125,7 @@ export class SketchElement {
     log('SketchElement.removeChild', { node: this, child })
     child.onUnmount()
     this.childNodes = this.childNodes.filter(item => item !== child)
-    this._root?.dispatchEvent(new CustomEvent('elementUpdate', child))
+    this._root?.dispatchEvent(new Event('elementUpdate', child))
   }
 
   /**

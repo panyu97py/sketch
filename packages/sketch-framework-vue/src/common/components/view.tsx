@@ -1,21 +1,25 @@
-import { computed, defineComponent, defineProps } from 'vue'
-import { SketchView } from '@sketchjs/runtime'
+import { computed, defineComponent, PropType } from 'vue'
+import { SketchElement, SketchView, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { useSketchElementRegister } from '../hooks'
-import { SketchElementProps } from '../types'
 
-export type InternalSketchViewProps = SketchElementProps
+export const SketchViewProps = {
+  parent: Object as PropType<SketchElement>,
+  style: Object as PropType<StyleSheetCssProperties>,
+}
 
 export const InternalSketchView = defineComponent({
   name: 'SketchView',
-  setup: () => {
-    const props = defineProps<InternalSketchViewProps>()
+  props: SketchViewProps,
+  setup: (props, { slots }) => {
 
-    const { parent, style } = props
+    const sketchView = computed(() => SketchView.create({ style: props.style }))
 
-    const sketchView = computed(() => SketchView.create({ style }))
+    useSketchElementRegister({ parent: props.parent, target: sketchView.value })
 
-    useSketchElementRegister({ parent, target: sketchView })
-
-    return () => <slot parent={sketchView} />
+    return () => (
+      <template>
+        {slots.default ? slots.default({ parent: sketchView.value }) : null}
+      </template>
+    )
   }
 })

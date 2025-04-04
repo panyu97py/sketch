@@ -1,17 +1,17 @@
 type EventType = string | symbol;
 
-export class CustomEvent {
+export class Event<T = any> {
   public readonly type: string
 
-  public readonly payload?: any
+  public readonly payload?: T
 
-  constructor (type: string, payload?: any) {
+  constructor (type: string, payload?: T) {
     this.type = type
     this.payload = payload
   }
 }
 
-export type EventListener = (event: CustomEvent) => void
+export type EventListener = (event: Event) => void
 
 export class EventEmitter {
   private events: Map<EventType, Set<EventListener>> = new Map()
@@ -21,7 +21,7 @@ export class EventEmitter {
     this.events.get(eventType)!.add(listener)
   }
 
-  public dispatchEvent (event: CustomEvent): void {
+  public dispatchEvent (event: Event): void {
     if (!this.events.has(event.type)) return
     this.events.get(event.type)!.forEach(listener => listener(event))
   }

@@ -1,22 +1,23 @@
-import { computed, defineComponent, defineProps } from 'vue'
-import { SketchText } from '@sketchjs/runtime'
+import { computed, defineComponent, PropType } from 'vue'
+import { SketchElement, SketchText, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { useSketchElementRegister } from '../hooks'
-import { SketchElementProps } from '../types'
 
-export interface InternalSketchTextProps extends SketchElementProps {
-  text?: string;
-}
+export const SketchTextProps = {
+  text: String,
+  parent: Object as PropType<SketchElement>,
+  style: Object as PropType<StyleSheetCssProperties>,
+};
 
 export const InternalSketchText = defineComponent({
   name: 'SketchText',
-  setup: () => {
-    const props = defineProps<InternalSketchTextProps>()
+  props: SketchTextProps,
+  setup: (props) => {
 
     const { text = '', parent, style } = props
 
     const sketchText = computed(() => SketchText.create({ text, style }))
 
-    useSketchElementRegister({ parent, target: sketchText })
+    useSketchElementRegister({ parent, target: sketchText.value })
 
     return () => <slot/>
   }

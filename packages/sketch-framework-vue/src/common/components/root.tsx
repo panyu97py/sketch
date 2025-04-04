@@ -1,51 +1,49 @@
-import { defineEmits, defineProps, watchEffect, defineComponent } from 'vue'
-import { SketchRoot } from '@sketchjs/runtime'
-import { SketchElementProps } from '../types'
+import { watchEffect, defineComponent, PropType } from 'vue'
+import { Event, SketchElement, SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
 
-export interface InternalSketchRootProps extends Omit<SketchElementProps, 'parent'> {
-  sketch?: SketchRoot
-}
-
-export interface InternalSketchRootEmits {
-  (event: 'ready'): void;
-  (event: 'update'): void;
-}
+export const SketchRootProps = {
+  sketch: Object as PropType<SketchRoot>,
+  parent: Object as PropType<SketchElement>,
+  style: Object as PropType<StyleSheetCssProperties>,
+};
 
 export const InternalSketchRoot = defineComponent({
   name: 'SketchRoot',
-  setup: () => {
-    const emit = defineEmits<InternalSketchRootEmits>()
+  props: SketchRootProps,
+  setup: (props, { slots, emit }) => {
 
-    const { sketch, style }  = defineProps<InternalSketchRootProps>()
-
-    const handleSketchInitialized = () => {
-      sketch?.render()
-      emit('ready')
+    const handleSketchInitialized = (event: Event<SketchRoot>) => {
+      props.sketch?.render()
+      emit('ready',event)
     }
 
-    const handleSketchElementUpdate = () => {
-      sketch?.render()
-      emit('update')
+    const handleSketchElementUpdate = (event: Event<SketchElement>) => {
+      props.sketch?.render()
+      emit('update',event)
     }
 
     watchEffect((onCleanup) => {
-      if (!sketch) return
+      if (!props.sketch) return
 
-      sketch.addEventListener('initialized', handleSketchInitialized)
-      sketch.addEventListener('elementUpdate', handleSketchElementUpdate)
+      props.sketch.addEventListener('initialized', handleSketchInitialized)
+      props.sketch.addEventListener('elementUpdate', handleSketchElementUpdate)
 
       // 组件卸载时清理
       onCleanup(() => {
-        sketch?.removeEventListener('initialized', handleSketchInitialized)
-        sketch?.removeEventListener('elementUpdate', handleSketchElementUpdate)
+        props.sketch?.removeEventListener('initialized', handleSketchInitialized)
+        props.sketch?.removeEventListener('elementUpdate', handleSketchElementUpdate)
       })
     })
 
     watchEffect(() => {
-      if (!sketch) return
-      sketch.setStyle(style)
+      if (!props.sketch) return
+      props.sketch.setStyle(props.style)
     })
 
-    return () => <slot parent={sketch}/>
+    return () => (
+      <template>
+        {slots.default ? slots.default({ parent: props.sketch }) : null}
+      </template>
+    );
   }
 })

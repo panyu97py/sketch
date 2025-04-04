@@ -46,7 +46,7 @@ text: {
 const sketch = Sketch.useSketch()
 
 const handleToDataURL = () => {
-  const dataUrl = sketch.toDataURL('image/png', 1)
+  const dataUrl = sketch.value.toDataURL('image/png', 1)
   console.log({ dataUrl })
 }
 
