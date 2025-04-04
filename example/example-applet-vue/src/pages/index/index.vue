@@ -1,18 +1,68 @@
 <template>
-  <view class="index">
-    <text>{{ msg }}</text>
-  </view>
+  <Sketch.Root :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
+    <Sketch.View :style="style.view">
+      <Sketch.Image src="@/assets/logo.svg" :style="style.logo"/>
+      <Sketch.Text text="Hello  World!" :style="style.text"/>
+    </Sketch.View>
+  </Sketch.Root>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { StyleSheet, Sketch } from '@sketchjs/vue'
 import './index.less'
 
 export default {
   setup () {
-    const msg = ref('Hello world')
+    Sketch.debug = true
+
+    const style = StyleSheet.create({
+      root: {
+        width: 500,
+        height: 500,
+        backgroundColor: '#282c34'
+      },
+      view: {
+        width: 500,
+        height: 500,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      logo: {
+        width: 200,
+        height: 200
+      },
+      text: {
+        width: 500,
+        marginTop: 20,
+        color: '#ffffff',
+        fontSize: 50,
+        fontWeight: 400,
+        lineHeight: 50,
+        textAlign: 'center'
+      }
+    })
+
+    const sketch = Sketch.useSketch()
+
+    const handleToDataURL = () => {
+      const dataUrl = sketch.toDataURL('image/png', 1)
+      console.log({ dataUrl })
+    }
+
+    const handleSketchUpdate = () => {
+      console.log('sketch update')
+    }
+
+    const handleSketchInitialized = () => {
+      console.log('sketch initialized')
+    }
+
     return {
-      msg
+      style,
+      sketch,
+      handleToDataURL,
+      handleSketchUpdate,
+      handleSketchInitialized
     }
   }
 }

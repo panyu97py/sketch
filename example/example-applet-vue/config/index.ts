@@ -19,6 +19,8 @@ export default defineConfig(async (merge, { command, mode }) => {
     outputRoot: 'dist',
     plugins: [],
     defineConstants: {
+      'process.env.SKETCH_PLATFORM': '"APPLET"', // 使用小程序端 sketch 实现
+      'process.env.YOGA_USE_WASM': 'false' // 不使用 WASM 实现
     },
     copy: {
       patterns: [
@@ -53,7 +55,7 @@ export default defineConfig(async (merge, { command, mode }) => {
           }
         }
       },
-      webpackChain(chain) {
+      webpackChain (chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }
     },
@@ -82,7 +84,7 @@ export default defineConfig(async (merge, { command, mode }) => {
           }
         }
       },
-      webpackChain(chain) {
+      webpackChain (chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
       }
     },
@@ -90,7 +92,7 @@ export default defineConfig(async (merge, { command, mode }) => {
       appName: 'taroDemo',
       postcss: {
         cssModules: {
-          enable: false, // 默认为 false，如需使用 css modules 功能，则设为 true
+          enable: false // 默认为 false，如需使用 css modules 功能，则设为 true
         }
       }
     }
