@@ -1,7 +1,6 @@
 import { computed, defineComponent, inject, PropType, provide } from 'vue'
-import { SketchElement, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { SketchElement, SketchImage, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { useSketchElementRegister } from '../../common/hooks'
-import { SketchAppletImage } from '../../platform-applet/elements'
 
 export const SketchImageProps = {
   src: String,
@@ -15,7 +14,7 @@ export const InternalSketchWebImage = defineComponent({
 
     const parent = inject<SketchElement>('parent');
 
-    const sketchWebImage = computed(() => SketchAppletImage.create({ src: props.src || '', style: props.style }))
+    const sketchWebImage = computed(() => SketchImage.create({ src: props.src || '', style: props.style }))
 
     useSketchElementRegister({ parent, target: sketchWebImage.value })
 
