@@ -38,10 +38,14 @@ const Index: React.FC = () => {
 
   const sketch = Sketch.useSketch()
 
-  // TODO 还存在问题
-  const handleSketchReady = () => {
-    sketch.render()
+  const handleSketchUpdate = () => {
+    console.log('sketch update')
   }
+
+  const handleSketchInitialized = () => {
+    console.log('sketch initialized')
+  }
+
 
   const initCanvas = async () => {
     const canvasNode: HTMLCanvasElement = await new Promise((resolve) => {
@@ -61,7 +65,7 @@ const Index: React.FC = () => {
   return (
     <View className='index-view'>
       <Canvas id='sketch-canvas' type='2d' className='sketch-canvas' />
-      <Sketch.Root sketch={sketch} style={style.root} onReady={handleSketchReady}>
+      <Sketch.Root sketch={sketch} style={style.root} onReady={handleSketchInitialized} onUpdate={handleSketchUpdate}>
         <Sketch.View style={style.rootView}>
           <Sketch.Image src={logo} style={style.logo} />
           <Sketch.Text text='Hello  World!' style={style.text} />
