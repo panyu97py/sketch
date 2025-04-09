@@ -14,10 +14,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter @sketchjs/* build",
-    "release": "pnpm changeset publish",
-    "changeset:alpha": "pnpm changeset pre enter alpha",
     "changeset:release": "pnpm changeset pre exit & pnpm changeset",
-    "version": "pnpm changeset && pnpm changeset version",
+    "version": "pnpm version",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-h5-vue": "pnpm --filter example-h5-vue dev",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
@@ -28,7 +26,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@changesets/cli": "^2.27.11",
     "@tarojs/cli": "^3.6.35",
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
