@@ -14,7 +14,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter @sketchjs/* build",
-    "changeset:release": "pnpm changeset pre exit & pnpm changeset",
+    "release": "pnpm --filter @sketchjs/* publish",
     "version": "pnpm --filter @sketchjs/* version",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-h5-vue": "pnpm --filter example-h5-vue dev",
