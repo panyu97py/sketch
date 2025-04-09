@@ -1,5 +1,5 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { StyleSheet } from './style-sheet'
+import { log } from '../utils'
 
 /**
  * 视图元素
@@ -8,24 +8,23 @@ export class SketchView extends SketchElement {
   /**
    * 静态工厂方法，返回异步初始化后的实例
    */
-  public static async create (opt: CreateSketchElementOpt) {
+  public static create (opt: CreateSketchElementOpt) {
     const { style } = opt
-    const element = new SketchView(style)
-    await element.initializeLayout()
-    StyleSheet.apply(element, style)
-    return element
+    return new SketchView(style)
   }
 
   /**
    * 渲染函数
    */
-  render = async () => {
-    if (!this._root) return
+  async render () {
+    if (!this._root?.ctx) return
 
     // 计算布局位置
     this._root.calculateLayout()
     const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
+
+    log('SketchView.render', { left, top, width, height, node: this })
 
     // 渲染元素
     const { backgroundColor = 'transparent' } = this.style || {}

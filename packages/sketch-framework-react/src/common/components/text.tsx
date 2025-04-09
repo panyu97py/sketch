@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { SketchElement, SketchText, StyleSheetCssProperties } from '@sketchjs/runtime'
-import { useSketchElementRegister, useAsyncMemo } from '../hooks'
+import { useSketchElementRegister } from '../hooks'
 
 export interface InternalSketchTextProps {
     text?: string;
@@ -11,7 +11,7 @@ export interface InternalSketchTextProps {
 export const InternalSketchText: React.FC<InternalSketchTextProps> = (props) => {
   const { text = '', style, parent } = props
 
-  const sketchText = useAsyncMemo(() => SketchText.create({ text, style }), [text, style])
+  const sketchText = useMemo(() => SketchText.create({ text, style }), [text, style])
 
   useSketchElementRegister({ parent, target: sketchText })
 

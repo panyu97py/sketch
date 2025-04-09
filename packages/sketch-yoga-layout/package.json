@@ -1,6 +1,6 @@
 {
   "name": "@sketchjs/yoga-layout",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "author": "yu.pan",
@@ -8,10 +8,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
-  },
-  "exports": {
-    ".": "./src/index.js",
-    "./load": "./src/load.js"
   },
   "scripts": {
     "test": "jest",

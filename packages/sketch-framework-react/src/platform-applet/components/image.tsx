@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { SketchAppletImage } from '../elements'
 import { SketchElementChild, SketchElementProps } from '../../common/types'
-import { useSketchElementRegister, useAsyncMemo } from '../../common/hooks'
+import { useSketchElementRegister } from '../../common/hooks'
 
 export interface InternalSketchAppletImageProps extends SketchElementProps{
     src?: string
@@ -11,7 +11,7 @@ export interface InternalSketchAppletImageProps extends SketchElementProps{
 export const InternalSketchAppletImage: React.FC<InternalSketchAppletImageProps> = (props) => {
   const { src = '', style, parent, children } = props
 
-  const sketchAppletImage = useAsyncMemo(() => SketchAppletImage.create({ src, style }), [src, style])
+  const sketchAppletImage = useMemo(() => SketchAppletImage.create({ src, style }), [src, style])
 
   useSketchElementRegister({ parent, target: sketchAppletImage })
 

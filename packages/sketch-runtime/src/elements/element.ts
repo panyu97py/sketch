@@ -1,80 +1,115 @@
 import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout'
-import { SketchNode } from './node'
 import { StyleSheetCssProperties } from '../types'
 import { StyleSheet } from './style-sheet'
-import { YogaLayoutUtils } from '../utils'
+import { Event, log, YogaLayoutUtils } from '../utils'
+import { SketchRoot } from './root'
 
-export interface CreateSketchElementOpt{
-    style?: StyleSheetCssProperties
+const defaultPosition = { top: 0, left: 0, bottom: 0, right: 0 }
+
+export interface CreateSketchElementOpt {
+  style?: StyleSheetCssProperties
 }
 
 /**
  * 设计元素
  */
-export class SketchElement extends SketchNode {
-  /**
-   * 显示名称
-   */
-  public displayName: string
-
+export class SketchElement {
   /**
    * 是否准备就绪
    */
   public isMounted = false
 
   /**
+   * 父节点
+   */
+  public parentNode: SketchElement | null = null
+
+  /**
+   * 子节点
+   */
+  public childNodes: SketchElement[] = []
+
+  /**
    * 布局节点
    */
-  public layout: YogaLayoutNode
+  public layout?: YogaLayoutNode
 
   /**
    * 样式
    */
-  public readonly style?: StyleSheetCssProperties
+  public style?: StyleSheetCssProperties
+
+  /**
+   * 是否为根节点
+   */
+  public get _isRoot () {
+    return this === this._root as SketchElement
+  }
+
+  /**
+   * 获取根节点
+   */
+  public get _root (): SketchRoot | null {
+    return this.parentNode?._root || null
+  }
 
   /**
    * 构造函数
    * @param style 样式
    */
   protected constructor (style?: StyleSheetCssProperties) {
-    super()
     this.style = style
   }
 
   /**
    * 静态工厂方法，返回异步初始化后的实例
    */
-  public static async create (opt: CreateSketchElementOpt) {
+  public static create (opt: CreateSketchElementOpt) {
     const { style } = opt
-    const element = new SketchElement(style)
-    await element.initializeLayout()
-    StyleSheet.apply(element, style)
-    return element
+    return new SketchElement(style)
   }
 
   /**
-   * 异步加载和初始化布局
+   * 设置样式
+   * @param style
    */
-  public async initializeLayout () {
-    const yoga = await YogaLayoutUtils.load()
-    this.layout = yoga.Node.create()
+  public setStyle (style?: StyleSheetCssProperties) {
+    if (style) this.style = style
+    StyleSheet.apply(this, this.style)
   }
 
   /**
-   *元素初始化
+   * 元素初始化
    */
   public async onMount () {
+    log('SketchElement.onMount', { node: this })
+    const yoga = await YogaLayoutUtils.load()
+    this.layout = yoga.Node.create()
+    const { layout: parentLayout } = this.parentNode || {}
+    parentLayout?.insertChild(this.layout, parentLayout.getChildCount())
+    StyleSheet.apply(this, this.style)
     this.isMounted = true
   }
 
   /**
-   * 添加子元素
-   * @param newChild 子元素
+   * 元素销毁
    */
-  public async appendChild (newChild: SketchElement) {
-    super.appendChild(newChild)
-    this.layout.insertChild(newChild.layout, this.layout.getChildCount())
-    await newChild.applyOnMount()
+  public onUnmount () {
+    log('SketchElement.onUnmount', { node: this })
+    if (!this.layout) return
+    this.layout.free()
+  }
+
+  /**
+   * 添加子元素
+   * @param child 子元素
+   */
+  public async appendChild (child: SketchElement) {
+    log('SketchElement.appendChild', { node: this, child })
+    child.parentNode = this
+    this.childNodes.push(child)
+    await child.applyOnMount()
+    this._root?.dispatchEvent(new Event('elementUpdate', child))
   }
 
   /**
@@ -82,15 +117,17 @@ export class SketchElement extends SketchNode {
    * @param child 子元素
    */
   public removeChild (child: SketchElement) {
-    super.removeChild(child)
-    this.layout.removeChild(child.layout)
+    log('SketchElement.removeChild', { node: this, child })
+    child.onUnmount()
+    this.childNodes = this.childNodes.filter(item => item !== child)
+    this._root?.dispatchEvent(new Event('elementUpdate', child))
   }
 
   /**
    * 执行初始化逻辑
    */
   public async applyOnMount () {
-    if (!this._root) return
+    if (!this._isRoot && !this._root?.isMounted) return
     await this.onMount()
     return Promise.all(this.childNodes.map(child => {
       return (child as SketchElement).applyOnMount()
@@ -101,6 +138,7 @@ export class SketchElement extends SketchNode {
    * 计算元素相对位置
    */
   public calculateElementRelativePosition = () => {
+    if (!this.layout) return defaultPosition
     const top = this.layout.getComputedTop()
     const left = this.layout.getComputedLeft()
     const bottom = this.layout.getComputedBottom()
@@ -112,9 +150,8 @@ export class SketchElement extends SketchNode {
    * 计算元素绝对位置
    */
   public calculateElementAbsolutePosition = () => {
-    const defaultPosition = { top: 0, left: 0, bottom: 0, right: 0 }
     const parentPosition = (this.parentNode as SketchElement)?.calculateElementAbsolutePosition() || defaultPosition
-    const relativePosition = this.calculateElementRelativePosition()
+    const relativePosition = this.calculateElementRelativePosition() || defaultPosition
     return {
       top: parentPosition.top + relativePosition.top,
       left: parentPosition.left + relativePosition.left,
@@ -127,6 +164,7 @@ export class SketchElement extends SketchNode {
    * 获取元素大小
    */
   public getElementSize = () => {
+    if (!this.layout) return { width: 0, height: 0 }
     this._root?.calculateLayout()
     const width = this.layout.getComputedWidth()
     const height = this.layout.getComputedHeight()
