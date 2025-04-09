@@ -1,10 +1,10 @@
-import { computed, defineComponent, PropType } from 'vue'
-import { SketchElement, SketchImage, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { computed, defineComponent, inject, PropType, provide } from 'vue'
+import { SketchElement, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { useSketchElementRegister } from '../../common/hooks'
+import { SketchAppletImage } from '../../platform-applet/elements'
 
 export const SketchImageProps = {
   src: String,
-  parent: Object as PropType<SketchElement>,
   style: Object as PropType<StyleSheetCssProperties>,
 };
 
@@ -13,15 +13,17 @@ export const InternalSketchWebImage = defineComponent({
   props: SketchImageProps,
   setup: (props,{ slots }) => {
 
-    const { src = '', parent, style } = props
+    const parent = inject<SketchElement>('parent');
 
-    const sketchWebImage = computed(() => SketchImage.create({ src, style }))
+    const sketchWebImage = computed(() => SketchAppletImage.create({ src: props.src || '', style: props.style }))
 
     useSketchElementRegister({ parent, target: sketchWebImage.value })
 
+    provide<SketchElement>('parent', sketchWebImage.value)
+
     return () => (
       <template>
-        {slots.default ? slots.default({ parent: sketchWebImage.value }) : null}
+        {slots.default?.() || null}
       </template>
     )
   }

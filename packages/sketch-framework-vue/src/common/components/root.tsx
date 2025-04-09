@@ -1,9 +1,8 @@
-import { watchEffect, defineComponent, PropType } from 'vue'
+import { watchEffect, defineComponent, PropType, provide } from 'vue'
 import { Event, SketchElement, SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
 
 export const SketchRootProps = {
   sketch: Object as PropType<SketchRoot>,
-  parent: Object as PropType<SketchElement>,
   style: Object as PropType<StyleSheetCssProperties>,
 };
 
@@ -40,9 +39,11 @@ export const InternalSketchRoot = defineComponent({
       props.sketch.setStyle(props.style)
     })
 
+    provide<SketchRoot|undefined>('parent', props.sketch)
+
     return () => (
       <template>
-        {slots.default ? slots.default({ parent: props.sketch }) : null}
+        {slots.default?.() || null}
       </template>
     );
   }

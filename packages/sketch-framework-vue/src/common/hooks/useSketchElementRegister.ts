@@ -1,4 +1,4 @@
-import { onMounted, onBeforeUnmount, watchEffect } from 'vue'
+import { watchEffect } from 'vue'
 import { SketchElement } from '@sketchjs/runtime'
 
 interface Opt {
@@ -23,9 +23,9 @@ export const useSketchElementRegister = (opt: Opt) => {
   }
 
 
-  onMounted(() => appendTargetToParent())
-
-  onBeforeUnmount(() => removeTargetFromParent())
+  // onMounted(() => appendTargetToParent())
+  //
+  // onBeforeUnmount(() => removeTargetFromParent())
 
   watchEffect(() => {
     appendTargetToParent()
