@@ -50,11 +50,15 @@ function App () {
     console.log('sketch initialized')
   }
 
-  useEffect(() => {
+  const initCanvas = () => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
-    sketch.init({ canvas, ctx })
+    return sketch.init({ canvas, ctx })
+  }
+
+  useEffect(() => {
+    initCanvas()
   }, [])
 
   return (
