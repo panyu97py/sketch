@@ -1,4 +1,4 @@
-import noop from 'lodash/noop'
+import { noop } from 'lodash-es'
 import React, { useCallback, useEffect } from 'react'
 import { SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
 import { useToRef } from '../hooks'

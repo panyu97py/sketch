@@ -15,11 +15,6 @@ export interface CreateSketchElementOpt {
  */
 export class SketchElement {
   /**
-   * 显示名称
-   */
-  public displayName: string
-
-  /**
    * 是否准备就绪
    */
   public isMounted = false
@@ -47,7 +42,7 @@ export class SketchElement {
   /**
    * 是否为根节点
    */
-  public get isRoot () {
+  public get _isRoot () {
     return this === this._root as SketchElement
   }
 
@@ -132,7 +127,7 @@ export class SketchElement {
    * 执行初始化逻辑
    */
   public async applyOnMount () {
-    if (!this.isRoot && !this._root?.isMounted) return
+    if (!this._isRoot && !this._root?.isMounted) return
     await this.onMount()
     return Promise.all(this.childNodes.map(child => {
       return (child as SketchElement).applyOnMount()

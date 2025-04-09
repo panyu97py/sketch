@@ -39,8 +39,6 @@ export class SketchRoot extends SketchView {
     this.ctx = ctx
     this.canvas = canvas
     this.eventEmit = new EventEmitter()
-    const propertyOpt = { writable: false, enumerable: true, configurable: false }
-    Object.defineProperty(this, 'displayName', { ...propertyOpt, value: 'ROOT' })
   }
 
   public static create (opt:CreateSketchRootOpt) {

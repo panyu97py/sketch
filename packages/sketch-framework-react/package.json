@@ -22,7 +22,6 @@
   "dependencies": {
     "@sketchjs/runtime": "workspace:*",
     "@types/lodash": "^4.17.16",
-    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {

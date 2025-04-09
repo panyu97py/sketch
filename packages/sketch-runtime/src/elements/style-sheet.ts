@@ -1,7 +1,7 @@
 import { Edge } from '@sketchjs/yoga-layout'
 import { StyleSheetCssProperties } from '../types'
 import { CSS_TO_YOGA_MAP } from '../constants'
-import { typeChecker } from '../utils'
+import { isEmpty } from '../utils'
 import { SketchElement } from './element'
 
 /**
@@ -25,7 +25,7 @@ export class StyleSheet {
     if (!style) return
     Object.keys(style).forEach((cssProperty: keyof StyleSheetCssProperties) => {
       const { [cssProperty]: cssValue } = style
-      if (typeChecker(cssValue) || !sketchElement.layout) return
+      if (isEmpty(cssValue) || !sketchElement.layout) return
       const { [cssValue!]: EdgeValue } = CSS_TO_YOGA_MAP[cssProperty] || {}
       const finalValue = EdgeValue || cssValue
       switch (cssProperty) {
