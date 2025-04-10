@@ -6,6 +6,9 @@
   "types": "dist/types.d.ts",
   "author": "yu.pan",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
