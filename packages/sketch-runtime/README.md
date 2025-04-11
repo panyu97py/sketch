@@ -2,97 +2,64 @@
 
 sketch 运行时能力实现，用于在 Sketch 插件中使用。
 
-### SketchRoot
 ```ts
-import { SketchRoot, StyleSheet } from 'sketch-runtime'
+import { SketchRoot, SketchText, SketchView, StyleSheet, SketchImage } from '@sketchjs/runtime'
+import logo from './assets/logo.png'
+import './styles.less'
 
-(async ()=>{
-    const style = StyleSheet.create({
-        root: { width: 500, height: 500 }
-    })
-    const canvasNode = document.createElement('canvas')
-    const canvasCtx = canvasNode.getContext('2d')
-    const root = await SketchRoot.create({canvas: canvasNode, ctx: canvasCtx, style:style.root})
-    document.body.appendChild(canvasNode)
-    root.render()
-})()
-
-```
-
-### SketchView
-```ts
-import { SketchRoot, SketchView, StyleSheet } from 'sketch-runtime'
-
-(async ()=>{
+(async () => {
   const style = StyleSheet.create({
-    root: { width: 500, height: 500 },
-    view: { width: 200, height: 200, backgroundColor: 'pink' }
-  })
-  const canvasNode = document.createElement('canvas')
-  const canvasCtx = canvasNode.getContext('2d')
-  const root = await SketchRoot.create({canvas: canvasNode, ctx: canvasCtx, style:style.root})
-  const view = await SketchView.create(style.view)
-  document.body.appendChild(canvasNode)
-  root.appendChild(view)
-  root.render()
-})()
-```
-
-### SketchText
-```ts
-import { SketchRoot, SketchView, SketchText, StyleSheet } from 'sketch-runtime'
-(async ()=>{
-  const style = StyleSheet.create({
-    root: { width: 500, height: 500 },
-    view: { width: 200, height: 200, backgroundColor: 'pink' },
+    root: {
+      width: 500,
+      height: 500,
+      backgroundColor: '#ffffff'
+    },
+    view: {
+      width: 500,
+      height: 500,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    logo: {
+      width: 200,
+      height: 200
+    },
     text: {
       width: 500,
       marginTop: 20,
-      color: '#ffffff',
+      color: '#282c34',
       fontSize: 50,
       fontWeight: 400,
       lineHeight: 50,
       textAlign: 'center'
     }
   })
-  const canvasNode = document.createElement('canvas')
-  const canvasCtx = canvasNode.getContext('2d')
-  const root = await SketchRoot.create({canvas: canvasNode, ctx: canvasCtx, style:style.root})
-  const view = await SketchView.create({style:style.view})
-  const text = await SketchText.create({text:'Hello World', style:style.text})
-  document.body.appendChild(canvasNode)
-  root.appendChild(view)   
-  view.appendChild(text)
-  root.render()
-})()
-```
 
-### SketchImage
-```ts
-import { SketchRoot, SketchView, SketchImage, StyleSheet } from 'sketch-runtime'
-import logo from './logo.png';
-(async ()=>{
-  const style = StyleSheet.create({
-    root: { width: 500, height: 500 },
-    view: { width: 200, height: 200, backgroundColor: 'pink' },
-    text: {
-      width: 500,
-      marginTop: 20,
-      color: '#ffffff',
-      fontSize: 50,
-      fontWeight: 400,
-      lineHeight: 50,
-      textAlign: 'center'
-    }
-  })
+  const app = document.getElementById('app')
   const canvasNode = document.createElement('canvas')
   const canvasCtx = canvasNode.getContext('2d')
-  const root = await SketchRoot.create({canvas: canvasNode, ctx: canvasCtx, style:style.root})
-  const view = await SketchView.create({style:style.view})
-  const image = await SketchImage.create({src:logo, style:style.text})
-  document.body.appendChild(canvasNode)
-  root.appendChild(view)
-  view.appendChild(image)
-  root.render()
+  canvasNode.classList.add('canvas')
+  if (!app || !canvasCtx) return
+
+  const root = SketchRoot.create({ canvas: canvasNode, ctx: canvasCtx, style: style.root })
+  root.addEventListener('initialized', (event) => console.log('initialized', event))
+  root.addEventListener('elementUpdate', (event) => console.log('elementUpdate', event))
+  await root.init()
+
+  const view = SketchView.create({ style: style.view })
+  const image = SketchImage.create({ src: logo, style: style.logo })
+  const text = SketchText.create({ text: 'Hello  World!', style: style.text })
+
+  await root.appendChild(view)
+  await view.appendChild(image)
+  await view.appendChild(text)
+
+  app.appendChild(canvasNode)
+  app.addEventListener('click', () => {
+    const dataUrl = root.toDataURL('image/png', 1)
+    console.log({ dataUrl })
+  })
+
+  return root.render()
 })()
 ```
