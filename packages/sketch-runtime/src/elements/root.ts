@@ -105,10 +105,12 @@ export class SketchRoot extends SketchView {
    * 初始化
    * @param opt
    */
-  public async init (opt:CreateSketchRootOpt) {
-    const { ctx, canvas } = opt
-    this.ctx = ctx
-    this.canvas = canvas
+  public async init (opt?:CreateSketchRootOpt) {
+    const { ctx, canvas, style } = opt || {}
+    this.ctx = ctx || this.ctx
+    this.style = style || this.style
+    this.canvas = canvas || this.canvas
+    if (!this.ctx || !this.canvas) return Promise.reject(new Error('canvas or ctx is empty'))
     await this.applyOnMount()
     this.dispatchEvent(new Event('initialized', this))
   }
