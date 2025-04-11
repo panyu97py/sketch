@@ -1,13 +1,10 @@
-# sketch-runtime
-
-sketch 运行时能力实现，用于在 Sketch 插件中使用。
-
-```ts
-import { SketchRoot, SketchText, SketchView, StyleSheet, SketchImage } from '@sketchjs/runtime'
+import { SketchRoot, SketchText, SketchView, StyleSheet, debugOption, SketchImage } from '@sketchjs/runtime'
 import logo from './assets/logo.png'
 import './styles.less'
 
 (async () => {
+  debugOption.debug = true
+
   const style = StyleSheet.create({
     root: {
       width: 500,
@@ -62,4 +59,3 @@ import './styles.less'
 
   return root.render()
 })()
-```
