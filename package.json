@@ -16,7 +16,7 @@
     "build": "pnpm --filter @sketchjs/* build",
     "release": "pnpm --filter @sketchjs/* publish",
     "version": "lerna version",
-    "start:example-h5-original: "pnpm --filter example-h5-original dev",
+    "start:example-h5-original": "pnpm --filter example-h5-original dev",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-h5-vue": "pnpm --filter example-h5-vue dev",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
