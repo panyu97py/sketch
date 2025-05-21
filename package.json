@@ -21,6 +21,7 @@
     "start:example-h5-vue": "pnpm --filter example-h5-vue dev",
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
     "start:example-applet-vue": "pnpm --filter example-applet-vue dev:weapp",
+    "test:sketch-runtime": "pnpm --filter @sketchjs/runtime test",
     "clear-all": "rm -rf node_modules && pnpm -r exec rm -rf node_modules"
   },
   "keywords": [],
