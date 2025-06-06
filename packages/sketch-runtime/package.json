@@ -9,6 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
   },
+  "files": ["dist", "src"],
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
