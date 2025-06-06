@@ -13,7 +13,7 @@
     "test": "jest",
     "test:dev": "jest --watch",
     "build": "tsc && tsc-alias",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build & npm run test"
   },
   "dependencies": {
     "@sketchjs/yoga-layout": "workspace:*",
