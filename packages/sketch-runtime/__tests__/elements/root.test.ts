@@ -66,4 +66,30 @@ describe('SketchRoot', () => {
       expect(dataURL).toBeFalsy()
     })
   })
+
+  test('SketchRoot.addEventListener', () => {
+    const root = SketchRoot.create()
+    const listener = jest.fn()
+    const eventType = expect.any(String)
+    jest.spyOn(root, 'addEventListener')
+    root.addEventListener(eventType, listener)
+    expect(root.addEventListener).toHaveBeenCalledWith(eventType, listener)
+  })
+
+  test('SketchRoot.removeEventListener', () => {
+    const root = SketchRoot.create()
+    const listener = jest.fn()
+    const eventType = expect.any(String)
+    jest.spyOn(root, 'removeEventListener')
+    root.removeEventListener(eventType, listener)
+    expect(root.removeEventListener).toHaveBeenCalledWith(eventType, listener)
+  })
+
+  test('SketchRoot.dispatchEvent', () => {
+    const root = SketchRoot.create()
+    const event = new Event(expect.any(String), root)
+    jest.spyOn(root, 'dispatchEvent')
+    root.dispatchEvent(event)
+    expect(root.dispatchEvent).toHaveBeenCalledWith(event)
+  })
 })

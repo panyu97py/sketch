@@ -27,9 +27,8 @@ export class SketchRoot extends SketchView {
 
   /**
    * 事件系统
-   * @private
    */
-  private eventEmit?:EventEmitter
+  public eventEmit?: EventEmitter
 
   /**
    * 构造函数
