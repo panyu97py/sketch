@@ -1,6 +1,6 @@
 {
   "name": "@sketchjs/runtime",
-  "version": "0.0.1-alpha.9",
+  "version": "0.0.1-alpha.10",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "yu.pan",
@@ -9,7 +9,10 @@
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
   },
-  "files": ["dist", "src"],
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
