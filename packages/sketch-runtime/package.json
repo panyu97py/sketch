@@ -16,7 +16,7 @@
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
-    "build": "tsc && tsc-alias",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "prepublish": "npm run build & npm run test"
   },
   "dependencies": {
