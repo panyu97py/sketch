@@ -27,7 +27,7 @@ export class EventEmitter {
   }
 
   public removeEventListener (eventType: EventType, listener: EventListener): void {
-    if (this.events.has(eventType)) return
+    if (!this.events.has(eventType)) return
     this.events.get(eventType)!.delete(listener)
   }
 }

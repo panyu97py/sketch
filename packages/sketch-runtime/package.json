@@ -1,6 +1,6 @@
 {
   "name": "@sketchjs/runtime",
-  "version": "0.0.1-alpha.8",
+  "version": "0.0.1-alpha.11",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "yu.pan",
@@ -9,11 +9,15 @@
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
-    "build": "tsc",
-    "prepublish": "npm run build"
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "prepublish": "npm run build & npm run test"
   },
   "dependencies": {
     "@sketchjs/yoga-layout": "workspace:*",
@@ -21,10 +25,16 @@
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.0",
+    "@babel/preset-env": "^7.27.2",
     "@types/debug": "^4.1.12",
     "@types/jest": "^29.3.1",
     "@types/lodash-es": "^4.17.12",
+    "babel-jest": "30.0.0-beta.3",
     "jest": "^29.7.0",
-    "ts-jest": "^29.2.5"
+    "jest-canvas-mock": "^2.5.2",
+    "jest-mock-extended": "4.0.0-beta1",
+    "ts-jest": "^29.2.5",
+    "tsc-alias": "^1.8.16"
   }
 }
