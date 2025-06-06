@@ -1,7 +1,7 @@
+import { DEFAULT_FONT_STYLE } from '@/constants'
+import { FontStyle, StyleSheetCssProperties } from '@/types'
+import { log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { FontStyle, StyleSheetCssProperties } from '../types'
-import { DEFAULT_FONT_STYLE } from '../constants'
-import { log } from '../utils'
 
 /**
  * 基础文本元素
@@ -126,7 +126,7 @@ class SketchSingLineText extends SketchBaseText {
    * 渲染函数
    */
   render = async () => {
-    if (!this._root?.ctx) return
+    if (!this._root?.renderable) return
 
     // 计算布局位置
     this._root.calculateLayout()
@@ -137,13 +137,16 @@ class SketchSingLineText extends SketchBaseText {
 
     // 渲染元素
     const { color = 'black', textAlign = 'left' } = this.style || {}
-    this._root.ctx.save()
-    this._root.ctx.textBaseline = 'bottom'
-    this._root.ctx.fillStyle = color
-    this._root.ctx.textAlign = textAlign
-    this._root.ctx.font = this.generateFontStyle(this.style as FontStyle)
-    this._root.ctx.fillText(this.text, left, top + height, width)
-    this._root.ctx.restore()
+    const { ctx } = this._root
+    if (!ctx) return
+
+    ctx.save()
+    ctx.textBaseline = 'bottom'
+    ctx.fillStyle = color
+    ctx.textAlign = textAlign
+    ctx.font = this.generateFontStyle(this.style as FontStyle)
+    ctx.fillText(this.text, left, top + height, width)
+    ctx.restore()
   }
 }
 

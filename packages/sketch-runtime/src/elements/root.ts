@@ -1,12 +1,12 @@
 import { Direction } from '@sketchjs/yoga-layout'
-import { StyleSheetCssProperties } from '../types'
+import { StyleSheetCssProperties } from '@/types'
+import { Event, EventEmitter, EventListener, log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
-import { Event, EventEmitter, EventListener, log } from '../utils'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
-    ctx: CanvasRenderingContext2D,
-    canvas: HTMLCanvasElement,
+    ctx?: CanvasRenderingContext2D,
+    canvas?: HTMLCanvasElement,
 }
 
 type EventType = 'elementUpdate'|'initialized'
@@ -41,8 +41,8 @@ export class SketchRoot extends SketchView {
     this.eventEmit = new EventEmitter()
   }
 
-  public static create (opt:CreateSketchRootOpt) {
-    const { canvas, ctx, style } = opt
+  public static create (opt?:CreateSketchRootOpt) {
+    const { canvas, ctx, style } = opt || {}
     return new SketchRoot(canvas, ctx, style)
   }
 
@@ -51,6 +51,13 @@ export class SketchRoot extends SketchView {
    */
   public get _root (): SketchRoot {
     return this
+  }
+
+  /**
+   * 获取是否可渲染
+   */
+  public get renderable () {
+    return this.isMounted && this.ctx && this.canvas
   }
 
   /**

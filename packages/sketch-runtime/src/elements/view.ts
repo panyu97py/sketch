@@ -1,5 +1,5 @@
+import { log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { log } from '../utils'
 
 /**
  * 视图元素
@@ -8,8 +8,8 @@ export class SketchView extends SketchElement {
   /**
    * 静态工厂方法，返回异步初始化后的实例
    */
-  public static create (opt: CreateSketchElementOpt) {
-    const { style } = opt
+  public static create (opt?: CreateSketchElementOpt) {
+    const { style } = opt || {}
     return new SketchView(style)
   }
 
@@ -17,7 +17,7 @@ export class SketchView extends SketchElement {
    * 渲染函数
    */
   async render () {
-    if (!this._root?.ctx) return
+    if (!this._root?.renderable) return
 
     // 计算布局位置
     this._root.calculateLayout()
@@ -28,9 +28,12 @@ export class SketchView extends SketchElement {
 
     // 渲染元素
     const { backgroundColor = 'transparent' } = this.style || {}
-    this._root.ctx.save()
-    this._root.ctx.fillStyle = backgroundColor
-    this._root.ctx.fillRect(left, top, width, height)
-    this._root.ctx.restore()
+    const { ctx } = this._root
+    if (!ctx) return
+
+    ctx.save()
+    ctx.fillStyle = backgroundColor
+    ctx.fillRect(left, top, width, height)
+    ctx.restore()
   }
 }

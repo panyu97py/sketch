@@ -3,6 +3,8 @@ type NonEmpty<T> = T extends '' | null | undefined ? never : T;
 
 type Size = number | 'auto' | `${number}%`
 
+type PositionSize = number | `${number}%`
+
 type Color = `#${string}` | `rgba(${number}, ${number}, ${number}, ${number})`
 
 type YogaSupportedCSSProperties =
@@ -21,7 +23,11 @@ type YogaSupportedCSSProperties =
     | 'gap'
     | 'backgroundColor'
 
-export interface StyleSheetCssProperties extends Partial<Pick<CSSStyleDeclaration, YogaSupportedCSSProperties>> {
+type OverwriteCSSProperties = 'flex' | 'top' | 'right' | 'bottom' | 'left'
+
+type ExtendsCSSProperties = Pick<CSSStyleDeclaration, Exclude<YogaSupportedCSSProperties, OverwriteCSSProperties>>
+
+export interface StyleSheetCssProperties extends Partial<ExtendsCSSProperties> {
     display?: 'flex' | 'none' | 'contents'
     width?: Size;
     minWidth?: Size;
@@ -44,6 +50,11 @@ export interface StyleSheetCssProperties extends Partial<Pick<CSSStyleDeclaratio
     fontSize?: number;
     fontWeight?: number;
     textAlign?: CanvasTextAlign
+    flex?: number;
+    top?: PositionSize;
+    right?: PositionSize;
+    bottom?: PositionSize;
+    left?: PositionSize;
 }
 
 export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;
