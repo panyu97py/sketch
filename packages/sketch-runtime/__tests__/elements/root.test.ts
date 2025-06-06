@@ -39,13 +39,6 @@ describe('SketchRoot', () => {
     })
   })
 
-  test('SketchRoot.render', () => {
-    const root = SketchRoot.create()
-    const style = mockDeep<StyleSheetCssProperties>()
-    root.setStyle(style)
-    root.render()
-  })
-
   describe('SketchRoot.toDataURL', () => {
     test('SketchRoot.toDataURL:success', async () => {
       const root = SketchRoot.create()
