@@ -243,7 +243,7 @@ describe('StyleSheet', () => {
     test('StyleSheet.transform.borderRadius', () => {
       const styleSheetNumberRadius = StyleSheet.create({ element: { borderRadius: 10, borderBottomLeftRadius: 20 } })
       const transformedStyleSheetNumberRadius = StyleSheet.transform(styleSheetNumberRadius.element)
-      expect(transformedStyleSheetNumberRadius).toEqual({ borderRadius: [10, 10, 20, 10] })
+      expect(transformedStyleSheetNumberRadius).toEqual({ borderRadius: [10, 10, 10, 20] })
 
       const styleSheetArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40], borderBottomLeftRadius: 20 } })
       const transformedStyleSheetArrayRadius = StyleSheet.transform(styleSheetArrayRadius.element)
