@@ -23,8 +23,8 @@ export const borderRadiusTransform = createStyleTransformStrategy({
     const propertyIndexMap: Record<string, number> = {
       borderTopLeftRadius: 0,
       borderTopRightRadius: 1,
-      borderBottomLeftRadius: 2,
-      borderBottomRightRadius: 3
+      borderBottomRightRadius: 2,
+      borderBottomLeftRadius: 3
     }
 
     const propertyIndex = propertyIndexMap[cssProperty]
