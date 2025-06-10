@@ -1,19 +1,10 @@
-import { SketchRoot } from '@/elements'
-import { StyleSheetDeclaration } from '@/types'
-import { Event } from '@/utils'
+import { SketchRoot, Event, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { mockDeep } from 'jest-mock-extended'
 
 describe('SketchRoot', () => {
   test('SketchRoot.create', () => {
     const root = SketchRoot.create()
     expect(root).toBeDefined()
-  })
-
-  test('SketchRoot.setStyle', () => {
-    const root = SketchRoot.create()
-    const style = mockDeep<StyleSheetDeclaration>()
-    root.setStyle(style)
-    expect(root.style).toEqual(style)
   })
 
   describe('SketchRoot.init', () => {

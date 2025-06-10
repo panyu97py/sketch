@@ -1,5 +1,4 @@
-import { SketchImage, SketchRoot, SketchText, SketchView, StyleSheet } from '@/elements'
-import { StyleSheetDeclaration } from '@/types'
+import { SketchImage, SketchRoot, SketchText, SketchView, StyleSheet, StyleSheetDeclaration } from '@sketchjs/runtime'
 
 const style: StyleSheetDeclaration = {
   width: 100,

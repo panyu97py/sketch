@@ -12,6 +12,7 @@ export default {
   transformIgnorePatterns: [],
   setupFiles: ['jest-canvas-mock'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1' // 配置 @ 路径别名
+    '^@/(.*)$': '<rootDir>/src/$1', // 配置 @ 路径别名
+    '@sketchjs/runtime': '<rootDir>/src/index' // 配置 @ 路径别名
   }
 }

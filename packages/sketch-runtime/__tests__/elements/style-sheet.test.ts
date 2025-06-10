@@ -1,5 +1,5 @@
 import { mockDeep } from 'jest-mock-extended'
-import { SketchElement, StyleSheet } from '@/elements'
+import { SketchElement, StyleSheet } from '@sketchjs/runtime'
 import { CSS_TO_YOGA_MAP } from '@/constants'
 import { Edge } from '@sketchjs/yoga-layout'
 

@@ -1,4 +1,4 @@
-import { SketchImage } from '@/elements'
+import { SketchImage } from '@sketchjs/runtime'
 
 describe('SketchImage', () => {
   test('SketchImage.create', () => {

@@ -9,7 +9,8 @@
     "skipLibCheck": true,
     "allowJs": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@sketchjs/runtime": ["src/index.ts"],
     }
   },
   "include": ["src", "__tests__"]
