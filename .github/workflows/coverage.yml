@@ -1,0 +1,26 @@
+name: Coverage
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [sketch-runtime]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - run: pnpm install
+      - run: pnpm run test:${{ matrix.package }}
+      - run: bash <(curl -s https://codecov.io/bash) -f packages/${{ matrix.package }}/coverage/coverage-final.json -F ${{ matrix.package }}
