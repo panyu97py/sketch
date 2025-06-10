@@ -240,14 +240,36 @@ describe('StyleSheet', () => {
   })
 
   describe('StyleSheet.transform', () => {
-    test('StyleSheet.transform.borderRadius', () => {
-      const styleSheetNumberRadius = StyleSheet.create({ element: { borderRadius: 10, borderBottomLeftRadius: 20 } })
-      const transformedStyleSheetNumberRadius = StyleSheet.transform(styleSheetNumberRadius.element)
-      expect(transformedStyleSheetNumberRadius).toEqual({ borderRadius: [10, 10, 10, 20] })
+    describe('StyleSheet.transform.borderRadius', () => {
+      test('StyleSheet.transform.borderRadius.numberRadius', () => {
+        const styleSheetNumberRadius = StyleSheet.create({ element: { borderRadius: 10, borderBottomLeftRadius: 20 } })
+        const transformedStyleSheetNumberRadius = StyleSheet.transform(styleSheetNumberRadius.element)
+        expect(transformedStyleSheetNumberRadius).toEqual({ borderRadius: [10, 10, 10, 20] })
+      })
 
-      const styleSheetArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40], borderBottomLeftRadius: 20 } })
-      const transformedStyleSheetArrayRadius = StyleSheet.transform(styleSheetArrayRadius.element)
-      expect(transformedStyleSheetArrayRadius).toEqual({ borderRadius: [10, 20, 30, 20] })
+      test('StyleSheet.transform.borderRadius.arrayRadius', () => {
+        const styleSheetArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40], borderBottomLeftRadius: 20 } })
+        const transformedStyleSheetArrayRadius = StyleSheet.transform(styleSheetArrayRadius.element)
+        expect(transformedStyleSheetArrayRadius).toEqual({ borderRadius: [10, 20, 30, 20] })
+      })
+
+      test('StyleSheet.transform.borderRadius.onlyNumberRadius', () => {
+        const styleSheetOnlyNumberRadius = StyleSheet.create({ element: { borderRadius: 10 } })
+        const transformedStyleSheetOnlyNumberRadius = StyleSheet.transform(styleSheetOnlyNumberRadius.element)
+        expect(transformedStyleSheetOnlyNumberRadius).toEqual({ borderRadius: [10, 10, 10, 10] })
+      })
+
+      test('StyleSheet.transform.borderRadius.onlyArrayRadius', () => {
+        const styleSheetOnlyArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40] } })
+        const transformedStyleSheetOnlyArrayRadius = StyleSheet.transform(styleSheetOnlyArrayRadius.element)
+        expect(transformedStyleSheetOnlyArrayRadius).toEqual({ borderRadius: [10, 20, 30, 40] })
+      })
+
+      test('StyleSheet.transform.borderRadius.noAllRadius', () => {
+        const styleSheetNoAllRadius = StyleSheet.create({ element: { borderTopLeftRadius: 10, borderTopRightRadius: 20, borderBottomRightRadius: 30, borderBottomLeftRadius: 40 } })
+        const transformedStyleSheetNoAllRadius = StyleSheet.transform(styleSheetNoAllRadius.element)
+        expect(transformedStyleSheetNoAllRadius).toEqual({ borderRadius: [10, 20, 30, 40] })
+      })
     })
   })
 })
