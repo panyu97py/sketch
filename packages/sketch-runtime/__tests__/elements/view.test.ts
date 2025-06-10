@@ -1,4 +1,4 @@
-import { SketchView } from '@/elements'
+import { SketchView } from '@sketchjs/runtime'
 
 describe('SketchView', () => {
   test('SketchView.create', () => {

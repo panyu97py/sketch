@@ -1,6 +1,3 @@
-// 定义过滤空值的类型
-type NonEmpty<T> = T extends '' | null | undefined ? never : T;
-
 type Size = number | 'auto' | `${number}%`
 
 type PositionSize = number | `${number}%`
@@ -9,6 +6,11 @@ type Color = `#${string}` | `rgba(${number}, ${number}, ${number}, ${number})`
 
 type YogaSupportedCSSProperties =
   | 'boxSizing'
+  | 'borderRadius'
+  | 'borderTopLeftRadius'
+  | 'borderTopRightRadius'
+  | 'borderBottomLeftRadius'
+  | 'borderBottomRightRadius'
   | 'flex'
   | 'flexDirection'
   | 'flexWrap'
@@ -30,6 +32,11 @@ type YogaSupportedCSSProperties =
   | 'color'
 
 type OverwriteCSSProperties =
+  | 'borderRadius'
+  | 'borderTopLeftRadius'
+  | 'borderTopRightRadius'
+  | 'borderBottomLeftRadius'
+  | 'borderBottomRightRadius'
   | 'flex'
   | 'top'
   | 'right'
@@ -41,9 +48,9 @@ type OverwriteCSSProperties =
   | 'textAlign'
   | 'color'
 
-type ExtendsCSSProperties = Pick<CSSStyleDeclaration, Exclude<YogaSupportedCSSProperties, OverwriteCSSProperties>>
+type ExtendsCSSDeclaration = Pick<CSSStyleDeclaration, Exclude<YogaSupportedCSSProperties, OverwriteCSSProperties>>
 
-export interface StyleSheetCssProperties extends Partial<ExtendsCSSProperties> {
+export interface StyleSheetDeclaration extends Partial<ExtendsCSSDeclaration> {
   display?: 'flex' | 'none' | 'contents'
   width?: Size;
   minWidth?: Size;
@@ -71,6 +78,18 @@ export interface StyleSheetCssProperties extends Partial<ExtendsCSSProperties> {
   right?: PositionSize;
   bottom?: PositionSize;
   left?: PositionSize;
+  borderRadius?: number | number[];
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomLeftRadius?: number;
+  borderBottomRightRadius?: number;
 }
 
-export type StyleSheetCssValues = NonEmpty<StyleSheetCssProperties[keyof StyleSheetCssProperties]>;
+// 定义过滤空值的类型
+export type NonEmpty<T> = T extends '' | null | undefined ? never : T;
+
+export type FilterInvalidValues<T> = T extends '' | null | undefined | any[] ? never : T;
+
+export type StyleSheetCssValues = NonEmpty<StyleSheetDeclaration[keyof StyleSheetDeclaration]>;
+
+export type StyleSheetCssProperty = keyof StyleSheetDeclaration

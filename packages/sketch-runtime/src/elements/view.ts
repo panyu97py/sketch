@@ -27,13 +27,14 @@ export class SketchView extends SketchElement {
     log('SketchView.render', { left, top, width, height, node: this })
 
     // 渲染元素
-    const { backgroundColor = 'transparent' } = this.style || {}
     const { ctx } = this._root
     if (!ctx) return
-
+    const { backgroundColor = 'transparent', borderRadius = 0 } = this.style || {}
     ctx.save()
     ctx.fillStyle = backgroundColor
-    ctx.fillRect(left, top, width, height)
+    ctx.beginPath()
+    ctx.roundRect(left, top, width, height, borderRadius)
+    ctx.fill()
     ctx.restore()
   }
 }

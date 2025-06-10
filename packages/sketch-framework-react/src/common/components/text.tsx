@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
-import { SketchElement, SketchText, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { SketchElement, SketchText, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { useSketchElementRegister } from '../hooks'
 
 export interface InternalSketchTextProps {
     text?: string;
     parent?: SketchElement
-    style?: StyleSheetCssProperties
+    style?: StyleSheetDeclaration
 }
 
 export const InternalSketchText: React.FC<InternalSketchTextProps> = (props) => {

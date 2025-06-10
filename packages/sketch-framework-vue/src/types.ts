@@ -1,13 +1,13 @@
 import { SketchRootProps, SketchTextProps, SketchViewProps } from './common/components'
 import { DefineComponent, ExtractPropTypes, PropType, ComputedRef } from 'vue';
-import { SketchRoot, SketchElement, StyleSheetCssProperties } from '@sketchjs/runtime';
+import { SketchRoot, SketchElement, StyleSheetDeclaration } from '@sketchjs/runtime';
 import { JSX } from 'vue/jsx-runtime'
 
 
 const SketchImageProps = {
   src: String,
   parent: Object as PropType<SketchElement>,
-  style: Object as PropType<StyleSheetCssProperties>,
+  style: Object as PropType<StyleSheetDeclaration>,
 };
 
 export * from '@sketchjs/runtime';

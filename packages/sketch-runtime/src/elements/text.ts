@@ -1,5 +1,5 @@
 import { DEFAULT_FONT_STYLE } from '@/constants'
-import { FontStyle, StyleSheetCssProperties } from '@/types'
+import { FontStyle, StyleSheetDeclaration } from '@/types'
 import { log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
 
@@ -88,7 +88,7 @@ class SketchSingLineText extends SketchBaseText {
    * @param text 文本内容
    * @param style 样式
    */
-  protected constructor (text: string, style?: StyleSheetCssProperties) {
+  protected constructor (text: string, style?: StyleSheetDeclaration) {
     super(style)
     this.text = text
   }
@@ -164,7 +164,7 @@ export class SketchText extends SketchBaseText {
    * @param text 文本内容
    * @param style 样式
    */
-  protected constructor (text: string, style?: StyleSheetCssProperties) {
+  protected constructor (text: string, style?: StyleSheetDeclaration) {
     super(style)
     this.text = text
   }

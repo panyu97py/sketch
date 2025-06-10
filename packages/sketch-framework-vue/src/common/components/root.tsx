@@ -1,9 +1,9 @@
 import { watchEffect, defineComponent, PropType, provide } from 'vue'
-import { Event, SketchElement, SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { Event, SketchElement, SketchRoot, StyleSheetDeclaration } from '@sketchjs/runtime'
 
 export const SketchRootProps = {
   sketch: Object as PropType<SketchRoot>,
-  style: Object as PropType<StyleSheetCssProperties>,
+  style: Object as PropType<StyleSheetDeclaration>,
 };
 
 export const InternalSketchRoot = defineComponent({

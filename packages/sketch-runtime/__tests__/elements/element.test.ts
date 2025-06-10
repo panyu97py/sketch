@@ -1,4 +1,4 @@
-import { SketchElement, StyleSheet } from '@/elements'
+import { SketchElement, StyleSheet } from '@sketchjs/runtime'
 
 describe('SketchElement', () => {
   describe('SketchElement.create', () => {

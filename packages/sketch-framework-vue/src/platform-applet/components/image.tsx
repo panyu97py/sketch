@@ -1,11 +1,11 @@
 import { computed, defineComponent, inject, PropType, provide } from 'vue'
 import { useSketchElementRegister } from '../../common/hooks'
 import { SketchAppletImage } from '../elements'
-import { SketchElement, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { SketchElement, StyleSheetDeclaration } from '@sketchjs/runtime'
 
 export const SketchImageProps = {
   src: String,
-  style: Object as PropType<StyleSheetCssProperties>,
+  style: Object as PropType<StyleSheetDeclaration>,
 };
 
 export const InternalSketchAppletImage = defineComponent({

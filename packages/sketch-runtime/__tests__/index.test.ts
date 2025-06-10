@@ -1,7 +1,6 @@
-import { SketchImage, SketchRoot, SketchText, SketchView, StyleSheet } from '@/elements'
-import { StyleSheetCssProperties } from '@/types'
+import { SketchImage, SketchRoot, SketchText, SketchView, StyleSheet, StyleSheetDeclaration } from '@sketchjs/runtime'
 
-const style: StyleSheetCssProperties = {
+const style: StyleSheetDeclaration = {
   width: 100,
   height: 100,
   fontSize: 16,

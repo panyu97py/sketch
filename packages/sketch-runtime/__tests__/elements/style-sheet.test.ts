@@ -1,5 +1,5 @@
 import { mockDeep } from 'jest-mock-extended'
-import { SketchElement, StyleSheet } from '@/elements'
+import { SketchElement, StyleSheet } from '@sketchjs/runtime'
 import { CSS_TO_YOGA_MAP } from '@/constants'
 import { Edge } from '@sketchjs/yoga-layout'
 
@@ -236,6 +236,18 @@ describe('StyleSheet', () => {
       const styleSheet = StyleSheet.create({ element: { paddingLeft } })
       StyleSheet.apply(sketchElementMock, styleSheet.element)
       expect(sketchElementMock.layout?.setPadding).toHaveBeenCalledWith(Edge.Left, paddingLeft)
+    })
+  })
+
+  describe('StyleSheet.transform', () => {
+    test('StyleSheet.transform.borderRadius', () => {
+      const styleSheetNumberRadius = StyleSheet.create({ element: { borderRadius: 10, borderBottomLeftRadius: 20 } })
+      const transformedStyleSheetNumberRadius = StyleSheet.transform(styleSheetNumberRadius.element)
+      expect(transformedStyleSheetNumberRadius).toEqual({ borderRadius: [10, 10, 10, 20] })
+
+      const styleSheetArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40], borderBottomLeftRadius: 20 } })
+      const transformedStyleSheetArrayRadius = StyleSheet.transform(styleSheetArrayRadius.element)
+      expect(transformedStyleSheetArrayRadius).toEqual({ borderRadius: [10, 20, 30, 20] })
     })
   })
 })
