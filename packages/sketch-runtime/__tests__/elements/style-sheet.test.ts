@@ -248,6 +248,14 @@ describe('StyleSheet', () => {
       const styleSheetArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40], borderBottomLeftRadius: 20 } })
       const transformedStyleSheetArrayRadius = StyleSheet.transform(styleSheetArrayRadius.element)
       expect(transformedStyleSheetArrayRadius).toEqual({ borderRadius: [10, 20, 30, 20] })
+
+      const styleSheetOnlyNumberRadius = StyleSheet.create({ element: { borderRadius: 10 } })
+      const transformedStyleSheetOnlyNumberRadius = StyleSheet.transform(styleSheetOnlyNumberRadius.element)
+      expect(transformedStyleSheetOnlyNumberRadius).toEqual({ borderRadius: [10, 10, 10, 10] })
+
+      const styleSheetOnlyArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40] } })
+      const transformedStyleSheetOnlyArrayRadius = StyleSheet.transform(styleSheetOnlyArrayRadius.element)
+      expect(transformedStyleSheetOnlyArrayRadius).toEqual({ borderRadius: [10, 20, 30, 40] })
     })
   })
 })
