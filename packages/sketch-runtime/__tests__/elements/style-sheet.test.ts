@@ -238,4 +238,16 @@ describe('StyleSheet', () => {
       expect(sketchElementMock.layout?.setPadding).toHaveBeenCalledWith(Edge.Left, paddingLeft)
     })
   })
+
+  describe('StyleSheet.transform', () => {
+    test('StyleSheet.transform.borderRadius', () => {
+      const styleSheetNumberRadius = StyleSheet.create({ element: { borderRadius: 10, borderBottomLeftRadius: 20 } })
+      const transformedStyleSheetNumberRadius = StyleSheet.transform(styleSheetNumberRadius.element)
+      expect(transformedStyleSheetNumberRadius).toEqual({ borderRadius: [10, 10, 20, 10] })
+
+      const styleSheetArrayRadius = StyleSheet.create({ element: { borderRadius: [10, 20, 30, 40], borderBottomLeftRadius: 20 } })
+      const transformedStyleSheetArrayRadius = StyleSheet.transform(styleSheetArrayRadius.element)
+      expect(transformedStyleSheetArrayRadius).toEqual({ borderRadius: [10, 20, 30, 40] })
+    })
+  })
 })
