@@ -1,5 +1,5 @@
 import { Direction } from '@sketchjs/yoga-layout'
-import { StyleSheetCssProperties } from '@/types'
+import { StyleSheetDeclaration } from '@/types'
 import { Event, EventEmitter, EventListener, log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
@@ -33,7 +33,7 @@ export class SketchRoot extends SketchView {
   /**
    * 构造函数
    */
-  constructor (canvas?: HTMLCanvasElement, ctx?: CanvasRenderingContext2D, style?: StyleSheetCssProperties) {
+  constructor (canvas?: HTMLCanvasElement, ctx?: CanvasRenderingContext2D, style?: StyleSheetDeclaration) {
     super(style)
     this.ctx = ctx
     this.canvas = canvas
@@ -86,7 +86,7 @@ export class SketchRoot extends SketchView {
    * 设置样式
    * @param style
    */
-  public setStyle (style?: StyleSheetCssProperties) {
+  public setStyle (style?: StyleSheetDeclaration) {
     super.setStyle(style)
     this.setCanvasSize()
   }
@@ -114,8 +114,8 @@ export class SketchRoot extends SketchView {
   public async init (opt?:CreateSketchRootOpt) {
     const { ctx, canvas, style } = opt || {}
     this.ctx = ctx || this.ctx
-    this.style = style || this.style
     this.canvas = canvas || this.canvas
+    this.setStyle(style)
     if (!this.ctx || !this.canvas) return Promise.reject(new Error('canvas or ctx is empty'))
     await this.applyOnMount()
     this.dispatchEvent(new Event('initialized', this))

@@ -1,5 +1,5 @@
 import { Justify, Align, FlexDirection, Wrap, BoxSizing, PositionType } from '@sketchjs/yoga-layout'
-import { StyleSheetCssProperties, StyleSheetCssValues, FontStyle } from './types'
+import { StyleSheetCssValues, FontStyle, StyleSheetCssProperty, FilterInvalidValues } from './types'
 
 export const DEFAULT_FONT_STYLE: Required<FontStyle> = {
   fontSize: 20,
@@ -8,7 +8,7 @@ export const DEFAULT_FONT_STYLE: Required<FontStyle> = {
   fontFamily: 'PingFang SC'
 }
 
-export const CSS_TO_YOGA_MAP: Partial<Record<keyof StyleSheetCssProperties, Record<StyleSheetCssValues, any>>> = {
+export const CSS_TO_YOGA_MAP: Partial<Record<StyleSheetCssProperty, Record<FilterInvalidValues<StyleSheetCssValues>, any>>> = {
   flexDirection: {
     row: FlexDirection.Row,
     column: FlexDirection.Column,

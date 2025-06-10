@@ -1,9 +1,9 @@
 import { computed, defineComponent, inject, PropType, provide } from 'vue'
-import { SketchElement, SketchView, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { SketchElement, SketchView, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { useSketchElementRegister } from '../hooks'
 
 export const SketchViewProps = {
-  style: Object as PropType<StyleSheetCssProperties>,
+  style: Object as PropType<StyleSheetDeclaration>,
 }
 
 export const InternalSketchView = defineComponent({

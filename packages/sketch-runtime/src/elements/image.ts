@@ -1,5 +1,5 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { StyleSheetCssProperties } from '@/types'
+import { StyleSheetDeclaration } from '@/types'
 import { log } from '@/utils'
 
 interface CreateSketchImageOpt extends CreateSketchElementOpt {
@@ -26,7 +26,7 @@ export class SketchImage extends SketchElement {
    * @param src 图片地址
    * @param style 样式
    */
-  protected constructor (src: string, style?: StyleSheetCssProperties) {
+  protected constructor (src: string, style?: StyleSheetDeclaration) {
     super(style)
     this.src = src
   }
@@ -67,14 +67,17 @@ export class SketchImage extends SketchElement {
     log('SketchImage.render', { left, top, width, height, node: this })
 
     // 渲染元素
-    const { backgroundColor = 'transparent' } = this.style || {}
+    const { backgroundColor = 'transparent', borderRadius = 0 } = this.style || {}
     const { ctx } = this._root
     if (!ctx) return
 
     const imageObj = await this.loadImage(this.src)
     ctx.save()
     ctx.fillStyle = backgroundColor
-    ctx.fillRect(left, top, width, height)
+    ctx.beginPath()
+    ctx.roundRect(left, top, width, height, borderRadius)
+    ctx.closePath()
+    ctx.clip()
     ctx.drawImage(imageObj, left, top, width, height)
     ctx.restore()
   }

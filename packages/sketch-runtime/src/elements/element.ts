@@ -1,5 +1,5 @@
 import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout'
-import { StyleSheetCssProperties } from '@/types'
+import { StyleSheetDeclaration } from '@/types'
 import { Event, log, YogaLayoutUtils } from '@/utils'
 import { StyleSheet } from './style-sheet'
 import { SketchRoot } from './root'
@@ -7,7 +7,7 @@ import { SketchRoot } from './root'
 const defaultPosition = { top: 0, left: 0, bottom: 0, right: 0 }
 
 export interface CreateSketchElementOpt {
-  style?: StyleSheetCssProperties
+  style?: StyleSheetDeclaration
 }
 
 /**
@@ -37,7 +37,7 @@ export class SketchElement {
   /**
    * 样式
    */
-  public style?: StyleSheetCssProperties
+  public originStyle?: StyleSheetDeclaration
 
   /**
    * 是否为根节点
@@ -53,12 +53,16 @@ export class SketchElement {
     return this.parentNode?._root || null
   }
 
+  public get style () {
+    return StyleSheet.transform(this.originStyle || {})
+  }
+
   /**
    * 构造函数
    * @param style 样式
    */
-  protected constructor (style?: StyleSheetCssProperties) {
-    this.style = style
+  protected constructor (style?: StyleSheetDeclaration) {
+    this.setStyle(style)
   }
 
   /**
@@ -73,8 +77,8 @@ export class SketchElement {
    * 设置样式
    * @param style
    */
-  public setStyle (style?: StyleSheetCssProperties) {
-    if (style) this.style = style
+  public setStyle (style?: StyleSheetDeclaration) {
+    if (style) this.originStyle = style
     StyleSheet.apply(this, this.style)
   }
 

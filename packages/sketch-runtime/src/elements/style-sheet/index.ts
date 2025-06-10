@@ -1,19 +1,39 @@
 import { Edge } from '@sketchjs/yoga-layout'
 import { CSS_TO_YOGA_MAP } from '@/constants'
-import { StyleSheetCssProperties } from '@/types'
+import { StyleSheetDeclaration, StyleSheetCssProperty } from '@/types'
 import { isEmpty } from '@/utils'
-import { SketchElement } from './element'
+import { SketchElement } from '../element'
+import { borderRadiusTransform, StyleTransformStrategy } from './transform'
 
 /**
  * 样式工具类
  */
 export class StyleSheet {
   /**
+   * 样式转换策略
+   */
+  private static styleTransformers: StyleTransformStrategy[] = [borderRadiusTransform]
+
+  /**
    * 创建样式
    * @param styles
    */
-  static create<T extends Record<string, StyleSheetCssProperties>> (styles: T) {
+  static create<T extends Record<string, StyleSheetDeclaration>> (styles: T) {
     return styles
+  }
+
+  /**
+   * 格式化样式
+   * @param style
+   */
+  static transform<T extends StyleSheetDeclaration> (style: T) {
+    return Object.keys(style).reduce<StyleSheetDeclaration>((result, cssProperty:StyleSheetCssProperty) => {
+      const { [cssProperty]: cssValue } = style
+      if (isEmpty(cssValue)) return result
+      const strategy = this.styleTransformers.find(s => s.match.includes(cssProperty))
+      if (!strategy) return { ...result, [cssProperty]: cssValue }
+      return strategy.apply({ cssProperty, cssValue, source: style, result })
+    }, {})
   }
 
   /**
@@ -21,9 +41,9 @@ export class StyleSheet {
    * @param sketchElement
    * @param style
    */
-  static apply (sketchElement: SketchElement, style?: StyleSheetCssProperties) {
+  static apply (sketchElement: SketchElement, style?: StyleSheetDeclaration) {
     if (!style) return
-    Object.keys(style).forEach((cssProperty: keyof StyleSheetCssProperties) => {
+    Object.keys(style).forEach((cssProperty: StyleSheetCssProperty) => {
       const { [cssProperty]: cssValue } = style
       if (isEmpty(cssValue) || !sketchElement.layout) return
       const { [cssValue!]: EdgeValue } = CSS_TO_YOGA_MAP[cssProperty] || {}

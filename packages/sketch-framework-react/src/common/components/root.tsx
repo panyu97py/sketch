@@ -1,12 +1,12 @@
 import { noop } from 'lodash-es'
 import React, { useCallback, useEffect } from 'react'
-import { SketchRoot, StyleSheetCssProperties } from '@sketchjs/runtime'
+import { SketchRoot, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { useToRef } from '../hooks'
 import { SketchElementChild } from '../types'
 
 export interface InternalSketchRootProps {
   sketch?: SketchRoot
-  style?: StyleSheetCssProperties;
+  style?: StyleSheetDeclaration;
   children?: SketchElementChild | SketchElementChild[];
   onReady?: () => void
   onUpdate?: () => void
