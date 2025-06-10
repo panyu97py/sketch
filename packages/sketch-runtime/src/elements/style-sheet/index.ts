@@ -46,8 +46,11 @@ export class StyleSheet {
     Object.keys(style).forEach((cssProperty: StyleSheetCssProperty) => {
       const { [cssProperty]: cssValue } = style
       if (isEmpty(cssValue) || !sketchElement.layout) return
-      const { [cssValue!]: EdgeValue } = CSS_TO_YOGA_MAP[cssProperty] || {}
-      const finalValue = !isEmpty(EdgeValue) ? EdgeValue : cssValue
+      const finalValue = (() => {
+        if (!Object.keys(CSS_TO_YOGA_MAP).includes(cssProperty)) return cssValue
+        const { [cssValue as string]: EdgeValue } = CSS_TO_YOGA_MAP[cssProperty] || {}
+        return !isEmpty(EdgeValue) ? EdgeValue : cssValue
+      })()
       switch (cssProperty) {
         case 'display':
           return sketchElement.layout.setDisplay(finalValue)

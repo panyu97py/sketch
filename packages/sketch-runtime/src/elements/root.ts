@@ -78,6 +78,7 @@ export class SketchRoot extends SketchView {
   private setCanvasSize () {
     if (!this.isMounted || !this.canvas) return
     const { width, height } = this.getElementSize()
+    log('SketchRoot.setCanvasSize', { width, height })
     this.canvas.width = width
     this.canvas.height = height
   }

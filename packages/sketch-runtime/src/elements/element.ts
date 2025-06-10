@@ -37,7 +37,7 @@ export class SketchElement {
   /**
    * 样式
    */
-  public originStyle?: StyleSheetDeclaration
+  private originStyle?: StyleSheetDeclaration
 
   /**
    * 是否为根节点
