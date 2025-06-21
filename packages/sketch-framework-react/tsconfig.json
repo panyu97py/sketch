@@ -8,7 +8,11 @@
     "sourceMap": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",  // or "react-jsx" for React 17+
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "paths": {
+      "@/*": ["src/*"],
+      "@sketchjs/react": ["index"],
+    }
   },
-  "include": ["src"],
+  "include": ["src", "__tests__"]
 }
