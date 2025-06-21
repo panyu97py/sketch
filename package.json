@@ -22,6 +22,7 @@
     "start:example-applet-react": "pnpm --filter example-applet-react dev:weapp",
     "start:example-applet-vue": "pnpm --filter example-applet-vue dev:weapp",
     "test:sketch-runtime": "pnpm --filter @sketchjs/runtime test",
+    "test:sketch-framework-react": "pnpm --filter @sketchjs/react test",
     "clear-dist": "rm -rf dist && pnpm -r exec rm -rf dist",
     "clear-all": "rm -rf node_modules && pnpm -r exec rm -rf node_modules"
 
