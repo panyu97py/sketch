@@ -21,12 +21,20 @@ export default {
     {
       ...commonConfig,
       displayName: 'applet',
-      setupFiles: ['<rootDir>/jest.env.applet.ts'],
+      testPathIgnorePatterns: ['/src/platform-web'],
+      setupFiles: [
+        '<rootDir>/jest.env.applet.ts',
+        'jest-canvas-mock'
+      ],
     },
     {
       ...commonConfig,
       displayName: 'web',
-      setupFiles: ['<rootDir>/jest.env.web.ts'],
+      testPathIgnorePatterns: ['/src/platform-applet'],
+      setupFiles: [
+        '<rootDir>/jest.env.web.ts',
+        'jest-canvas-mock'
+      ],
     },
   ],
 }

@@ -9,7 +9,8 @@ describe('SketchImage', () => {
   describe('SketchImage.render', () => {
     test('SketchImage.render:failed', async () => {
       const image = SketchImage.create({ src: expect.any(String) })
-      image.render()
+      jest.spyOn(image, 'loadImage').mockImplementation(() => Promise.resolve(new Image()))
+      await image.render()
     })
   })
 })
