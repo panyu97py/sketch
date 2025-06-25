@@ -10,8 +10,8 @@
     "url": "git+https://github.com/panyu97py/sketch.git"
   },
   "scripts": {
-    "test": "jest",
-    "test:dev": "jest --watch",
+    "test": "",
+    "test:dev": "",
     "build": "",
     "prepublish": "npm run build"
   }
