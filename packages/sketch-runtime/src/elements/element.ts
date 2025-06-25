@@ -108,8 +108,9 @@ export class SketchElement {
    * 添加子元素
    * @param child 子元素
    */
-  public async appendChild (child: SketchElement) {
+  public async appendChild (child?: SketchElement) {
     log('SketchElement.appendChild', { node: this, child })
+    if (!child) return
     child.parentNode = this
     this.childNodes.push(child)
     await child.applyOnMount()
@@ -120,8 +121,9 @@ export class SketchElement {
    * 移除子元素
    * @param child 子元素
    */
-  public removeChild (child: SketchElement) {
+  public removeChild (child?: SketchElement) {
     log('SketchElement.removeChild', { node: this, child })
+    if (!child) return
     child.onUnmount()
     this.childNodes = this.childNodes.filter(item => item !== child)
     this._root?.dispatchEvent(new Event('elementUpdate', child))

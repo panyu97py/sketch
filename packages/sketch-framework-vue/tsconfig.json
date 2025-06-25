@@ -11,6 +11,6 @@
     "jsxImportSource": "vue"
   },
   "include": [
-    "src",
+    "src", "__tests__"
   ]
 }

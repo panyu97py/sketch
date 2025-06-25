@@ -1,6 +1,6 @@
 {
   "name": "@sketchjs/yoga-layout",
-  "version": "0.0.1-alpha.9",
+  "version": "0.0.1-alpha.16",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "author": "yu.pan",
@@ -10,8 +10,8 @@
     "url": "git+https://github.com/panyu97py/sketch.git"
   },
   "scripts": {
-    "test": "jest",
-    "test:dev": "jest --watch",
+    "test": "",
+    "test:dev": "",
     "build": "",
     "prepublish": "npm run build"
   }
