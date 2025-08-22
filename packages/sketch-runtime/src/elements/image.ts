@@ -67,7 +67,7 @@ export class SketchImage extends SketchElement {
     log('SketchImage.render', { left, top, width, height, node: this })
 
     // 渲染元素
-    const { backgroundColor = 'transparent', borderRadius = 0 } = this.style || {}
+    const { backgroundColor = 'transparent', borderRadius = [0, 0, 0, 0] } = this.style || {}
     const { ctx } = this._root
     if (!ctx) return
 

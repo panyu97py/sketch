@@ -29,7 +29,7 @@ export class SketchView extends SketchElement {
     // 渲染元素
     const { ctx } = this._root
     if (!ctx) return
-    const { backgroundColor = 'transparent', borderRadius = 0 } = this.style || {}
+    const { backgroundColor = 'transparent', borderRadius = [0, 0, 0, 0] } = this.style || {}
     ctx.save()
     ctx.fillStyle = backgroundColor
     ctx.beginPath()
