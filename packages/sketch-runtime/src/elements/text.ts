@@ -141,11 +141,11 @@ class SketchSingLineText extends SketchBaseText {
     if (!ctx) return
 
     ctx.save()
-    ctx.textBaseline = 'bottom'
+    ctx.textBaseline = 'middle'
     ctx.fillStyle = color
     ctx.textAlign = textAlign
     ctx.font = this.generateFontStyle(this.style as FontStyle)
-    ctx.fillText(this.text, left, top + height, width)
+    ctx.fillText(this.text, left, top + height / 2, width)
     ctx.restore()
   }
 }
