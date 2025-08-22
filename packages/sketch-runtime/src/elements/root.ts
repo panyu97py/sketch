@@ -113,6 +113,7 @@ export class SketchRoot extends SketchView {
    * @param opt
    */
   public async init (opt?:CreateSketchRootOpt) {
+    log('SketchRoot.init', { opt })
     const { ctx, canvas, style } = opt || {}
     this.ctx = ctx || this.ctx
     this.canvas = canvas || this.canvas

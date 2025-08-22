@@ -86,6 +86,7 @@ export class SketchElement {
    * 元素初始化
    */
   public async onMount () {
+    if (this.isMounted) return
     log('SketchElement.onMount', { node: this })
     const yoga = await YogaLayoutUtils.load()
     this.layout = yoga.Node.create()
@@ -135,9 +136,7 @@ export class SketchElement {
   public async applyOnMount () {
     if (!this._isRoot && !this._root?.isMounted) return
     await this.onMount()
-    return Promise.all(this.childNodes.map(child => {
-      return (child as SketchElement).applyOnMount()
-    }))
+    return Promise.all(this.childNodes.map(child => (child as SketchElement).applyOnMount()))
   }
 
   /**

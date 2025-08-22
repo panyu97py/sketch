@@ -195,5 +195,17 @@ export class SketchText extends SketchBaseText {
   /**
    * 渲染函数
    */
-  render = async () => Promise.resolve()
+  /**
+   * 渲染函数
+   */
+  render = async () => {
+    if (!this._root?.renderable) return
+
+    // 计算布局位置
+    this._root.calculateLayout()
+    const { left, top } = this.calculateElementAbsolutePosition()
+    const { width, height } = this.getElementSize()
+
+    log('SketchText.render', { left, top, width, height, node: this })
+  }
 }
