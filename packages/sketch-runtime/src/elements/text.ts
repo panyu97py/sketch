@@ -67,7 +67,7 @@ class SketchBaseText extends SketchElement {
   /**
    * 渲染函数
    */
-  render = async () => Promise.resolve()
+  render = () => {}
 }
 
 interface CreateSketchSingLineTextOpt extends CreateSketchElementOpt{
@@ -125,7 +125,7 @@ class SketchSingLineText extends SketchBaseText {
   /**
    * 渲染函数
    */
-  render = async () => {
+  render = () => {
     if (!this.renderable) return
 
     // 计算布局位置
@@ -198,7 +198,7 @@ export class SketchText extends SketchBaseText {
   /**
    * 渲染函数
    */
-  render = async () => {
+  render = () => {
     if (!this.renderable) return
 
     // 计算布局位置

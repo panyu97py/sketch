@@ -66,9 +66,10 @@ export class SketchRoot extends SketchView {
    */
   private recursiveRender (node: SketchElement) {
     const { childNodes } = node
-    return Promise.all(childNodes.map((child) => {
-      return Promise.all([child.render(), this.recursiveRender(child)])
-    }))
+    childNodes.forEach((child) => {
+      child.render()
+      this.recursiveRender(child)
+    })
   }
 
   /**

@@ -183,7 +183,5 @@ export class SketchElement {
     return { width, height }
   }
 
-  render () {
-    return Promise.resolve()
-  }
+  render () {}
 }

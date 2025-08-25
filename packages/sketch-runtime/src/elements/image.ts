@@ -71,7 +71,7 @@ export class SketchImage extends SketchElement {
   /**
    * 渲染函数
    */
-  render = async () => {
+  render = () => {
     if (!this.renderable) return
 
     // 计算布局位置
