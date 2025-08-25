@@ -115,7 +115,7 @@ class SketchSingLineText extends SketchBaseText {
     const { width: textWidth = 0 } = this.calculateTextWidth(this.text) || {}
     const finalLeft = (() => {
       if (textAlign === 'left') return left
-      if (textAlign === 'right') return elementWidth
+      if (textAlign === 'right') return left + elementWidth
       if (textAlign === 'center') return left + elementWidth / 2
     })()
     const finalRight = finalLeft + textWidth
