@@ -120,10 +120,13 @@ export class SketchRoot extends SketchView {
   /**
    * 渲染函数
    */
-  public async render () {
+  public render () {
     log('SketchRoot.render', { node: this })
-    await super.render()
-    await this.recursiveRender(this)
+    if (!this.renderable) return
+    const { width = 0, height = 0 } = this.canvas!
+    this.ctx?.clearRect(0, 0, width, height)
+    super.render()
+    this.recursiveRender(this)
   }
 
   /**
