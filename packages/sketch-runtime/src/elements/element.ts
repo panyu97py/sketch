@@ -47,6 +47,13 @@ export class SketchElement {
   }
 
   /**
+   * 是否可渲染
+   */
+  public get renderable () {
+    return Boolean(this._root?.renderable && this.isMounted)
+  }
+
+  /**
    * 获取根节点
    */
   public get _root (): SketchRoot | null {
@@ -93,7 +100,6 @@ export class SketchElement {
     const { layout: parentLayout } = this.parentNode || {}
     parentLayout?.insertChild(this.layout, parentLayout.getChildCount())
     StyleSheet.apply(this, this.style)
-    this.isMounted = true
   }
 
   /**
@@ -134,8 +140,9 @@ export class SketchElement {
    * 执行初始化逻辑
    */
   public async applyOnMount () {
-    if (!this._isRoot && !this._root?.isMounted) return
+    if (!this._isRoot && !this.parentNode?.isMounted) return
     await this.onMount()
+    this.isMounted = true
     return Promise.all(this.childNodes.map(child => (child as SketchElement).applyOnMount()))
   }
 

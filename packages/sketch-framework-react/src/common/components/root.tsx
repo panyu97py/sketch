@@ -27,6 +27,7 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
   },[])
 
   const handleSketchElementUpdate = useCallback(()=>{
+    if (!sketchRef.current?._root.isMounted) return
     sketchRef.current?.render()
     onUpdateRef.current()
   },[])

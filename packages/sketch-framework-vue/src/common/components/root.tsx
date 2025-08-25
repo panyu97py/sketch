@@ -17,6 +17,7 @@ export const InternalSketchRoot = defineComponent({
     }
 
     const handleSketchElementUpdate = (event: Event<SketchElement>) => {
+      if (!props.sketch?._root.isMounted) return
       props.sketch?.render()
       emit('update',event)
     }

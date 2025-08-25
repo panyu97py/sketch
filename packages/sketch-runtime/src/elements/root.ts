@@ -56,7 +56,7 @@ export class SketchRoot extends SketchView {
    * 获取是否可渲染
    */
   public get renderable () {
-    return this.isMounted && this.ctx && this.canvas
+    return Boolean(this.isMounted && this.ctx && this.canvas)
   }
 
   /**
@@ -101,14 +101,6 @@ export class SketchRoot extends SketchView {
   }
 
   /**
-   * 元素初始化
-   */
-  public async onMount () {
-    await super.onMount()
-    this.setCanvasSize()
-  }
-
-  /**
    * 初始化
    * @param opt
    */
@@ -120,6 +112,7 @@ export class SketchRoot extends SketchView {
     this.setStyle(style)
     if (!this.ctx || !this.canvas) return Promise.reject(new Error('canvas or ctx is empty'))
     await this.applyOnMount()
+    this.setCanvasSize()
     this.dispatchEvent(new Event('initialized', this))
   }
 

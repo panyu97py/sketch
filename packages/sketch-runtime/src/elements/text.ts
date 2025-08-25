@@ -126,10 +126,10 @@ class SketchSingLineText extends SketchBaseText {
    * 渲染函数
    */
   render = async () => {
-    if (!this._root?.renderable) return
+    if (!this.renderable) return
 
     // 计算布局位置
-    this._root.calculateLayout()
+    this._root!.calculateLayout()
     const { left, top } = this.calculateTextElementPositionByStyle()
     const { width, height } = this.getElementSize()
 
@@ -137,7 +137,7 @@ class SketchSingLineText extends SketchBaseText {
 
     // 渲染元素
     const { color = 'black', textAlign = 'left' } = this.style || {}
-    const { ctx } = this._root
+    const { ctx } = this._root!
     if (!ctx) return
 
     ctx.save()
@@ -199,10 +199,10 @@ export class SketchText extends SketchBaseText {
    * 渲染函数
    */
   render = async () => {
-    if (!this._root?.renderable) return
+    if (!this.renderable) return
 
     // 计算布局位置
-    this._root.calculateLayout()
+    this._root!.calculateLayout()
     const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
 
