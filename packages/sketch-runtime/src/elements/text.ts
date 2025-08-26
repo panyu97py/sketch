@@ -38,6 +38,7 @@ class SketchBaseText extends SketchElement {
    */
   splitTextByWidth = (text: string, maxWidth: number) => {
     if (!this._root) return []
+    if (!maxWidth) return [text]
     const textArr = `${text}`.split('')
     const intVal = { curLineText: '', lineTextArr: [] }
     const { lineTextArr } = textArr.reduce((result, textItem: string, index: number, list: string[]) => {
@@ -71,7 +72,7 @@ class SketchBaseText extends SketchElement {
 }
 
 interface CreateSketchSingLineTextOpt extends CreateSketchElementOpt{
-    text: string,
+  text: string,
 }
 
 /**
@@ -104,8 +105,10 @@ class SketchSingLineText extends SketchBaseText {
    */
   async onMount () {
     await super.onMount()
-    const { height, lineHeight } = this.style || {}
+    const { height, width, lineHeight } = this.style || {}
+    const { width: textWidth = 0 } = this.calculateTextWidth(this.text) || {}
     this.layout!.setHeight(height || lineHeight)
+    this.layout!.setWidth(width || textWidth)
   }
 
   calculateTextElementPositionByStyle = () => {
@@ -184,8 +187,12 @@ export class SketchText extends SketchBaseText {
     const { lineHeight = 0 } = this.style || {}
     const { width } = this.getElementSize()
     const lineTextArr = this.splitTextByWidth(this.text, width)
-    const height = lineTextArr.length * lineHeight
-    this.layout!.setHeight(height)
+    const [firstLineText = ''] = lineTextArr
+    const { width: firstLineTextWidth = 0 } = this.calculateTextWidth(firstLineText) || {}
+    const finalWidth = width || firstLineTextWidth
+    const finalHeight = lineTextArr.length * lineHeight
+    this.layout!.setWidth(finalWidth)
+    this.layout!.setHeight(finalHeight)
     lineTextArr.forEach((lineText) => {
       const textElement = SketchSingLineText.create({ text: lineText, style: this.style })
       return this.appendChild(textElement)
