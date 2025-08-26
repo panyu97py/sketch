@@ -9,12 +9,18 @@ import { CreateSketchElementOpt, SketchElement } from './element'
 class SketchBaseText extends SketchElement {
   /**
    * 生成文本样式
-   * @param fontStyle
+   * @param style
    */
-  generateFontStyle = (fontStyle: FontStyle) => {
-    const finalFontStyle = { ...DEFAULT_FONT_STYLE, ...fontStyle }
-    const { fontSize, fontWeight, lineHeight, fontFamily } = finalFontStyle
-    return `normal ${fontWeight} ${fontSize}px/${lineHeight} ${fontFamily}`
+  generateFontStyle = (style: FontStyle) => {
+    const finalStyle = { ...DEFAULT_FONT_STYLE, ...style }
+    const { fontStyle, fontVariant, fontWeight, fontStretch, fontSize, fontFamily } = finalStyle
+    const finalFontStyle = fontStyle || 'normal'
+    const finalFontVariant = fontVariant || 'normal'
+    const finalFontWeight = fontWeight || 'normal'
+    const finalFontStretch = fontStretch || 'normal'
+    const finalFontSize = `${fontSize}px`
+    const finalFontFamily = fontFamily || 'Arial'
+    return `${finalFontStyle} ${finalFontVariant} ${finalFontWeight} ${finalFontStretch} ${finalFontSize} ${finalFontFamily}`
   }
 
   /**

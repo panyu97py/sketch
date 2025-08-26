@@ -1,6 +1,9 @@
 export interface FontStyle {
-    fontSize?: number;
-    fontWeight?: number;
-    fontFamily?: string;
-    lineHeight?: number;
+  fontSize?: number;
+  fontStyle?: string;
+  fontWeight?: number;
+  fontFamily?: string;
+  fontVariant?: string;
+  fontStretch?: string;
+  lineHeight?: number;
 }
