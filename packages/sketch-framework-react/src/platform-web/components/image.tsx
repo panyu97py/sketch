@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { SketchImage } from '@sketchjs/runtime'
-import { SketchElementChild, SketchElementProps } from '../../common/types'
-import { useSketchElementRegister } from '../../common/hooks'
+import { SketchElementChild, SketchElementProps } from '@/common/types'
+import { useSketchElementRegister } from '@/common/hooks'
 
 export interface InternalSketchWebImageProps extends SketchElementProps {
     src?: string
