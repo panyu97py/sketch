@@ -118,10 +118,27 @@ export class SketchElement {
   public async appendChild (child?: SketchElement) {
     log('SketchElement.appendChild', { node: this, child })
     if (!child) return
-    child.parentNode = this
-    this.childNodes.push(child)
-    await child.applyOnMount()
-    this._root?.dispatchEvent(new Event('elementUpdate', child))
+    return this.insertBefore(child)
+  }
+
+  /**
+   * 插入子元素
+   * @param newChild 新子元素
+   * @param refChild 参照子元素
+   */
+  public async insertBefore (newChild: SketchElement, refChild?: SketchElement) {
+    log('SketchElement.insertBefore', { node: this, newChild, refChild })
+    if (!newChild) return
+
+    if (!refChild) this.childNodes.push(newChild)
+
+    if (refChild) {
+      const index = this.childNodes.indexOf(refChild)
+      this.childNodes.splice(index, 0, newChild)
+    }
+    newChild.parentNode = this
+    await newChild.applyOnMount()
+    this._root?.dispatchEvent(new Event('elementUpdate', newChild))
   }
 
   /**
