@@ -14,13 +14,8 @@ class SketchBaseText extends SketchElement {
   generateFontStyle = (style: FontStyle) => {
     const finalStyle = { ...DEFAULT_FONT_STYLE, ...style }
     const { fontStyle, fontVariant, fontWeight, fontStretch, fontSize, fontFamily } = finalStyle
-    const finalFontStyle = fontStyle || 'normal'
-    const finalFontVariant = fontVariant || 'normal'
-    const finalFontWeight = fontWeight || 'normal'
-    const finalFontStretch = fontStretch || 'normal'
     const finalFontSize = `${fontSize}px`
-    const finalFontFamily = fontFamily || 'Arial'
-    return `${finalFontStyle} ${finalFontVariant} ${finalFontWeight} ${finalFontStretch} ${finalFontSize} ${finalFontFamily}`
+    return `${fontStyle} ${fontVariant} ${fontWeight} ${fontStretch} ${finalFontSize} ${fontFamily}`
   }
 
   /**
