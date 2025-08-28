@@ -8,11 +8,11 @@ export interface InternalSketchAppletImageProps extends SketchElementProps {
 }
 
 export const InternalSketchAppletImage: React.FC<InternalSketchAppletImageProps> = (props) => {
-  const { src = '', style, parent, children } = props
+  const { src = '', style, ...otherProps } = props
 
   const sketchAppletImage = useMemo(() => SketchAppletImage.create({ src, style }), [src, style])
 
-  const { childrenVNodes } = useSketchElement({ self: sketchAppletImage, parent, children})
+  const { childrenVNodes } = useSketchElement({ ...otherProps, self: sketchAppletImage})
 
   return <>{childrenVNodes}</>
 }

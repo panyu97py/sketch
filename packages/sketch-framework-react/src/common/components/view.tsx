@@ -6,11 +6,11 @@ import { useSketchElement } from '../hooks'
 export type InternalSketchViewProps = SketchElementProps;
 
 export const InternalSketchView: React.FC<InternalSketchViewProps> = (props) => {
-  const { style, parent, children } = props
+  const { style, ...otherProps } = props
 
   const sketchView = useMemo(() => SketchView.create({ style }), [style])
 
-  const { childrenVNodes } = useSketchElement({ self: sketchView ,parent, children })
+  const { childrenVNodes } = useSketchElement({ ...otherProps, self: sketchView })
 
   return <>{childrenVNodes}</>
 }

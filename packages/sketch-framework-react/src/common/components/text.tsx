@@ -8,11 +8,11 @@ export interface InternalSketchTextProps extends Omit<SketchElementProps, 'child
 }
 
 export const InternalSketchText: React.FC<InternalSketchTextProps> = (props) => {
-  const { text = '', style, parent } = props
+  const { text = '', style, ...otherProps } = props
 
   const sketchText = useMemo(() => SketchText.create({ text, style }), [text, style])
 
-  useSketchElement({ parent, self: sketchText })
+  useSketchElement({ ...otherProps, self: sketchText })
 
   return null
 }

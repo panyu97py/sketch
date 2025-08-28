@@ -95,11 +95,19 @@ export class SketchElement {
   public async onMount () {
     if (this.isMounted) return
     log('SketchElement.onMount', { node: this })
+
+    // 创建布局节点
     const yoga = await YogaLayoutUtils.load()
     this.layout = yoga.Node.create()
-    const { layout: parentLayout } = this.parentNode || {}
-    parentLayout?.insertChild(this.layout, parentLayout.getChildCount())
+
+    // 应用样式
     StyleSheet.apply(this, this.style)
+
+    // 插入到父节点布局中
+    if (!this.parentNode) return
+    const { layout: parentLayout, childNodes } = this.parentNode
+    const index = childNodes.findIndex(it => it === this)
+    parentLayout?.insertChild(this.layout, index)
   }
 
   /**
@@ -107,7 +115,9 @@ export class SketchElement {
    */
   public onUnmount () {
     log('SketchElement.onUnmount', { node: this })
-    if (!this.layout) return
+    if (!this.layout || !this.parentNode) return
+    const { layout: parentLayout } = this.parentNode
+    parentLayout?.removeChild(this.layout)
     this.layout.free()
   }
 

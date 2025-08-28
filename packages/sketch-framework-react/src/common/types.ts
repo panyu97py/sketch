@@ -7,4 +7,6 @@ export interface SketchElementProps extends Record<string, any> {
     parent?: SketchElement;
     style?: StyleSheetDeclaration;
     children?: SketchElementChild | SketchElementChild[]
+    onRegister?: (element: SketchElement) => void;
+    onUnregister?: (element: SketchElement) => void;
 }

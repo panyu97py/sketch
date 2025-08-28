@@ -8,11 +8,11 @@ export interface InternalSketchWebImageProps extends SketchElementProps {
 }
 
 export const InternalSketchWebImage: React.FC<InternalSketchWebImageProps> = (props) => {
-  const { src = '', style, parent, children } = props
+  const { src = '', style, ...otherProps } = props
 
   const sketchImage = useMemo(() => SketchImage.create({ src, style }), [src, style])
 
-  const { childrenVNodes } = useSketchElement({ self: sketchImage, parent, children})
+  const { childrenVNodes } = useSketchElement({ ...otherProps, self: sketchImage })
 
   return <>{childrenVNodes}</>
 }
