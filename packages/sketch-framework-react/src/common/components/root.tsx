@@ -1,13 +1,11 @@
 import { noop } from 'lodash-es'
 import React, { useCallback, useEffect } from 'react'
-import { SketchRoot, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useToRef } from '../hooks'
-import { SketchElementChild } from '../types'
+import { SketchRoot } from '@sketchjs/runtime'
+import { useSketchElement, useToRef } from '../hooks'
+import { SketchElementProps } from '../types'
 
-export interface InternalSketchRootProps {
+export interface InternalSketchRootProps extends Omit<SketchElementProps, 'parent'>{
   sketch?: SketchRoot
-  style?: StyleSheetDeclaration;
-  children?: SketchElementChild | SketchElementChild[];
   onReady?: () => void
   onUpdate?: () => void
 }
@@ -32,11 +30,7 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
     onUpdateRef.current()
   },[])
 
-  const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
-    const { props: childProps } = child
-    if (!React.isValidElement(child)) return null
-    return React.cloneElement(child, { ...childProps, parent: sketch })
-  })
+  const { childrenVNodes } = useSketchElement({ children, self: sketch })
 
   useEffect(() => {
     sketch?.setStyle(style)

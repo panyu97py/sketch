@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react'
 import { SketchImage } from '@sketchjs/runtime'
-import { SketchElementChild, SketchElementProps } from '@/common/types'
-import { useSketchElementRegister } from '@/common/hooks'
+import { SketchElementProps } from '@/common/types'
+import { useSketchElement } from '@/common/hooks'
 
 export interface InternalSketchWebImageProps extends SketchElementProps {
     src?: string
-    children?: SketchElementChild | SketchElementChild[]
 }
 
 export const InternalSketchWebImage: React.FC<InternalSketchWebImageProps> = (props) => {
@@ -13,13 +12,7 @@ export const InternalSketchWebImage: React.FC<InternalSketchWebImageProps> = (pr
 
   const sketchImage = useMemo(() => SketchImage.create({ src, style }), [src, style])
 
-  useSketchElementRegister({ parent, target: sketchImage })
-
-  const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
-    const { props: childProps } = child
-    if (!React.isValidElement(child)) return null
-    return React.cloneElement(child, { ...childProps, parent: sketchImage })
-  })
+  const { childrenVNodes } = useSketchElement({ self: sketchImage, parent, children})
 
   return <>{childrenVNodes}</>
 }

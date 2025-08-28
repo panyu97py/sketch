@@ -17,7 +17,7 @@
   "scripts": {
     "test": "jest",
     "test:dev": "jest --watch",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json  && tsc-alias -p tsconfig.build.json",
     "prepublish": "npm run build"
   },
   "peerDependencies": {
@@ -46,6 +46,7 @@
     "jest-canvas-mock": "^2.5.2",
     "jest-mock-extended": "^3.0.7",
     "react": "^18.0.0",
-    "ts-jest": "^29.2.5"
+    "ts-jest": "^29.2.5",
+    "tsc-alias": "^1.8.16"
   }
 }

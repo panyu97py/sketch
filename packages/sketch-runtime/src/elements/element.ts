@@ -126,7 +126,7 @@ export class SketchElement {
    * @param newChild 新子元素
    * @param refChild 参照子元素
    */
-  public async insertBefore (newChild: SketchElement, refChild?: SketchElement) {
+  public async insertBefore (newChild?: SketchElement, refChild?: SketchElement) {
     log('SketchElement.insertBefore', { node: this, newChild, refChild })
     if (!newChild) return
 
