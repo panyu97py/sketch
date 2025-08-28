@@ -1,6 +1,7 @@
 import { Direction } from '@sketchjs/yoga-layout'
 import { StyleSheetDeclaration } from '@/types'
 import { Event, EventEmitter, EventListener, log } from '@/utils'
+import { patchRoundRect } from '@/patch'
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
 
@@ -35,8 +36,8 @@ export class SketchRoot extends SketchView {
    */
   constructor (canvas?: HTMLCanvasElement, ctx?: CanvasRenderingContext2D, style?: StyleSheetDeclaration) {
     super(style)
-    this.ctx = ctx
     this.canvas = canvas
+    this.ctx = patchRoundRect(ctx)
     this.eventEmit = new EventEmitter()
   }
 
@@ -108,8 +109,8 @@ export class SketchRoot extends SketchView {
   public async init (opt?:CreateSketchRootOpt) {
     log('SketchRoot.init', { opt })
     const { ctx, canvas, style } = opt || {}
-    this.ctx = ctx || this.ctx
     this.canvas = canvas || this.canvas
+    this.ctx = patchRoundRect(ctx || this.ctx)
     this.setStyle(style)
     if (!this.ctx || !this.canvas) return Promise.reject(new Error('canvas or ctx is empty'))
     await this.applyOnMount()

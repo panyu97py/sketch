@@ -1,5 +1,6 @@
-if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
-  CanvasRenderingContext2D.prototype.roundRect = function (
+export const patchRoundRect = (ctx?: CanvasRenderingContext2D) => {
+  if (!ctx || Boolean(ctx?.roundRect)) return ctx
+  ctx!.roundRect = function (
     x: number,
     y: number,
     width: number,
@@ -32,4 +33,5 @@ if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D
 
     return ctx
   }
+  return ctx
 }
