@@ -112,6 +112,7 @@ export class SketchElement {
 
   /**
    * 元素销毁
+   * @todo 这里需要先执行子节点的销毁逻辑，由子节点逐步向上销毁
    */
   public onUnmount () {
     log('SketchElement.onUnmount', { node: this })

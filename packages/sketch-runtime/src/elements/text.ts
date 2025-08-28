@@ -190,12 +190,12 @@ export class SketchText extends SketchBaseText {
     const lineTextArr = this.splitTextByWidth(this.text, width)
     const [firstLineText = ''] = lineTextArr
     const { width: firstLineTextWidth = 0 } = this.calculateTextWidth(firstLineText) || {}
-    const finalWidth = width || firstLineTextWidth
-    const finalHeight = lineTextArr.length * lineHeight
+    const finalWidth = width || firstLineTextWidth // TODO 应该增加左右 padding，不然基于文字长度计算的自动宽度会不对
+    const finalHeight = lineTextArr.length * lineHeight // TODO 应该增加上下 padding，不然基于文字长度计算的自动宽度会不对
     this.layout!.setWidth(finalWidth)
     this.layout!.setHeight(finalHeight)
     lineTextArr.forEach((lineText) => {
-      const textElement = SketchSingLineText.create({ text: lineText, style: this.style })
+      const textElement = SketchSingLineText.create({ text: lineText, style: this.style }) // TODO 这里的 style 需要过滤下属性不然两层嵌套间距会不对
       return this.appendChild(textElement)
     })
   }
