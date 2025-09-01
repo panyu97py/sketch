@@ -1,5 +1,5 @@
 import { DEFAULT_FONT_STYLE } from '@/constants'
-import { FontStyle, StyleSheetDeclaration } from '@/types'
+import { FontStyle, StyleSheetCssProperty, StyleSheetDeclaration } from '@/types'
 import { log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
 
@@ -7,6 +7,11 @@ import { CreateSketchElementOpt, SketchElement } from './element'
  * 基础文本元素
  */
 class SketchBaseText extends SketchElement {
+  /**
+   * 单行文本可用样式属性
+   */
+  readonly SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS: StyleSheetCssProperty[] = ['color', 'width', 'height', 'lineHeight', 'fontSize', 'fontWeight', 'fontFamily', 'fontStyle', 'fontVariant', 'fontStretch', 'textAlign']
+
   /**
    * 生成文本样式
    * @param style
@@ -16,6 +21,17 @@ class SketchBaseText extends SketchElement {
     const { fontStyle, fontVariant, fontWeight, fontStretch, fontSize, fontFamily } = finalStyle
     const finalFontSize = `${fontSize}px`
     return `${fontStyle} ${fontVariant} ${fontWeight} ${fontStretch} ${finalFontSize} ${fontFamily}`
+  }
+
+  /**
+   * 生成单行文本样式
+   * @param style
+   */
+  generateSketchSingleLineTextStyle = (style: StyleSheetDeclaration) => {
+    return Object.keys(style).reduce<StyleSheetDeclaration>((result, key: StyleSheetCssProperty) => {
+      if (!this.SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS.includes(key)) return result
+      return { ...result, [key]: style[key] }
+    }, {})
   }
 
   /**
@@ -65,11 +81,6 @@ class SketchBaseText extends SketchElement {
     }, intVal)
     return lineTextArr
   }
-
-  /**
-   * 渲染函数
-   */
-  render = () => {}
 }
 
 interface CreateSketchSingLineTextOpt extends CreateSketchElementOpt{
@@ -194,8 +205,9 @@ export class SketchText extends SketchBaseText {
     const finalHeight = lineTextArr.length * lineHeight // TODO 应该增加上下 padding，不然基于文字长度计算的自动宽度会不对
     this.layout!.setWidth(finalWidth)
     this.layout!.setHeight(finalHeight)
+    const singleLineTextStyle = this.generateSketchSingleLineTextStyle(this.style || {})
     lineTextArr.forEach((lineText) => {
-      const textElement = SketchSingLineText.create({ text: lineText, style: this.style }) // TODO 这里的 style 需要过滤下属性不然两层嵌套间距会不对
+      const textElement = SketchSingLineText.create({ text: lineText, style: singleLineTextStyle })
       return this.appendChild(textElement)
     })
   }

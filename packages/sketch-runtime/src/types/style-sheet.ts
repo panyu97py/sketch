@@ -72,6 +72,10 @@ export interface StyleSheetDeclaration extends Partial<ExtendsCSSDeclaration> {
   lineHeight?: number;
   fontSize?: number;
   fontWeight?: number;
+  fontStyle?: string;
+  fontFamily?: string;
+  fontVariant?: string;
+  fontStretch?: string;
   textAlign?: CanvasTextAlign
   flex?: number;
   top?: PositionSize;
