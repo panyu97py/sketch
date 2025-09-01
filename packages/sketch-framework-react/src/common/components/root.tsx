@@ -4,7 +4,7 @@ import { SketchRoot } from '@sketchjs/runtime'
 import { useSketchElement, useToRef } from '../hooks'
 import { SketchElementProps } from '../types'
 
-export interface InternalSketchRootProps extends Omit<SketchElementProps, 'parent'>{
+export interface InternalSketchRootProps extends Pick<SketchElementProps, 'style'|'children'> {
   sketch?: SketchRoot
   autoRender?: boolean
   onReady?: () => void
