@@ -112,14 +112,12 @@ export class SketchElement {
 
   /**
    * 元素销毁
-   * @todo 这里需要先执行子节点的销毁逻辑，由子节点逐步向上销毁
    */
   public onUnmount () {
+    if (!this.isMounted) return
     log('SketchElement.onUnmount', { node: this })
-    if (!this.layout || !this.parentNode) return
-    const { layout: parentLayout } = this.parentNode
-    parentLayout?.removeChild(this.layout)
-    this.layout.free()
+    this.parentNode?.layout?.removeChild(this.layout!)
+    this.layout?.free()
   }
 
   /**
@@ -159,7 +157,7 @@ export class SketchElement {
   public removeChild (child?: SketchElement) {
     log('SketchElement.removeChild', { node: this, child })
     if (!child) return
-    child.onUnmount()
+    child.applyOnUnmount()
     this.childNodes = this.childNodes.filter(item => item !== child)
     this._root?.dispatchEvent(new Event('elementUpdate', child))
   }
@@ -172,6 +170,15 @@ export class SketchElement {
     await this.onMount()
     this.isMounted = true
     return Promise.all(this.childNodes.map(child => (child as SketchElement).applyOnMount()))
+  }
+
+  /**
+   * 执行销毁逻辑
+   */
+  public applyOnUnmount () {
+    this.childNodes.forEach(child => (child as SketchElement).applyOnUnmount())
+    this.onUnmount()
+    this.isMounted = false
   }
 
   /**
