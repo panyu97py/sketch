@@ -6,12 +6,13 @@ import { SketchElementProps } from '../types'
 
 export interface InternalSketchRootProps extends Omit<SketchElementProps, 'parent'>{
   sketch?: SketchRoot
+  autoRender?: boolean
   onReady?: () => void
   onUpdate?: () => void
 }
 
 export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
-  const { style, sketch, children, onReady = noop, onUpdate = noop } = props
+  const { style, sketch, autoRender, children, onReady = noop, onUpdate = noop } = props
 
   const sketchRef = useToRef(sketch)
 
@@ -20,13 +21,13 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
   const onUpdateRef = useToRef(onUpdate)
 
   const handleSketchInitialized  = useCallback(()=>{
-    sketchRef.current?.render()
+    if (autoRender) sketchRef.current?.render()
     onReadyRef.current()
   },[])
 
   const handleSketchElementUpdate = useCallback(()=>{
     if (!sketchRef.current?._root.isMounted) return
-    sketchRef.current?.render()
+    if (autoRender) sketchRef.current?.render()
     onUpdateRef.current()
   },[])
 
