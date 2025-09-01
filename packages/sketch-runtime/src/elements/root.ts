@@ -77,10 +77,10 @@ export class SketchRoot extends SketchView {
    * 初始化画布大小
    * @private
    */
-  private setCanvasSize () {
+  private refreshCanvasSize () {
     if (!this.isMounted || !this.canvas) return
     const { width, height } = this.getElementSize()
-    log('SketchRoot.setCanvasSize', { width, height })
+    log('SketchRoot.refreshCanvasSize', { width, height })
     this.canvas.width = width
     this.canvas.height = height
   }
@@ -91,7 +91,7 @@ export class SketchRoot extends SketchView {
    */
   public setStyle (style?: StyleSheetDeclaration) {
     super.setStyle(style)
-    this.setCanvasSize()
+    this.refreshCanvasSize()
   }
 
   /**
@@ -114,7 +114,7 @@ export class SketchRoot extends SketchView {
     this.setStyle(style)
     if (!this.ctx || !this.canvas) return Promise.reject(new Error('canvas or ctx is empty'))
     await this.applyOnMount()
-    this.setCanvasSize()
+    this.refreshCanvasSize()
     this.dispatchEvent(new Event('initialized', this))
   }
 
