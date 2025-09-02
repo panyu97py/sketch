@@ -1,4 +1,4 @@
-import { DEFAULT_FONT_STYLE } from '@/constants'
+import { DEFAULT_FONT_STYLE, DEFAULT_FONT_STYLE_PROPERTY } from '@/constants'
 import { FontStyle, StyleSheetCssProperty, StyleSheetDeclaration } from '@/types'
 import { log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
@@ -10,7 +10,7 @@ class SketchBaseText extends SketchElement {
   /**
    * 单行文本可用样式属性
    */
-  readonly SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS: StyleSheetCssProperty[] = ['color', 'width', 'height', 'lineHeight', 'fontSize', 'fontWeight', 'fontFamily', 'fontStyle', 'fontVariant', 'fontStretch', 'textAlign']
+  readonly SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS: StyleSheetCssProperty[] = [...DEFAULT_FONT_STYLE_PROPERTY, 'color', 'width', 'height', 'textAlign']
 
   /**
    * 生成文本样式

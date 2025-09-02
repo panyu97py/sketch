@@ -15,15 +15,16 @@ export const useSketchElement = (opt: Opt) => {
   const sketchElementMap = useRef<Map<any, SketchElement>>(new Map())
 
   const childrenVNodes = curChildren.map((child, childIndex: number, array) => {
-    const {props: childProps} = child
 
     if (!React.isValidElement(child)) return null
 
+    const {props: childProps} = child
+
     const nextRegisterChild = array.find((item, index) => {
-      return index > childIndex && sketchElementMap.current.has(item.key)
+      return index > childIndex && React.isValidElement(item) && sketchElementMap.current.has(item.key)
     })
 
-    const nextSibling = sketchElementMap.current.get(nextRegisterChild?.key)
+    const nextSibling = sketchElementMap.current.get((nextRegisterChild as React.ReactElement<SketchElementProps>)?.key)
 
     const handleChildRegister = (element: SketchElement) => {
       sketchElementMap.current.set(child.key, element)
