@@ -18,15 +18,11 @@ export const useSketchElement = (opt: Opt) => {
 
     if (!React.isValidElement(child)) return null
 
-    const {props: childProps} = child
-
-    const nextRegisterChild = array.find((item, index) => {
-      return index > childIndex && React.isValidElement(item) && sketchElementMap.current.has(item.key)
-    })
-
-    const nextSibling = sketchElementMap.current.get((nextRegisterChild as React.ReactElement<SketchElementProps>)?.key)
-
     const handleChildRegister = (element: SketchElement) => {
+      const nextRegisterChild = array.find((item, index) => {
+        return index > childIndex && React.isValidElement(item) && sketchElementMap.current.has(item.key)
+      })
+      const nextSibling = sketchElementMap.current.get((nextRegisterChild as React.ReactElement<SketchElementProps>)?.key)
       sketchElementMap.current.set(child.key, element)
       self?.insertBefore(element, nextSibling)
     }
@@ -38,7 +34,7 @@ export const useSketchElement = (opt: Opt) => {
 
     const effects = {onRegister: handleChildRegister, onUnregister: handleChildUnregister}
 
-    const finalChildProps = {...childProps, ...effects, parent: self}
+    const finalChildProps = {...child.props, ...effects, parent: self}
 
     return React.cloneElement<SketchElementProps>(child, finalChildProps)
   })

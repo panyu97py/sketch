@@ -137,14 +137,15 @@ export class SketchElement {
    */
   public async insertBefore (newChild?: SketchElement, refChild?: SketchElement) {
     log('SketchElement.insertBefore', { node: this, newChild, refChild })
+
     if (!newChild) return
 
-    if (!refChild) this.childNodes.push(newChild)
+    const refChildIndex = refChild ? this.childNodes.indexOf(refChild) : -1
 
-    if (refChild) {
-      const index = this.childNodes.indexOf(refChild)
-      this.childNodes.splice(index, 0, newChild)
-    }
+    if (refChildIndex >= 0) this.childNodes.splice(refChildIndex, 0, newChild)
+
+    if (refChildIndex < 0) this.childNodes.push(newChild)
+
     newChild.parentNode = this
     await newChild.applyOnMount()
     this._root?.dispatchEvent(new Event('elementUpdate', newChild))
