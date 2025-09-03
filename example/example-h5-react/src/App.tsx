@@ -54,7 +54,7 @@ function App () {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
-    return sketch.init({ canvas, ctx })
+    return sketch.init({ canvas, ctx }).then(() => sketch.render())
   }
 
   useEffect(() => {
