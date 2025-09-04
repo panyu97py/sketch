@@ -22,13 +22,13 @@ export const patchRoundRect = (ctx?: CanvasRenderingContext2D) => {
     ctx.beginPath()
     ctx.moveTo(x + tl, y)
     ctx.lineTo(x + width - tr, y)
-    ctx.quadraticCurveTo(x + width, y, x + width, y + tr)
+    ctx.arcTo(x + width, y, x + width, y + tr, tr)
     ctx.lineTo(x + width, y + height - br)
-    ctx.quadraticCurveTo(x + width, y + height, x + width - br, y + height)
+    ctx.arcTo(x + width, y + height, x + width - br, y + height, br)
     ctx.lineTo(x + bl, y + height)
-    ctx.quadraticCurveTo(x, y + height, x, y + height - bl)
+    ctx.arcTo(x, y + height, x, y + height - bl, bl)
     ctx.lineTo(x, y + tl)
-    ctx.quadraticCurveTo(x, y, x + tl, y)
+    ctx.arcTo(x, y, x + tl, y, tl)
     ctx.closePath()
 
     return ctx
