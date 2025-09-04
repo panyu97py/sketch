@@ -29,12 +29,14 @@ export class SketchView extends SketchElement {
     // 渲染元素
     const { ctx } = this._root!
     if (!ctx) return
-    const { backgroundColor = 'transparent', borderRadius = [0, 0, 0, 0] } = this.style || {}
     ctx.save()
-    ctx.fillStyle = backgroundColor
-    ctx.beginPath()
-    ctx.roundRect(left, top, width, height, borderRadius)
+    ctx.fillStyle = this.style?.backgroundColor || 'transparent'
+    ctx.lineWidth = this.style?.borderWidth || 0
+    ctx.strokeStyle = this.style?.borderColor || 'transparent'
+    ctx.beginPath();
+    (ctx as any).roundRect(left, top, width, height, this.style?.borderRadius || [0, 0, 0, 0])
     ctx.fill()
+    ctx.stroke()
     ctx.restore()
   }
 }

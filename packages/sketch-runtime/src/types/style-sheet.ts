@@ -91,6 +91,8 @@ export interface StyleSheetDeclaration extends Partial<ExtendsCSSDeclaration> {
   right?: PositionSize;
   bottom?: PositionSize;
   left?: PositionSize;
+  borderWidth?: number;
+  borderColor?: Color;
   borderRadius?: number | number[];
   borderTopLeftRadius?: number;
   borderTopRightRadius?: number;
