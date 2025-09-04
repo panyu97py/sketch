@@ -114,7 +114,6 @@ export class SketchRoot extends SketchView {
     this.setStyle(style)
     if (!this.ctx || !this.canvas) return Promise.reject(new Error('canvas or ctx is empty'))
     await this.applyOnMount()
-    this.refreshCanvasSize()
     this.dispatchEvent(new Event('initialized', this))
   }
 
@@ -124,6 +123,7 @@ export class SketchRoot extends SketchView {
   public render () {
     log('SketchRoot.render', { node: this })
     if (!this.renderable) return
+    this.refreshCanvasSize()
     const { width = 0, height = 0 } = this.canvas!
     this.ctx?.clearRect(0, 0, width, height)
     super.render()
