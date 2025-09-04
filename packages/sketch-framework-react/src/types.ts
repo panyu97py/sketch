@@ -1,5 +1,5 @@
 import React from 'react'
-import { SketchElementChild, SketchElementProps } from './common/types'
+import { SketchElementProps } from './common/types'
 import { InternalSketchRootProps, InternalSketchViewProps, InternalSketchTextProps } from './common/components'
 import { SketchRoot } from '@sketchjs/runtime'
 
@@ -8,7 +8,6 @@ export * from './common/types'
 
 interface InternalSketchImageProps extends SketchElementProps {
     src?: string;
-    children?: SketchElementChild|SketchElementChild[];
 }
 
 export declare const Sketch: {
