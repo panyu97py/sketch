@@ -1,6 +1,6 @@
-import { computed, defineComponent, inject, PropType } from 'vue'
-import { SketchElement, SketchText, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useSketchElementRegister } from '../hooks'
+import { computed, defineComponent, PropType } from 'vue'
+import {  SketchText, StyleSheetDeclaration } from '@sketchjs/runtime'
+import { useSketchElement } from '../hooks'
 
 export const SketchTextProps = {
   text: String,
@@ -14,11 +14,9 @@ export const InternalSketchText = defineComponent({
 
     const { text = '', style } = props
 
-    const parent = inject<SketchElement>('parent');
-
     const sketchText = computed(() => SketchText.create({ text, style }))
 
-    useSketchElementRegister({ parent, target: sketchText.value })
+    useSketchElement({ self: sketchText.value })
 
     return () => (
       <template>

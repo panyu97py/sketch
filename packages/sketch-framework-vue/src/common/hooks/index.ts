@@ -1,2 +1,2 @@
-export * from './useSketchElementRegister'
+export * from './useSketchElement'
 export * from './useSketch'
