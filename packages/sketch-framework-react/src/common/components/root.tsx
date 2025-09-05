@@ -1,19 +1,18 @@
 import { noop } from 'lodash-es'
 import React, { useCallback, useEffect } from 'react'
-import { SketchRoot, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useToRef } from '../hooks'
-import { SketchElementChild } from '../types'
+import { SketchRoot } from '@sketchjs/runtime'
+import { useSketchElement, useToRef } from '../hooks'
+import { SketchElementProps } from '../types'
 
-export interface InternalSketchRootProps {
+export interface InternalSketchRootProps extends Pick<SketchElementProps, 'style'|'children'> {
   sketch?: SketchRoot
-  style?: StyleSheetDeclaration;
-  children?: SketchElementChild | SketchElementChild[];
+  autoRender?: boolean
   onReady?: () => void
   onUpdate?: () => void
 }
 
 export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
-  const { style, sketch, children, onReady = noop, onUpdate = noop } = props
+  const { style, sketch, autoRender, children, onReady = noop, onUpdate = noop } = props
 
   const sketchRef = useToRef(sketch)
 
@@ -22,20 +21,17 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
   const onUpdateRef = useToRef(onUpdate)
 
   const handleSketchInitialized  = useCallback(()=>{
-    sketchRef.current?.render()
+    if (autoRender) sketchRef.current?.render()
     onReadyRef.current()
   },[])
 
   const handleSketchElementUpdate = useCallback(()=>{
-    sketchRef.current?.render()
+    if (!sketchRef.current?._root.isMounted) return
+    if (autoRender) sketchRef.current?.render()
     onUpdateRef.current()
   },[])
 
-  const childrenVNodes = React.Children.toArray(children).map((child: SketchElementChild) => {
-    const { props: childProps } = child
-    if (!React.isValidElement(child)) return null
-    return React.cloneElement(child, { ...childProps, parent: sketch })
-  })
+  const { childrenVNodes } = useSketchElement({ children, self: sketch })
 
   useEffect(() => {
     sketch?.setStyle(style)

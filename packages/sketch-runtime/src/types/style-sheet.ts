@@ -48,6 +48,15 @@ type OverwriteCSSProperties =
   | 'textAlign'
   | 'color'
 
+type FontStyleProperty =
+  'fontSize'
+  | 'fontStyle'
+  | 'fontWeight'
+  | 'fontFamily'
+  | 'fontVariant'
+  | 'fontStretch'
+  | 'lineHeight'
+
 type ExtendsCSSDeclaration = Pick<CSSStyleDeclaration, Exclude<YogaSupportedCSSProperties, OverwriteCSSProperties>>
 
 export interface StyleSheetDeclaration extends Partial<ExtendsCSSDeclaration> {
@@ -72,12 +81,18 @@ export interface StyleSheetDeclaration extends Partial<ExtendsCSSDeclaration> {
   lineHeight?: number;
   fontSize?: number;
   fontWeight?: number;
+  fontStyle?: string;
+  fontFamily?: string;
+  fontVariant?: string;
+  fontStretch?: string;
   textAlign?: CanvasTextAlign
   flex?: number;
   top?: PositionSize;
   right?: PositionSize;
   bottom?: PositionSize;
   left?: PositionSize;
+  borderWidth?: number;
+  borderColor?: Color;
   borderRadius?: number | number[];
   borderTopLeftRadius?: number;
   borderTopRightRadius?: number;
@@ -93,3 +108,5 @@ export type FilterInvalidValues<T> = T extends '' | null | undefined | any[] ? n
 export type StyleSheetCssValues = NonEmpty<StyleSheetDeclaration[keyof StyleSheetDeclaration]>;
 
 export type StyleSheetCssProperty = keyof StyleSheetDeclaration
+
+export type FontStyle = Pick<StyleSheetDeclaration, FontStyleProperty>

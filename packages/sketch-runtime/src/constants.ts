@@ -5,8 +5,13 @@ export const DEFAULT_FONT_STYLE: Required<FontStyle> = {
   fontSize: 20,
   fontWeight: 400,
   lineHeight: 20,
-  fontFamily: 'PingFang SC'
+  fontFamily: 'PingFang SC',
+  fontStyle: 'normal',
+  fontVariant: 'normal',
+  fontStretch: 'normal'
 }
+
+export const DEFAULT_FONT_STYLE_PROPERTY = Object.keys(DEFAULT_FONT_STYLE) as Array<keyof FontStyle>
 
 export const CSS_TO_YOGA_MAP: Partial<Record<StyleSheetCssProperty, Record<FilterInvalidValues<StyleSheetCssValues>, any>>> = {
   flexDirection: {

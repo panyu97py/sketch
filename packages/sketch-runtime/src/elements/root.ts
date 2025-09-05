@@ -1,6 +1,7 @@
 import { Direction } from '@sketchjs/yoga-layout'
 import { StyleSheetDeclaration } from '@/types'
 import { Event, EventEmitter, EventListener, log } from '@/utils'
+import { patchRoundRect } from '@/patch'
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { SketchView } from './view'
 
@@ -35,8 +36,8 @@ export class SketchRoot extends SketchView {
    */
   constructor (canvas?: HTMLCanvasElement, ctx?: CanvasRenderingContext2D, style?: StyleSheetDeclaration) {
     super(style)
-    this.ctx = ctx
     this.canvas = canvas
+    this.ctx = patchRoundRect(ctx)
     this.eventEmit = new EventEmitter()
   }
 
@@ -56,7 +57,7 @@ export class SketchRoot extends SketchView {
    * 获取是否可渲染
    */
   public get renderable () {
-    return this.isMounted && this.ctx && this.canvas
+    return Boolean(this.isMounted && this.ctx && this.canvas)
   }
 
   /**
@@ -66,19 +67,20 @@ export class SketchRoot extends SketchView {
    */
   private recursiveRender (node: SketchElement) {
     const { childNodes } = node
-    return Promise.all(childNodes.map((child) => {
-      return Promise.all([child.render(), this.recursiveRender(child)])
-    }))
+    childNodes.forEach((child) => {
+      child.render()
+      this.recursiveRender(child)
+    })
   }
 
   /**
    * 初始化画布大小
    * @private
    */
-  private setCanvasSize () {
+  private refreshCanvasSize () {
     if (!this.isMounted || !this.canvas) return
     const { width, height } = this.getElementSize()
-    log('SketchRoot.setCanvasSize', { width, height })
+    log('SketchRoot.refreshCanvasSize', { width, height })
     this.canvas.width = width
     this.canvas.height = height
   }
@@ -89,7 +91,7 @@ export class SketchRoot extends SketchView {
    */
   public setStyle (style?: StyleSheetDeclaration) {
     super.setStyle(style)
-    this.setCanvasSize()
+    this.refreshCanvasSize()
   }
 
   /**
@@ -101,21 +103,14 @@ export class SketchRoot extends SketchView {
   }
 
   /**
-   * 元素初始化
-   */
-  public async onMount () {
-    await super.onMount()
-    this.setCanvasSize()
-  }
-
-  /**
    * 初始化
    * @param opt
    */
   public async init (opt?:CreateSketchRootOpt) {
+    log('SketchRoot.init', { opt })
     const { ctx, canvas, style } = opt || {}
-    this.ctx = ctx || this.ctx
     this.canvas = canvas || this.canvas
+    this.ctx = patchRoundRect(ctx || this.ctx)
     this.setStyle(style)
     if (!this.ctx || !this.canvas) return Promise.reject(new Error('canvas or ctx is empty'))
     await this.applyOnMount()
@@ -125,10 +120,14 @@ export class SketchRoot extends SketchView {
   /**
    * 渲染函数
    */
-  public async render () {
+  public render () {
     log('SketchRoot.render', { node: this })
-    await super.render()
-    await this.recursiveRender(this)
+    if (!this.renderable) return
+    this.refreshCanvasSize()
+    const { width = 0, height = 0 } = this.canvas!
+    this.ctx?.clearRect(0, 0, width, height)
+    super.render()
+    this.recursiveRender(this)
   }
 
   /**

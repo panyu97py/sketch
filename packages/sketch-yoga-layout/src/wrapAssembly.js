@@ -63,8 +63,8 @@ export default function wrapAssembly (lib) {
           height
         } = measureFunction(...arguments)
         return {
-          width: width ?? NaN,
-          height: height ?? NaN
+          width: (width !== null && width !== undefined) ? width : NaN,
+          height: (height !== null && height !== undefined) ? height : NaN
         }
       }
     })

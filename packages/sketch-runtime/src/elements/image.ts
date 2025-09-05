@@ -22,6 +22,12 @@ export class SketchImage extends SketchElement {
   private readonly src: string
 
   /**
+   * 图片对象
+   * @private
+   */
+  private imageObj: HTMLImageElement
+
+  /**
    * 构造函数
    * @param src 图片地址
    * @param style 样式
@@ -40,7 +46,7 @@ export class SketchImage extends SketchElement {
    * 加载图片
    * @param src
    */
-  loadImage = async (src: string) => {
+  async loadImage (src: string) {
     if (!imageCache.has(src)) {
       const tempImageObj = document.createElement('img')
       tempImageObj.src = src
@@ -54,31 +60,39 @@ export class SketchImage extends SketchElement {
   }
 
   /**
+   * 元素初始化
+   * @desc 初始化图片对象
+   */
+  public async onMount () {
+    await super.onMount()
+    this.imageObj = await this.loadImage(this.src)
+  }
+
+  /**
    * 渲染函数
    */
-  render = async () => {
-    if (!this._root?.renderable) return
+  render = () => {
+    if (!this.renderable) return
 
     // 计算布局位置
-    this._root.calculateLayout()
+    this._root!.calculateLayout()
     const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
 
     log('SketchImage.render', { left, top, width, height, node: this })
 
     // 渲染元素
-    const { backgroundColor = 'transparent', borderRadius = 0 } = this.style || {}
-    const { ctx } = this._root
+    const { backgroundColor = 'transparent', borderRadius = [0, 0, 0, 0] } = this.style || {}
+    const { ctx } = this._root!
     if (!ctx) return
 
-    const imageObj = await this.loadImage(this.src)
     ctx.save()
     ctx.fillStyle = backgroundColor
     ctx.beginPath()
     ctx.roundRect(left, top, width, height, borderRadius)
     ctx.closePath()
     ctx.clip()
-    ctx.drawImage(imageObj, left, top, width, height)
+    ctx.drawImage(this.imageObj, left, top, width, height)
     ctx.restore()
   }
 }

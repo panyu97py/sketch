@@ -1,5 +1,5 @@
-import { DEFAULT_FONT_STYLE } from '@/constants'
-import { FontStyle, StyleSheetDeclaration } from '@/types'
+import { DEFAULT_FONT_STYLE, DEFAULT_FONT_STYLE_PROPERTY } from '@/constants'
+import { FontStyle, StyleSheetCssProperty, StyleSheetDeclaration } from '@/types'
 import { log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
 
@@ -8,13 +8,30 @@ import { CreateSketchElementOpt, SketchElement } from './element'
  */
 class SketchBaseText extends SketchElement {
   /**
-   * 生成文本样式
-   * @param fontStyle
+   * 单行文本可用样式属性
    */
-  generateFontStyle = (fontStyle: FontStyle) => {
-    const finalFontStyle = { ...DEFAULT_FONT_STYLE, ...fontStyle }
-    const { fontSize, fontWeight, lineHeight, fontFamily } = finalFontStyle
-    return `normal ${fontWeight} ${fontSize}px/${lineHeight} ${fontFamily}`
+  readonly SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS: StyleSheetCssProperty[] = [...DEFAULT_FONT_STYLE_PROPERTY, 'color', 'width', 'height', 'textAlign']
+
+  /**
+   * 生成文本样式
+   * @param style
+   */
+  generateFontStyle = (style: FontStyle) => {
+    const finalStyle = { ...DEFAULT_FONT_STYLE, ...style }
+    const { fontStyle, fontVariant, fontWeight, fontStretch, fontSize, fontFamily } = finalStyle
+    const finalFontSize = `${fontSize}px`
+    return `${fontStyle} ${fontVariant} ${fontWeight} ${fontStretch} ${finalFontSize} ${fontFamily}`
+  }
+
+  /**
+   * 生成单行文本样式
+   * @param style
+   */
+  generateSketchSingleLineTextStyle = (style: StyleSheetDeclaration) => {
+    return Object.keys(style).reduce<StyleSheetDeclaration>((result, key: StyleSheetCssProperty) => {
+      if (!this.SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS.includes(key)) return result
+      return { ...result, [key]: style[key] }
+    }, {})
   }
 
   /**
@@ -38,6 +55,7 @@ class SketchBaseText extends SketchElement {
    */
   splitTextByWidth = (text: string, maxWidth: number) => {
     if (!this._root) return []
+    if (!maxWidth) return [text]
     const textArr = `${text}`.split('')
     const intVal = { curLineText: '', lineTextArr: [] }
     const { lineTextArr } = textArr.reduce((result, textItem: string, index: number, list: string[]) => {
@@ -63,15 +81,10 @@ class SketchBaseText extends SketchElement {
     }, intVal)
     return lineTextArr
   }
-
-  /**
-   * 渲染函数
-   */
-  render = async () => Promise.resolve()
 }
 
 interface CreateSketchSingLineTextOpt extends CreateSketchElementOpt{
-    text: string,
+  text: string,
 }
 
 /**
@@ -104,8 +117,10 @@ class SketchSingLineText extends SketchBaseText {
    */
   async onMount () {
     await super.onMount()
-    const { height, lineHeight } = this.style || {}
+    const { height, width, lineHeight } = this.style || {}
+    const { width: textWidth = 0 } = this.calculateTextWidth(this.text) || {}
     this.layout!.setHeight(height || lineHeight)
+    this.layout!.setWidth(width || textWidth)
   }
 
   calculateTextElementPositionByStyle = () => {
@@ -115,7 +130,7 @@ class SketchSingLineText extends SketchBaseText {
     const { width: textWidth = 0 } = this.calculateTextWidth(this.text) || {}
     const finalLeft = (() => {
       if (textAlign === 'left') return left
-      if (textAlign === 'right') return elementWidth
+      if (textAlign === 'right') return left + elementWidth
       if (textAlign === 'center') return left + elementWidth / 2
     })()
     const finalRight = finalLeft + textWidth
@@ -125,11 +140,11 @@ class SketchSingLineText extends SketchBaseText {
   /**
    * 渲染函数
    */
-  render = async () => {
-    if (!this._root?.renderable) return
+  render = () => {
+    if (!this.renderable) return
 
     // 计算布局位置
-    this._root.calculateLayout()
+    this._root!.calculateLayout()
     const { left, top } = this.calculateTextElementPositionByStyle()
     const { width, height } = this.getElementSize()
 
@@ -137,15 +152,15 @@ class SketchSingLineText extends SketchBaseText {
 
     // 渲染元素
     const { color = 'black', textAlign = 'left' } = this.style || {}
-    const { ctx } = this._root
+    const { ctx } = this._root!
     if (!ctx) return
 
     ctx.save()
-    ctx.textBaseline = 'bottom'
+    ctx.textBaseline = 'middle'
     ctx.fillStyle = color
     ctx.textAlign = textAlign
     ctx.font = this.generateFontStyle(this.style as FontStyle)
-    ctx.fillText(this.text, left, top + height, width)
+    ctx.fillText(this.text, left, top + height / 2, width)
     ctx.restore()
   }
 }
@@ -184,10 +199,15 @@ export class SketchText extends SketchBaseText {
     const { lineHeight = 0 } = this.style || {}
     const { width } = this.getElementSize()
     const lineTextArr = this.splitTextByWidth(this.text, width)
-    const height = lineTextArr.length * lineHeight
-    this.layout!.setHeight(height)
+    const [firstLineText = ''] = lineTextArr
+    const { width: firstLineTextWidth = 0 } = this.calculateTextWidth(firstLineText) || {}
+    const finalWidth = width || firstLineTextWidth // TODO 应该增加左右 padding，不然基于文字长度计算的自动宽度会不对
+    const finalHeight = lineTextArr.length * lineHeight // TODO 应该增加上下 padding，不然基于文字长度计算的自动宽度会不对
+    this.layout!.setWidth(finalWidth)
+    this.layout!.setHeight(finalHeight)
+    const singleLineTextStyle = this.generateSketchSingleLineTextStyle(this.style || {})
     lineTextArr.forEach((lineText) => {
-      const textElement = SketchSingLineText.create({ text: lineText, style: this.style })
+      const textElement = SketchSingLineText.create({ text: lineText, style: singleLineTextStyle })
       return this.appendChild(textElement)
     })
   }
@@ -195,5 +215,17 @@ export class SketchText extends SketchBaseText {
   /**
    * 渲染函数
    */
-  render = async () => Promise.resolve()
+  /**
+   * 渲染函数
+   */
+  render = () => {
+    if (!this.renderable) return
+
+    // 计算布局位置
+    this._root!.calculateLayout()
+    const { left, top } = this.calculateElementAbsolutePosition()
+    const { width, height } = this.getElementSize()
+
+    log('SketchText.render', { left, top, width, height, node: this })
+  }
 }

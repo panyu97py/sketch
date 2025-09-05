@@ -47,6 +47,13 @@ export class SketchElement {
   }
 
   /**
+   * 是否可渲染
+   */
+  public get renderable () {
+    return Boolean(this._root?.renderable && this.isMounted)
+  }
+
+  /**
    * 获取根节点
    */
   public get _root (): SketchRoot | null {
@@ -86,22 +93,31 @@ export class SketchElement {
    * 元素初始化
    */
   public async onMount () {
+    if (this.isMounted) return
     log('SketchElement.onMount', { node: this })
+
+    // 创建布局节点
     const yoga = await YogaLayoutUtils.load()
     this.layout = yoga.Node.create()
-    const { layout: parentLayout } = this.parentNode || {}
-    parentLayout?.insertChild(this.layout, parentLayout.getChildCount())
+
+    // 应用样式
     StyleSheet.apply(this, this.style)
-    this.isMounted = true
+
+    // 插入到父节点布局中
+    if (!this.parentNode) return
+    const { layout: parentLayout, childNodes } = this.parentNode
+    const index = childNodes.findIndex(it => it === this)
+    parentLayout?.insertChild(this.layout, index)
   }
 
   /**
    * 元素销毁
    */
   public onUnmount () {
+    if (!this.isMounted) return
     log('SketchElement.onUnmount', { node: this })
-    if (!this.layout) return
-    this.layout.free()
+    this.parentNode?.layout?.removeChild(this.layout!)
+    this.layout?.free()
   }
 
   /**
@@ -111,10 +127,28 @@ export class SketchElement {
   public async appendChild (child?: SketchElement) {
     log('SketchElement.appendChild', { node: this, child })
     if (!child) return
-    child.parentNode = this
-    this.childNodes.push(child)
-    await child.applyOnMount()
-    this._root?.dispatchEvent(new Event('elementUpdate', child))
+    return this.insertBefore(child)
+  }
+
+  /**
+   * 插入子元素
+   * @param newChild 新子元素
+   * @param refChild 参照子元素
+   */
+  public async insertBefore (newChild?: SketchElement, refChild?: SketchElement) {
+    log('SketchElement.insertBefore', { node: this, newChild, refChild })
+
+    if (!newChild) return
+
+    const refChildIndex = refChild ? this.childNodes.indexOf(refChild) : -1
+
+    if (refChildIndex >= 0) this.childNodes.splice(refChildIndex, 0, newChild)
+
+    if (refChildIndex < 0) this.childNodes.push(newChild)
+
+    newChild.parentNode = this
+    await newChild.applyOnMount()
+    this._root?.dispatchEvent(new Event('elementUpdate', newChild))
   }
 
   /**
@@ -124,7 +158,7 @@ export class SketchElement {
   public removeChild (child?: SketchElement) {
     log('SketchElement.removeChild', { node: this, child })
     if (!child) return
-    child.onUnmount()
+    child.applyOnUnmount()
     this.childNodes = this.childNodes.filter(item => item !== child)
     this._root?.dispatchEvent(new Event('elementUpdate', child))
   }
@@ -133,11 +167,19 @@ export class SketchElement {
    * 执行初始化逻辑
    */
   public async applyOnMount () {
-    if (!this._isRoot && !this._root?.isMounted) return
+    if (!this._isRoot && !this.parentNode?.isMounted) return
     await this.onMount()
-    return Promise.all(this.childNodes.map(child => {
-      return (child as SketchElement).applyOnMount()
-    }))
+    this.isMounted = true
+    return Promise.all(this.childNodes.map(child => (child as SketchElement).applyOnMount()))
+  }
+
+  /**
+   * 执行销毁逻辑
+   */
+  public applyOnUnmount () {
+    this.childNodes.forEach(child => (child as SketchElement).applyOnUnmount())
+    this.onUnmount()
+    this.isMounted = false
   }
 
   /**
@@ -177,7 +219,5 @@ export class SketchElement {
     return { width, height }
   }
 
-  render () {
-    return Promise.resolve()
-  }
+  render () {}
 }
