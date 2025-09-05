@@ -3,7 +3,7 @@ import {SketchElement} from "@sketchjs/runtime";
 import { SketchElementChild, SketchElementProps } from '@/types'
 import { noop } from 'lodash-es'
 
-interface Opt extends SketchElementProps {
+export interface Opt extends SketchElementProps {
   self?: SketchElement
 }
 

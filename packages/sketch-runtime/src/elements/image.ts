@@ -46,7 +46,7 @@ export class SketchImage extends SketchElement {
    * 加载图片
    * @param src
    */
-  loadImage = async (src: string) => {
+  async loadImage (src: string) {
     if (!imageCache.has(src)) {
       const tempImageObj = document.createElement('img')
       tempImageObj.src = src

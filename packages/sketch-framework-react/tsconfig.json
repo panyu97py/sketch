@@ -9,6 +9,8 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",  // or "react-jsx" for React 17+
     "jsxImportSource": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": ["src/*"],
       "@sketchjs/react": ["index"],

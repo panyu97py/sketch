@@ -1,4 +1,4 @@
-import { Sketch, StyleSheet } from '@sketchjs/react'
+import { Sketch, SketchImage, StyleSheet } from '@sketchjs/react'
 import { render, waitFor } from '@testing-library/react'
 import React, { useEffect } from 'react'
 import { noop } from 'lodash-es'
@@ -60,7 +60,7 @@ describe('SketchReact', () => {
       }, [sketch])
 
       return (
-        <Sketch.Root style={style.root} sketch={sketch} onReady={handleSketchInitialized} onUpdate={handleSketchUpdate}>
+        <Sketch.Root autoRender style={style.root} sketch={sketch} onReady={handleSketchInitialized} onUpdate={handleSketchUpdate}>
           <Sketch.View style={style.view}>
             <Sketch.Image src={expect.any(String)} style={style.logo}>
               <Sketch.Text text={expect.any(String)} style={style.text}/>
@@ -76,6 +76,8 @@ describe('SketchReact', () => {
     const onUpdate = jest.fn()
 
     render(<SketchTestComponent onReady={onReady} onUpdate={onUpdate}/>)
+
+    jest.spyOn(SketchImage.prototype, 'loadImage').mockImplementation(() => Promise.resolve(new Image()))
 
     await waitFor(() => expect(onReady).toHaveBeenCalledWith(expect.any(String)))
 
