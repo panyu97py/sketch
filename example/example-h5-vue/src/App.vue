@@ -3,7 +3,7 @@
     <canvas class="sketch-canvas" ref="canvasRef"/>
     <SketchRoot :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
       <SketchView :style="style.view">
-        <SketchImage :src="logo" :style="style.logo" v-if="visible"/>
+        <SketchImage :src="logo" :style="style.logo"/>
         <SketchText text="Hello  World!" :style="style.text"/>
       </SketchView>
     </SketchRoot>
@@ -50,8 +50,6 @@ const sketch = Sketch.useSketch()
 
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 
-const visible = ref(false)
-
 const initCanvas = () => {
   const canvas = canvasRef.value
   const ctx = canvas?.getContext('2d')
@@ -62,9 +60,8 @@ const initCanvas = () => {
 onMounted(() => initCanvas())
 
 const handleToDataURL = () => {
-  visible.value = true
-  // const dataUrl = sketch.value.toDataURL('image/png', 1)
-  // console.log({ dataUrl })
+  const dataUrl = sketch.value.toDataURL('image/png', 1)
+  console.log({ dataUrl })
 }
 
 const handleSketchUpdate = () => {

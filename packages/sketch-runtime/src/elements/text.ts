@@ -212,6 +212,11 @@ export class SketchText extends SketchBaseText {
     })
   }
 
+  public onUnmount () {
+    super.onUnmount()
+    this.childNodes = []
+  }
+
   /**
    * 渲染函数
    */
