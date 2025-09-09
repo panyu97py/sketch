@@ -1,6 +1,6 @@
 {
   "name": "@sketchjs/vue",
-  "version": "0.0.1-alpha.18",
+  "version": "0.0.1-alpha.19",
   "description": "",
   "main": "index.js",
   "types": "dist/types.d.ts",
