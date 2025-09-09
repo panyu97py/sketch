@@ -24,11 +24,12 @@ export class SketchAppletImage extends SketchImage {
     if (!this._root) return
     if (imageCache[url]) return imageCache[url]
     const image = (this._root.canvas as unknown as Taro.Canvas).createImage()
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       image.onload = () => {
         imageCache[url] = image
         resolve(image)
       }
+      image.onerror = (error)=> reject(error)
       image.src = url // 要加载的图片 url
     })
   }

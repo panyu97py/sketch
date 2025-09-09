@@ -1,7 +1,7 @@
-import { computed, defineComponent, inject, PropType, provide } from 'vue'
-import { useSketchElementRegister } from '../../common/hooks'
+import { computed, defineComponent, PropType } from 'vue'
+import { useSketchElement } from '../../common/hooks'
 import { SketchAppletImage } from '../elements'
-import { SketchElement, StyleSheetDeclaration } from '@sketchjs/runtime'
+import { StyleSheetDeclaration } from '@sketchjs/runtime'
 
 export const SketchImageProps = {
   src: String,
@@ -13,17 +13,13 @@ export const InternalSketchAppletImage = defineComponent({
   props: SketchImageProps,
   setup: (props,{ slots }) => {
 
-    const parent = inject<SketchElement>('parent');
-
     const sketchAppletImage = computed(() => SketchAppletImage.create({ src: props.src || '', style: props.style }))
 
-    useSketchElementRegister({ parent, target: sketchAppletImage.value })
-
-    provide<SketchElement>('parent', sketchAppletImage.value)
+    useSketchElement({ self: sketchAppletImage.value })
 
     return () => (
       <template>
-        {slots.default ? slots.default({ parent: sketchAppletImage.value }) : null}
+        {slots.default ? slots.default() : null}
       </template>
     )
   }

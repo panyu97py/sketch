@@ -1,5 +1,6 @@
-import { watchEffect, defineComponent, PropType, provide } from 'vue'
+import { watchEffect, defineComponent, PropType } from 'vue'
 import { Event, SketchElement, SketchRoot, StyleSheetDeclaration } from '@sketchjs/runtime'
+import { useSketchElement } from '../hooks'
 
 export const SketchRootProps = {
   sketch: Object as PropType<SketchRoot>,
@@ -40,11 +41,11 @@ export const InternalSketchRoot = defineComponent({
       props.sketch.setStyle(props.style)
     })
 
-    provide<SketchRoot|undefined>('parent', props.sketch)
+    useSketchElement({ self: props.sketch })
 
     return () => (
       <template>
-        {slots.default?.() || null}
+        {slots.default ? slots.default() : null}
       </template>
     );
   }

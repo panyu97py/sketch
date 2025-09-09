@@ -1,6 +1,6 @@
-import { computed, defineComponent, inject, PropType, provide } from 'vue'
-import { SketchElement, SketchView, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useSketchElementRegister } from '../hooks'
+import { computed, defineComponent, PropType } from 'vue'
+import { SketchView, StyleSheetDeclaration } from '@sketchjs/runtime'
+import { useSketchElement } from '../hooks'
 
 export const SketchViewProps = {
   style: Object as PropType<StyleSheetDeclaration>,
@@ -11,17 +11,13 @@ export const InternalSketchView = defineComponent({
   props: SketchViewProps,
   setup: (props, { slots }) => {
 
-    const parent = inject<SketchElement>('parent');
-
     const sketchView = computed(() => SketchView.create({ style: props.style }))
 
-    useSketchElementRegister({ parent, target: sketchView.value })
-
-    provide<SketchElement>('parent', sketchView.value)
+    useSketchElement({ self: sketchView.value })
 
     return () => (
       <template>
-        {slots.default ? slots.default({ parent: sketchView.value }) : null}
+        {slots.default ? slots.default() : null}
       </template>
     )
   }

@@ -1,6 +1,6 @@
-import { computed, defineComponent, inject, PropType, provide } from 'vue'
-import { SketchElement, SketchImage, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useSketchElementRegister } from '../../common/hooks'
+import { computed, defineComponent, PropType } from 'vue'
+import { SketchImage, StyleSheetDeclaration } from '@sketchjs/runtime'
+import { useSketchElement } from '../../common/hooks'
 
 export const SketchImageProps = {
   src: String,
@@ -12,17 +12,13 @@ export const InternalSketchWebImage = defineComponent({
   props: SketchImageProps,
   setup: (props,{ slots }) => {
 
-    const parent = inject<SketchElement>('parent');
-
     const sketchWebImage = computed(() => SketchImage.create({ src: props.src || '', style: props.style }))
 
-    useSketchElementRegister({ parent, target: sketchWebImage.value })
-
-    provide<SketchElement>('parent', sketchWebImage.value)
+    useSketchElement({ self: sketchWebImage.value })
 
     return () => (
       <template>
-        {slots.default?.() || null}
+        {slots.default ? slots.default() : null}
       </template>
     )
   }

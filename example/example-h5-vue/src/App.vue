@@ -1,12 +1,12 @@
 <template>
   <div class="App" @click="handleToDataURL">
     <canvas class="sketch-canvas" ref="canvasRef"/>
-    <Sketch.Root :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
-      <Sketch.View :style="style.view">
-        <Sketch.Image :src="logo" :style="style.logo"/>
-        <Sketch.Text text="Hello  World!" :style="style.text"/>
-      </Sketch.View>
-    </Sketch.Root>
+    <SketchRoot :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
+      <SketchView :style="style.view">
+        <SketchImage :src="logo" :style="style.logo"/>
+        <SketchText text="Hello  World!" :style="style.text"/>
+      </SketchView>
+    </SketchRoot>
   </div>
 </template>
 
@@ -14,6 +14,8 @@
 import logo from '@/assets/logo.svg'
 import { onMounted, ref } from 'vue'
 import { StyleSheet, Sketch } from '@sketchjs/vue'
+
+const { Root: SketchRoot, View: SketchView, Image: SketchImage, Text: SketchText } = Sketch
 
 Sketch.debug = true
 

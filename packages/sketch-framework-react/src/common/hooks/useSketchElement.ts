@@ -19,10 +19,10 @@ export const useSketchElement = (opt: Opt) => {
     if (!React.isValidElement(child)) return null
 
     const handleChildRegister = (element: SketchElement) => {
-      const nextRegisterChild = array.find((item, index) => {
+      const nextRegisteredChild = array.find((item, index) => {
         return index > childIndex && React.isValidElement(item) && sketchElementMap.current.has(item.key)
       })
-      const nextSibling = sketchElementMap.current.get((nextRegisterChild as React.ReactElement<SketchElementProps>)?.key)
+      const nextSibling = sketchElementMap.current.get((nextRegisteredChild as React.ReactElement<SketchElementProps>)?.key)
       sketchElementMap.current.set(child.key, element)
       self?.insertBefore(element, nextSibling)
     }
