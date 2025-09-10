@@ -1,7 +1,7 @@
 import { debugOption } from '@sketchjs/runtime'
-import { InternalSketchRoot, InternalSketchView, InternalSketchText } from '../common/components'
+import { InternalSketchRoot, InternalSketchView, InternalSketchText } from '@/common/components'
 import { InternalSketchWebImage } from './components/image'
-import { useSketch } from '../common/hooks'
+import { useSketch } from '@/common/hooks'
 
 export * from '@sketchjs/runtime'
 

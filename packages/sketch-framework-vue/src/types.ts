@@ -1,16 +1,15 @@
 import { SketchRootProps, SketchTextProps, SketchViewProps } from './common/components'
-import { DefineComponent, ExtractPropTypes, PropType, ComputedRef } from 'vue';
-import { SketchRoot, SketchElement, StyleSheetDeclaration } from '@sketchjs/runtime';
+import { DefineComponent, ExtractPropTypes, PropType, ComputedRef } from 'vue'
+import { SketchRoot, SketchElement, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { JSX } from 'vue/jsx-runtime'
-
 
 const SketchImageProps = {
   src: String,
   parent: Object as PropType<SketchElement>,
-  style: Object as PropType<StyleSheetDeclaration>,
-};
+  style: Object as PropType<StyleSheetDeclaration>
+}
 
-export * from '@sketchjs/runtime';
+export * from '@sketchjs/runtime'
 
 export declare const Sketch: {
   debug: boolean;
@@ -19,4 +18,4 @@ export declare const Sketch: {
   Text: DefineComponent<ExtractPropTypes<typeof SketchTextProps>, () => JSX.Element>;
   Image: DefineComponent<ExtractPropTypes<typeof SketchImageProps>>;
   useSketch: () => ComputedRef<SketchRoot>;
-};
+}

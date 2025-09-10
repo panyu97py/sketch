@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from "react";
-import {SketchElement} from "@sketchjs/runtime";
+import React, { useEffect, useRef } from 'react'
+import { SketchElement } from '@sketchjs/runtime'
 import { SketchElementChild, SketchElementProps } from '@/types'
 import { noop } from 'lodash-es'
 
@@ -8,14 +8,13 @@ export interface Opt extends SketchElementProps {
 }
 
 export const useSketchElement = (opt: Opt) => {
-  const {self, parent, children, onRegister = noop, onUnregister = noop} = opt
+  const { self, parent, children, onRegister = noop, onUnregister = noop } = opt
 
   const curChildren = React.Children.toArray(children) as SketchElementChild[]
 
   const sketchElementMap = useRef<Map<any, SketchElement>>(new Map())
 
   const childrenVNodes = curChildren.map((child, childIndex: number, array) => {
-
     if (!React.isValidElement(child)) return null
 
     const handleChildRegister = (element: SketchElement) => {
@@ -32,9 +31,9 @@ export const useSketchElement = (opt: Opt) => {
       self?.removeChild(element)
     }
 
-    const effects = {onRegister: handleChildRegister, onUnregister: handleChildUnregister}
+    const effects = { onRegister: handleChildRegister, onUnregister: handleChildUnregister }
 
-    const finalChildProps = {...child.props, ...effects, parent: self}
+    const finalChildProps = { ...child.props, ...effects, parent: self }
 
     return React.cloneElement<SketchElementProps>(child, finalChildProps)
   })
@@ -44,5 +43,5 @@ export const useSketchElement = (opt: Opt) => {
     return () => onUnregister(self)
   }, [self, parent])
 
-  return {childrenVNodes}
+  return { childrenVNodes }
 }

@@ -24,7 +24,6 @@ interface Opts {
 }
 
 export const useSketchElement = (opt: Opts) => {
-
   const { self } = opt
 
   const slots = useSlots()
@@ -42,7 +41,6 @@ export const useSketchElement = (opt: Opts) => {
   provide<Nullable<SketchElement>>('parent', self)
 
   provide('registerChild', (element: SketchElement, vNode: VNode) => {
-
     const vNodeKey = generateKeyFromVNode(vNode)
 
     const childrenVNodes = slots.default?.() || []
@@ -51,7 +49,7 @@ export const useSketchElement = (opt: Opts) => {
 
     if (Array.from(new Set(childrenVNodeKeys)).length !== childrenVNodes.length) throw new Error('存在相同的 key 或 VNode 需要手动指定不会重复的元素 key')
 
-    const childIndex = childrenVNodeKeys.findIndex((item) => vNodeKey == item)
+    const childIndex = childrenVNodeKeys.findIndex((item) => vNodeKey === item)
 
     const nextRegisteredChild = childrenVNodes.find((item, index) => {
       return index > childIndex && sketchElementMap.has(generateKeyFromVNode(item))
