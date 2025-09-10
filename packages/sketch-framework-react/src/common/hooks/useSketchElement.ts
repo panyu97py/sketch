@@ -3,6 +3,13 @@ import { SketchElement } from '@sketchjs/runtime'
 import { SketchElementChild, SketchElementProps } from '@/types'
 import { noop } from 'lodash-es'
 
+const flattenReactChildren = (children: SketchElementChild) => {
+  return React.Children.toArray(children).flatMap(child => {
+    if (!React.isValidElement(child)) return null
+    return child.type === React.Fragment ? flattenReactChildren(child.props.children) : child
+  })
+}
+
 export interface Opt extends SketchElementProps {
   self?: SketchElement
 }
@@ -10,7 +17,7 @@ export interface Opt extends SketchElementProps {
 export const useSketchElement = (opt: Opt) => {
   const { self, parent, children, onRegister = noop, onUnregister = noop } = opt
 
-  const curChildren = React.Children.toArray(children) as SketchElementChild[]
+  const curChildren = flattenReactChildren(children) as SketchElementChild[]
 
   const sketchElementMap = useRef<Map<any, SketchElement>>(new Map())
 
