@@ -1,0 +1,5 @@
+# .husky/pre-commit
+
+echo "🔍 Running Packages test..."
+
+pnpm run test
