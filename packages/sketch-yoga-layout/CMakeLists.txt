@@ -57,17 +57,11 @@ set(LINK_OPTIONS_ESM ${LINK_OPTIONS_BASE}
 add_executable(yoga-base64-esm $<TARGET_OBJECTS:yogaObjLib>)
 target_link_options(yoga-base64-esm PRIVATE ${LINK_OPTIONS_ESM} "SHELL:-s WASM=0")
 target_link_libraries(yoga-base64-esm PRIVATE embind)
-add_custom_command(TARGET yoga-base64-esm POST_BUILD
-    COMMAND npx babel $<TARGET_FILE:yoga-base64-esm> --presets=@babel/preset-env --out-file $<TARGET_FILE_DIR:yoga-base64-esm>/yoga-base64-esm-es5.js
-    COMMENT "Transpile to ES5 using Babel")
 
 # ESM with WASM
 add_executable(yoga-wasm-base64-esm $<TARGET_OBJECTS:yogaObjLib>)
 target_link_options(yoga-wasm-base64-esm PRIVATE ${LINK_OPTIONS_ESM} "SHELL:-s WASM=1")
 target_link_libraries(yoga-wasm-base64-esm PRIVATE embind)
-add_custom_command(TARGET yoga-wasm-base64-esm POST_BUILD
-    COMMAND npx babel $<TARGET_FILE:yoga-wasm-base64-esm> --presets=@babel/preset-env --out-file $<TARGET_FILE_DIR:yoga-wasm-base64-esm>/yoga-wasm-base64-esm-es5.js
-    COMMENT "Transpile to ES5 using Babel")
 
 # ========== CommonJS 构建 ==========
 set(LINK_OPTIONS_CJS ${LINK_OPTIONS_BASE}
@@ -78,14 +72,8 @@ set(LINK_OPTIONS_CJS ${LINK_OPTIONS_BASE}
 add_executable(yoga-base64-cjs $<TARGET_OBJECTS:yogaObjLib>)
 target_link_options(yoga-base64-cjs PRIVATE ${LINK_OPTIONS_CJS} "SHELL:-s WASM=0")
 target_link_libraries(yoga-base64-cjs PRIVATE embind)
-add_custom_command(TARGET yoga-base64-cjs POST_BUILD
-    COMMAND npx babel $<TARGET_FILE:yoga-base64-cjs> --presets=@babel/preset-env --out-file $<TARGET_FILE_DIR:yoga-base64-esm>/yoga-base64-cjs-es5.js
-    COMMENT "Transpile to ES5 using Babel")
 
 # CJS with WASM
 add_executable(yoga-wasm-base64-cjs $<TARGET_OBJECTS:yogaObjLib>)
 target_link_options(yoga-wasm-base64-cjs PRIVATE ${LINK_OPTIONS_CJS} "SHELL:-s WASM=1")
 target_link_libraries(yoga-wasm-base64-cjs PRIVATE embind)
-add_custom_command(TARGET yoga-wasm-base64-cjs POST_BUILD
-    COMMAND npx babel $<TARGET_FILE:yoga-wasm-base64-cjs> --presets=@babel/preset-env --out-file $<TARGET_FILE_DIR:yoga-wasm-base64-esm>/yoga-wasm-base64-cjs-es5.js
-    COMMENT "Transpile to ES5 using Babel")
