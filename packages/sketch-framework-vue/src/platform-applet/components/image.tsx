@@ -5,14 +5,13 @@ import { StyleSheetDeclaration } from '@sketchjs/runtime'
 
 export const SketchImageProps = {
   src: String,
-  style: Object as PropType<StyleSheetDeclaration>,
-};
+  style: Object as PropType<StyleSheetDeclaration>
+}
 
 export const InternalSketchAppletImage = defineComponent({
   name: 'SketchAppletImage',
   props: SketchImageProps,
-  setup: (props,{ slots }) => {
-
+  setup: (props, { slots }) => {
     const sketchAppletImage = computed(() => SketchAppletImage.create({ src: props.src || '', style: props.style }))
 
     useSketchElement({ self: sketchAppletImage.value })

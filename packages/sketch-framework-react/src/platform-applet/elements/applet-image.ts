@@ -11,7 +11,7 @@ interface CreateSketchAppletImageOpt extends CreateSketchElementOpt {
 const imageCache = new Map<string, HTMLImageElement>()
 
 export class SketchAppletImage extends SketchImage {
-  public static  create (opt: CreateSketchAppletImageOpt) {
+  public static create (opt: CreateSketchAppletImageOpt) {
     const { src, style } = opt
     return new SketchAppletImage(src, style)
   }
@@ -29,7 +29,7 @@ export class SketchAppletImage extends SketchImage {
         imageCache[url] = image
         resolve(image)
       }
-      image.onerror = (error)=> reject(error)
+      image.onerror = (error) => reject(error)
       image.src = url // 要加载的图片 url
     })
   }

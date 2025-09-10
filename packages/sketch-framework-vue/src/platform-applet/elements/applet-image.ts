@@ -29,7 +29,7 @@ export class SketchAppletImage extends SketchImage {
         imageCache[url] = image
         resolve(image)
       }
-      image.onerror = (error)=> reject(error)
+      image.onerror = (error) => reject(error)
       image.src = url // 要加载的图片 url
     })
   }

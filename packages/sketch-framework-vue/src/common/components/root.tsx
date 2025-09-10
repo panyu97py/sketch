@@ -4,23 +4,22 @@ import { useSketchElement } from '../hooks'
 
 export const SketchRootProps = {
   sketch: Object as PropType<SketchRoot>,
-  style: Object as PropType<StyleSheetDeclaration>,
-};
+  style: Object as PropType<StyleSheetDeclaration>
+}
 
 export const InternalSketchRoot = defineComponent({
   name: 'SketchRoot',
   props: SketchRootProps,
   setup: (props, { slots, emit }) => {
-
     const handleSketchInitialized = (event: Event<SketchRoot>) => {
       props.sketch?.render()
-      emit('ready',event)
+      emit('ready', event)
     }
 
     const handleSketchElementUpdate = (event: Event<SketchElement>) => {
       if (!props.sketch?._root.isMounted) return
       props.sketch?.render()
-      emit('update',event)
+      emit('update', event)
     }
 
     watchEffect((onCleanup) => {
@@ -47,6 +46,6 @@ export const InternalSketchRoot = defineComponent({
       <template>
         {slots.default ? slots.default() : null}
       </template>
-    );
+    )
   }
 })

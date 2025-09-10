@@ -20,16 +20,16 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
 
   const onUpdateRef = useToRef(onUpdate)
 
-  const handleSketchInitialized  = useCallback(()=>{
+  const handleSketchInitialized = useCallback(() => {
     if (autoRender) sketchRef.current?.render()
     onReadyRef.current()
-  },[])
+  }, [])
 
-  const handleSketchElementUpdate = useCallback(()=>{
+  const handleSketchElementUpdate = useCallback(() => {
     if (!sketchRef.current?._root.isMounted) return
     if (autoRender) sketchRef.current?.render()
     onUpdateRef.current()
-  },[])
+  }, [])
 
   const { childrenVNodes } = useSketchElement({ children, self: sketch })
 
@@ -40,12 +40,11 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
   useEffect(() => {
     sketch?.addEventListener('initialized', handleSketchInitialized)
     sketch?.addEventListener('elementUpdate', handleSketchElementUpdate)
-    return ()=>{
-      sketch?.removeEventListener('initialized',handleSketchInitialized)
-      sketch?.removeEventListener('elementUpdate',handleSketchElementUpdate)
+    return () => {
+      sketch?.removeEventListener('initialized', handleSketchInitialized)
+      sketch?.removeEventListener('elementUpdate', handleSketchElementUpdate)
     }
   }, [sketch])
-
 
   return <>{childrenVNodes}</>
 }
