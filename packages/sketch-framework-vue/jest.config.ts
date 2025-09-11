@@ -7,8 +7,8 @@ const commonConfig = {
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1', // 配置 @ 路径别名
-    '@sketchjs/react': '<rootDir>/index.js' // 配置 @ 路径别名
+    '^@vue/test-utils$': '@vue/test-utils',
+    '^@/(.*)$': '<rootDir>/src/$1' // 配置 @ 路径别名
   }
 }
 
@@ -26,7 +26,7 @@ export default {
       ],
       moduleNameMapper: {
         ...commonConfig.moduleNameMapper,
-        '^@sketchjs/react$': '<rootDir>/src/platform-applet/index.ts'
+        '^@sketchjs/vue$': '<rootDir>/src/platform-applet/index.ts'
       }
     },
     {
@@ -39,7 +39,7 @@ export default {
       ],
       moduleNameMapper: {
         ...commonConfig.moduleNameMapper,
-        '^@sketchjs/react$': '<rootDir>/src/platform-web/index.ts'
+        '^@sketchjs/vue$': '<rootDir>/src/platform-web/index.ts'
       }
     }
   ]

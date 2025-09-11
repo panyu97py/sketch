@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType } from 'vue'
 import { SketchImage, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useSketchElement } from '../../common/hooks'
+import { useSketchElement } from '@/common/hooks'
 
 export const SketchImageProps = {
   src: String,

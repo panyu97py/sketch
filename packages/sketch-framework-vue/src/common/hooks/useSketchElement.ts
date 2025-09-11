@@ -1,6 +1,6 @@
 import { SketchElement } from '@sketchjs/runtime'
 import objectHash from 'object-hash'
-import { getCurrentInstance, inject, provide, useSlots, watchEffect, VNode } from 'vue'
+import { getCurrentInstance, inject, provide, watchEffect, VNode, VNodeNormalizedChildren, VNodeArrayChildren, nextTick, Fragment } from 'vue'
 import { noop } from 'lodash-es'
 
 const generateKeyFromVNode = (vNode: VNode): PropertyKey => {
@@ -17,6 +17,29 @@ const generateKeyFromVNode = (vNode: VNode): PropertyKey => {
   return `${typeStr}-${propsHash}`
 }
 
+type ItemOf<T extends any[]> = T[number]
+
+// 判断是否是 VNode
+const isVNode = (child?: unknown): child is VNode => {
+  return typeof child === 'object' && child !== null && 'type' in child
+}
+
+/**
+ * 扁平化 VNodeNormalizedChildren 并过滤非 VNode
+ * 类似 React.Children.toArray
+ */
+export const flattenVNodes = (children?: VNodeNormalizedChildren | ItemOf<VNodeArrayChildren>): VNode[] => {
+  if (!children) return []
+
+  if (Array.isArray(children)) return children.flatMap(c => flattenVNodes(c))
+
+  // 如果是 Fragment，递归展开 children
+  if (isVNode(children)) return children.type === Fragment ? flattenVNodes(children.children) : [children]
+
+  // 忽略文本/数字/布尔/null/undefined
+  return []
+}
+
 type Nullable<T> = T | undefined;
 
 interface Opts {
@@ -26,24 +49,24 @@ interface Opts {
 export const useSketchElement = (opt: Opts) => {
   const { self } = opt
 
-  const slots = useSlots()
-
   const instance = getCurrentInstance()
 
   const sketchElementMap = new Map<PropertyKey, SketchElement>()
 
-  const parent = inject<SketchElement>('parent')
+  const parent = inject<SketchElement | null>('parent', null)
 
-  const registerChild = inject<(element: SketchElement, vNode: VNode) => void>('registerChild') || noop
+  const registerChild = inject<(element: SketchElement, vNode?: VNode) => void>('registerChild', noop)
 
-  const unregisterChild = inject<(element: SketchElement, vNode: VNode) => void>('unregisterChild') || noop
+  const unregisterChild = inject<(element: SketchElement, vNode?: VNode) => void>('unregisterChild', noop)
 
   provide<Nullable<SketchElement>>('parent', self)
 
-  provide('registerChild', (element: SketchElement, vNode: VNode) => {
+  provide('registerChild', async (element: SketchElement, vNode: VNode) => {
+    await nextTick()
+
     const vNodeKey = generateKeyFromVNode(vNode)
 
-    const childrenVNodes = slots.default?.() || []
+    const childrenVNodes = flattenVNodes(instance?.subTree.children)
 
     const childrenVNodeKeys = childrenVNodes.map(item => generateKeyFromVNode(item))
 

@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [sketch-runtime,sketch-framework-react]
+        package: [sketch-runtime,sketch-framework-react,sketch-framework-vue]
 
     steps:
       - uses: actions/checkout@v4

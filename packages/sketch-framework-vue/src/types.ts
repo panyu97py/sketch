@@ -1,4 +1,4 @@
-import { InternalSketchRoot, InternalSketchText, InternalSketchView } from './common/components'
+import { InternalSketchRoot, InternalSketchText, InternalSketchView } from '@/common/components'
 import { DefineComponent, ExtractPropTypes, PropType, ComputedRef } from 'vue'
 import { SketchRoot, SketchElement, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { JSX } from 'vue/jsx-runtime'

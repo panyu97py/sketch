@@ -5,9 +5,7 @@ import { render, waitFor } from '@testing-library/react'
 import React, { useEffect, useState } from 'react'
 
 describe('useSketchElement', () => {
-
   test('useSketchElement.onRegister', async () => {
-
     const self = mockDeep<SketchElement>()
     const onRegister = jest.fn()
     const onUnregister = jest.fn()
@@ -24,7 +22,6 @@ describe('useSketchElement', () => {
   })
 
   test('useSketchElement.onUnregister', async () => {
-
     const self = mockDeep<SketchElement>()
     const onUnregister = jest.fn()
 
@@ -55,9 +52,9 @@ describe('useSketchElement', () => {
     const TestComponent: React.FC = () => {
       const [isFirstElementVisible, setFirstElementVisible] = useState<boolean>(false)
 
-      useEffect(()=>{
-        setTimeout(()=>setFirstElementVisible(true),0)
-      },[])
+      useEffect(() => {
+        setTimeout(() => setFirstElementVisible(true), 0)
+      }, [])
 
       return (
         <TestElementComponent self={parent}>
@@ -69,10 +66,10 @@ describe('useSketchElement', () => {
 
     const { unmount } = render(<TestComponent/>)
     expect(parent.insertBefore).toHaveBeenCalledWith(secondChild, undefined)
-    await waitFor(()=> expect(parent.insertBefore).toHaveBeenCalledWith(firstChild, secondChild))
+    await waitFor(() => expect(parent.insertBefore).toHaveBeenCalledWith(firstChild, secondChild))
 
     unmount()
     expect(parent.removeChild).toHaveBeenCalledWith(secondChild)
-    await waitFor(()=> expect(parent.removeChild).toHaveBeenCalledWith(firstChild))
+    await waitFor(() => expect(parent.removeChild).toHaveBeenCalledWith(firstChild))
   })
 })
