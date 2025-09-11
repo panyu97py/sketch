@@ -1,10 +1,8 @@
 const commonConfig = {
-  preset: 'ts-jest',
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
-    '^.+\\.(js|jsx)$': 'babel-jest',
+    '^.+\\.(t|j)sx?$': 'babel-jest'
   },
-  moduleFileExtensions: ['ts','tsx', 'js','.jsx', 'json'], // 支持的文件扩展名
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'], // 支持的文件扩展名
   testMatch: ['**/__tests__/**/*.test.(ts|tsx)'], // 匹配所有测试文件
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [],
@@ -26,6 +24,10 @@ export default {
         '<rootDir>/jest.env.applet.ts',
         'jest-canvas-mock'
       ],
+      moduleNameMapper: {
+        ...commonConfig.moduleNameMapper,
+        '^@sketchjs/react$': '<rootDir>/src/platform-applet/index.ts'
+      }
     },
     {
       ...commonConfig,
@@ -35,6 +37,10 @@ export default {
         '<rootDir>/jest.env.web.ts',
         'jest-canvas-mock'
       ],
-    },
-  ],
+      moduleNameMapper: {
+        ...commonConfig.moduleNameMapper,
+        '^@sketchjs/react$': '<rootDir>/src/platform-web/index.ts'
+      }
+    }
+  ]
 }
