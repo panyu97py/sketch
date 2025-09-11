@@ -9,10 +9,7 @@ const commonConfig = {
   moduleNameMapper: {
     '^@vue/test-utils$': '@vue/test-utils',
     '^@/(.*)$': '<rootDir>/src/$1' // 配置 @ 路径别名
-  },
-  setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.ts'
-  ]
+  }
 }
 
 export default {

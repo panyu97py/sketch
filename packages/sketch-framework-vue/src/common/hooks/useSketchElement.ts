@@ -53,11 +53,11 @@ export const useSketchElement = (opt: Opts) => {
 
   const sketchElementMap = new Map<PropertyKey, SketchElement>()
 
-  const parent = inject<SketchElement>('parent')
+  const parent = inject<SketchElement | null>('parent', null)
 
-  const registerChild = inject<(element: SketchElement, vNode: VNode) => void>('registerChild') || noop
+  const registerChild = inject<(element: SketchElement, vNode?: VNode) => void>('registerChild', noop)
 
-  const unregisterChild = inject<(element: SketchElement, vNode: VNode) => void>('unregisterChild') || noop
+  const unregisterChild = inject<(element: SketchElement, vNode?: VNode) => void>('unregisterChild', noop)
 
   provide<Nullable<SketchElement>>('parent', self)
 
