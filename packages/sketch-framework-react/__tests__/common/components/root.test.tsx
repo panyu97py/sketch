@@ -12,7 +12,6 @@ describe('Sketch.Root', () => {
       }
     })
 
-
     interface SketchTestComponentProps {
       onReady?: (dataUrl:string) => void
     }

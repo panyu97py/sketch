@@ -6,7 +6,7 @@ describe('SketchAppletImage', () => {
     expect(image).toBeDefined()
   })
 
-  describe('SketchAppletImage.render',  () => {
+  describe('SketchAppletImage.render', () => {
     test('SketchAppletImage.render:failed', async () => {
       const image = SketchAppletImage.create({ src: expect.any(String) })
       await image.render()

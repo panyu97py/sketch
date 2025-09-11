@@ -5,7 +5,6 @@ import { noop } from 'lodash-es'
 
 describe('SketchReact', () => {
   test('SketchReact:render', async () => {
-
     const style = StyleSheet.create({
       root: {
         width: 500,
@@ -69,7 +68,6 @@ describe('SketchReact', () => {
         </Sketch.Root>
       )
     }
-
 
     const onReady = jest.fn()
 
