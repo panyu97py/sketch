@@ -1,6 +1,6 @@
 import { watchEffect, defineComponent, PropType } from 'vue'
 import { Event, SketchElement, SketchRoot, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useSketchElement } from '../hooks'
+import { useSketchElement } from '@/common/hooks'
 
 export const SketchRootProps = {
   sketch: Object as PropType<SketchRoot>,

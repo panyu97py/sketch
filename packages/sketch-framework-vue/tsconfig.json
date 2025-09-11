@@ -7,8 +7,13 @@
     "declaration": true,
     "sourceMap": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "jsx": "preserve",
-    "jsxImportSource": "vue"
+    "jsxImportSource": "vue",
+    "paths": {
+      "@/*": ["src/*"],
+      "@sketchjs/vue": ["index"],
+    }
   },
   "include": [
     "src", "__tests__"

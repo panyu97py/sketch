@@ -1,5 +1,5 @@
 import { computed, defineComponent, PropType } from 'vue'
-import { useSketchElement } from '../../common/hooks'
+import { useSketchElement } from '@/common/hooks'
 import { SketchAppletImage } from '../elements'
 import { StyleSheetDeclaration } from '@sketchjs/runtime'
 

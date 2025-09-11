@@ -1,6 +1,6 @@
 import { computed, defineComponent, PropType } from 'vue'
 import { SketchText, StyleSheetDeclaration } from '@sketchjs/runtime'
-import { useSketchElement } from '../hooks'
+import { useSketchElement } from '@/common/hooks'
 
 export const SketchTextProps = {
   text: String,
