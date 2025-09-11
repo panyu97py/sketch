@@ -1,4 +1,4 @@
-import { SketchRootProps, SketchTextProps, SketchViewProps } from './common/components'
+import { InternalSketchRoot, InternalSketchText, InternalSketchView } from './common/components'
 import { DefineComponent, ExtractPropTypes, PropType, ComputedRef } from 'vue'
 import { SketchRoot, SketchElement, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { JSX } from 'vue/jsx-runtime'
@@ -9,13 +9,17 @@ const SketchImageProps = {
   style: Object as PropType<StyleSheetDeclaration>
 }
 
+export type SketchImagePropsType = ExtractPropTypes<typeof SketchImageProps>;
+
+export declare const InternalSketchImage: DefineComponent<SketchImagePropsType, () => JSX.Element>
+
 export * from '@sketchjs/runtime'
 
 export declare const Sketch: {
   debug: boolean;
-  Root: DefineComponent<ExtractPropTypes<typeof SketchRootProps>, () => JSX.Element>;
-  View: DefineComponent<ExtractPropTypes<typeof SketchViewProps>, () => JSX.Element>;
-  Text: DefineComponent<ExtractPropTypes<typeof SketchTextProps>, () => JSX.Element>;
-  Image: DefineComponent<ExtractPropTypes<typeof SketchImageProps>>;
+  Root: typeof InternalSketchRoot;
+  View: typeof InternalSketchView;
+  Text: typeof InternalSketchText;
+  Image: typeof InternalSketchImage;
   useSketch: () => ComputedRef<SketchRoot>;
 }
