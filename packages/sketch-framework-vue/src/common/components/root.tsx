@@ -7,9 +7,15 @@ export const SketchRootProps = {
   style: Object as PropType<StyleSheetDeclaration>
 }
 
+export const SketchRootEmits = {
+  ready: (event: Event<SketchRoot>) => event instanceof Event,
+  update: (event: Event<SketchElement>) => event instanceof Event
+}
+
 export const InternalSketchRoot = defineComponent({
   name: 'SketchRoot',
   props: SketchRootProps,
+  emits: SketchRootEmits,
   setup: (props, { slots, emit }) => {
     const handleSketchInitialized = (event: Event<SketchRoot>) => {
       props.sketch?.render()
