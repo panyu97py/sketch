@@ -1,3 +1,4 @@
+import { merge } from 'lodash'
 const commonConfig = {
   transform: {
     '^.+\\.(t|j)sx?$': 'babel-jest'
@@ -7,40 +8,37 @@ const commonConfig = {
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1', // 配置 @ 路径别名
-    '@sketchjs/react': '<rootDir>/index.js' // 配置 @ 路径别名
+    '^@/(.*)$': '<rootDir>/src/$1' // 配置 @ 路径别名
   }
 }
+
+const appletProjectConfig = merge(commonConfig, {
+  displayName: 'applet',
+  testPathIgnorePatterns: ['/src/platform-web'],
+  setupFiles: [
+    '<rootDir>/jest.env.applet.ts',
+    'jest-canvas-mock'
+  ],
+  moduleNameMapper: {
+    '^@sketchjs/react$': '<rootDir>/src/platform-applet/index.ts'
+  }
+})
+
+const webProjectConfig = merge(commonConfig, {
+  displayName: 'web',
+  testPathIgnorePatterns: ['/src/platform-applet'],
+  setupFiles: [
+    '<rootDir>/jest.env.applet.ts',
+    'jest-canvas-mock'
+  ],
+  moduleNameMapper: {
+    '^@sketchjs/react$': '<rootDir>/src/platform-web/index.ts'
+
+  }
+})
 
 export default {
   collectCoverage: true,
   coverageReporters: ['text', 'json', 'html'], // 生成不同格式的覆盖率报告
-  projects: [
-    {
-      ...commonConfig,
-      displayName: 'applet',
-      testPathIgnorePatterns: ['/src/platform-web'],
-      setupFiles: [
-        '<rootDir>/jest.env.applet.ts',
-        'jest-canvas-mock'
-      ],
-      moduleNameMapper: {
-        ...commonConfig.moduleNameMapper,
-        '^@sketchjs/react$': '<rootDir>/src/platform-applet/index.ts'
-      }
-    },
-    {
-      ...commonConfig,
-      displayName: 'web',
-      testPathIgnorePatterns: ['/src/platform-applet'],
-      setupFiles: [
-        '<rootDir>/jest.env.web.ts',
-        'jest-canvas-mock'
-      ],
-      moduleNameMapper: {
-        ...commonConfig.moduleNameMapper,
-        '^@sketchjs/react$': '<rootDir>/src/platform-web/index.ts'
-      }
-    }
-  ]
+  projects: [appletProjectConfig, webProjectConfig]
 }
