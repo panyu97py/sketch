@@ -40,11 +40,11 @@ describe('useSketchElement (vue)', () => {
 
     const { unmount } = render(TestHost)
 
-    await waitFor(() => expect((parent.insertBefore as jest.Mock)).toHaveBeenCalledWith(secondChild, undefined))
-    await waitFor(() => expect((parent.insertBefore as jest.Mock)).toHaveBeenCalledWith(firstChild, secondChild))
+    await waitFor(() => expect((parent.insertBefore)).toHaveBeenCalledWith(secondChild, undefined))
+    await waitFor(() => expect((parent.insertBefore)).toHaveBeenCalledWith(firstChild, secondChild))
 
     unmount()
-    expect((parent.removeChild as jest.Mock)).toHaveBeenCalledWith(secondChild)
-    await waitFor(() => expect((parent.removeChild as jest.Mock)).toHaveBeenCalledWith(firstChild))
+    await waitFor(() => expect((parent.removeChild)).toHaveBeenCalledWith(secondChild))
+    await waitFor(() => expect((parent.removeChild)).toHaveBeenCalledWith(firstChild))
   })
 })
