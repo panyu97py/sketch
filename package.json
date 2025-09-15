@@ -2,8 +2,11 @@
   "name": "sketch",
   "version": "0.0.1-alpha.6",
   "description": "",
-  "main": "index.js",
+  "keywords": [],
+  "author": "yu.pan",
+  "license": "MIT",
   "private": true,
+  "main": "index.js",
   "workspaces": [
     "packages/*",
     "example/*"
@@ -30,9 +33,6 @@
     "clear-dist": "rm -rf dist && pnpm -r exec rm -rf dist",
     "clear-all": "rm -rf node_modules && pnpm -r exec rm -rf node_modules"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
