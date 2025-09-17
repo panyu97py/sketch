@@ -1,13 +1,15 @@
 import React from 'react'
 import { SketchElementProps } from './common/types'
 import { InternalSketchRootProps, InternalSketchViewProps, InternalSketchTextProps } from './common/components'
-import { SketchRoot } from '@sketchjs/runtime'
+import { SketchRoot, SketchImage, Event } from '@sketchjs/runtime'
 
 export * from '@sketchjs/runtime'
 export * from './common/types'
 
 interface InternalSketchImageProps extends SketchElementProps {
     src?: string;
+    onLoad?: (error: Event<SketchImage>) => void
+    onError?: (error: Event<Error>) => void
 }
 
 export declare const Sketch: {

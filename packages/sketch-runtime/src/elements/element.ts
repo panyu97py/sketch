@@ -1,6 +1,6 @@
 import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout'
 import { StyleSheetDeclaration } from '@/types'
-import { Event, log, YogaLayoutUtils } from '@/utils'
+import { Event, EventEmitter, EventListener, log, YogaLayoutUtils } from '@/utils'
 import { StyleSheet } from './style-sheet'
 import { SketchRoot } from './root'
 
@@ -38,6 +38,11 @@ export class SketchElement {
    * 样式
    */
   private originStyle?: StyleSheetDeclaration
+
+  /**
+   * 事件系统
+   */
+  public eventEmit?: EventEmitter
 
   /**
    * 是否为根节点
@@ -217,6 +222,32 @@ export class SketchElement {
     const width = this.layout.getComputedWidth()
     const height = this.layout.getComputedHeight()
     return { width, height }
+  }
+
+  /**
+   * 新增事件监听
+   * @param eventType
+   * @param listener
+   */
+  public addEventListener (eventType: string, listener: EventListener) {
+    return this.eventEmit?.addEventListener(eventType, listener)
+  }
+
+  /**
+   * 移除事件监听
+   * @param eventType
+   * @param listener
+   */
+  public removeEventListener (eventType: string, listener: EventListener) {
+    return this.eventEmit?.removeEventListener(eventType, listener)
+  }
+
+  /**
+   * 触发事件监听
+   * @param event
+   */
+  public dispatchEvent (event: Event) {
+    return this.eventEmit?.dispatchEvent(event)
   }
 
   render () {}

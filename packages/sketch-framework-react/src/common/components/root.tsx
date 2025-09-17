@@ -1,14 +1,14 @@
 import { noop } from 'lodash-es'
 import React, { useCallback, useEffect } from 'react'
-import { SketchRoot } from '@sketchjs/runtime'
+import { Event, SketchElement, SketchRoot } from '@sketchjs/runtime'
 import { useSketchElement, useToRef } from '../hooks'
 import { SketchElementProps } from '../types'
 
 export interface InternalSketchRootProps extends Pick<SketchElementProps, 'style'|'children'> {
   sketch?: SketchRoot
   autoRender?: boolean
-  onReady?: () => void
-  onUpdate?: () => void
+  onReady?: (event: Event<SketchRoot>) => void
+  onUpdate?: (event: Event<SketchElement>) => void
 }
 
 export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
@@ -20,15 +20,15 @@ export const InternalSketchRoot:React.FC<InternalSketchRootProps> = (props) => {
 
   const onUpdateRef = useToRef(onUpdate)
 
-  const handleSketchInitialized = useCallback(() => {
+  const handleSketchInitialized = useCallback((event: Event<SketchRoot>) => {
     if (autoRender) sketchRef.current?.render()
-    onReadyRef.current()
+    onReadyRef.current(event)
   }, [])
 
-  const handleSketchElementUpdate = useCallback(() => {
+  const handleSketchElementUpdate = useCallback((event: Event<SketchElement>) => {
     if (!sketchRef.current?._root.isMounted) return
     if (autoRender) sketchRef.current?.render()
-    onUpdateRef.current()
+    onUpdateRef.current(event)
   }, [])
 
   const { childrenVNodes } = useSketchElement({ children, self: sketch })
