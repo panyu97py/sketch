@@ -98,7 +98,6 @@ export class SketchElement {
    * 元素初始化
    */
   public async onMount () {
-    if (this.isMounted) return
     log('SketchElement.onMount', { node: this })
 
     // 创建布局节点
@@ -119,7 +118,6 @@ export class SketchElement {
    * 元素销毁
    */
   public onUnmount () {
-    if (!this.isMounted) return
     log('SketchElement.onUnmount', { node: this })
     this.parentNode?.layout?.removeChild(this.layout!)
     this.layout?.free()
@@ -173,7 +171,7 @@ export class SketchElement {
    */
   public async applyOnMount () {
     if (!this._isRoot && !this.parentNode?.isMounted) return
-    await this.onMount()
+    if (!this.isMounted) await this.onMount()
     this.isMounted = true
     return Promise.all(this.childNodes.map(child => (child as SketchElement).applyOnMount()))
   }
@@ -183,7 +181,7 @@ export class SketchElement {
    */
   public applyOnUnmount () {
     this.childNodes.forEach(child => (child as SketchElement).applyOnUnmount())
-    this.onUnmount()
+    if (this.isMounted) this.onUnmount()
     this.isMounted = false
   }
 
