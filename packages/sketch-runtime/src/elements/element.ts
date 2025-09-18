@@ -1,6 +1,6 @@
 import { Node as YogaLayoutNode } from '@sketchjs/yoga-layout'
 import { StyleSheetDeclaration } from '@/types'
-import { Event, log, YogaLayoutUtils } from '@/utils'
+import { Event, EventEmitter, EventListener, log, YogaLayoutUtils } from '@/utils'
 import { StyleSheet } from './style-sheet'
 import { SketchRoot } from './root'
 
@@ -38,6 +38,11 @@ export class SketchElement {
    * 样式
    */
   private originStyle?: StyleSheetDeclaration
+
+  /**
+   * 事件系统
+   */
+  public eventEmit?: EventEmitter
 
   /**
    * 是否为根节点
@@ -93,7 +98,6 @@ export class SketchElement {
    * 元素初始化
    */
   public async onMount () {
-    if (this.isMounted) return
     log('SketchElement.onMount', { node: this })
 
     // 创建布局节点
@@ -106,15 +110,15 @@ export class SketchElement {
     // 插入到父节点布局中
     if (!this.parentNode) return
     const { layout: parentLayout, childNodes } = this.parentNode
-    const index = childNodes.findIndex(it => it === this)
-    parentLayout?.insertChild(this.layout, index)
+    const targetIndex = childNodes.indexOf(this)
+    const realIndex = childNodes.slice(0, targetIndex).filter(n => n.layout).length
+    parentLayout?.insertChild(this.layout, realIndex)
   }
 
   /**
    * 元素销毁
    */
   public onUnmount () {
-    if (!this.isMounted) return
     log('SketchElement.onUnmount', { node: this })
     this.parentNode?.layout?.removeChild(this.layout!)
     this.layout?.free()
@@ -168,7 +172,7 @@ export class SketchElement {
    */
   public async applyOnMount () {
     if (!this._isRoot && !this.parentNode?.isMounted) return
-    await this.onMount()
+    if (!this.isMounted) await this.onMount()
     this.isMounted = true
     return Promise.all(this.childNodes.map(child => (child as SketchElement).applyOnMount()))
   }
@@ -178,7 +182,7 @@ export class SketchElement {
    */
   public applyOnUnmount () {
     this.childNodes.forEach(child => (child as SketchElement).applyOnUnmount())
-    this.onUnmount()
+    if (this.isMounted) this.onUnmount()
     this.isMounted = false
   }
 
@@ -217,6 +221,32 @@ export class SketchElement {
     const width = this.layout.getComputedWidth()
     const height = this.layout.getComputedHeight()
     return { width, height }
+  }
+
+  /**
+   * 新增事件监听
+   * @param eventType
+   * @param listener
+   */
+  public addEventListener (eventType: string, listener: EventListener) {
+    return this.eventEmit?.addEventListener(eventType, listener)
+  }
+
+  /**
+   * 移除事件监听
+   * @param eventType
+   * @param listener
+   */
+  public removeEventListener (eventType: string, listener: EventListener) {
+    return this.eventEmit?.removeEventListener(eventType, listener)
+  }
+
+  /**
+   * 触发事件监听
+   * @param event
+   */
+  public dispatchEvent (event: Event) {
+    return this.eventEmit?.dispatchEvent(event)
   }
 
   render () {}

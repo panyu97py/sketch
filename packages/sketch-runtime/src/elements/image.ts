@@ -1,6 +1,8 @@
 import { CreateSketchElementOpt, SketchElement } from './element'
 import { StyleSheetDeclaration } from '@/types'
-import { log } from '@/utils'
+import { Event, EventEmitter, EventListener, log } from '@/utils'
+
+type EventType = 'onerror' | 'onload'
 
 interface CreateSketchImageOpt extends CreateSketchElementOpt {
   src: string
@@ -28,6 +30,11 @@ export class SketchImage extends SketchElement {
   private imageObj: HTMLImageElement
 
   /**
+   * 事件系统
+   */
+  public eventEmit?: EventEmitter
+
+  /**
    * 构造函数
    * @param src 图片地址
    * @param style 样式
@@ -35,6 +42,7 @@ export class SketchImage extends SketchElement {
   protected constructor (src: string, style?: StyleSheetDeclaration) {
     super(style)
     this.src = src
+    this.eventEmit = new EventEmitter()
   }
 
   public static create (opt: CreateSketchImageOpt) {
@@ -47,16 +55,22 @@ export class SketchImage extends SketchElement {
    * @param src
    */
   async loadImage (src: string) {
-    if (!imageCache.has(src)) {
-      const tempImageObj = document.createElement('img')
-      tempImageObj.src = src
-      await new Promise((resolve, reject) => {
-        tempImageObj.onload = resolve
-        tempImageObj.onerror = reject
-      })
-      imageCache.set(src, tempImageObj)
+    try {
+      if (!imageCache.has(src)) {
+        const tempImageObj = document.createElement('img')
+        tempImageObj.src = src
+        await new Promise((resolve, reject) => {
+          tempImageObj.onload = resolve
+          tempImageObj.onerror = reject
+        })
+        this.dispatchEvent(new Event('onload', this))
+        imageCache.set(src, tempImageObj)
+      }
+      return imageCache.get(src)!
+    } catch (error) {
+      this.dispatchEvent(new Event('onerror', error))
+      throw error
     }
-    return imageCache.get(src)!
   }
 
   /**
@@ -64,8 +78,26 @@ export class SketchImage extends SketchElement {
    * @desc 初始化图片对象
    */
   public async onMount () {
-    await super.onMount()
     this.imageObj = await this.loadImage(this.src)
+    return super.onMount()
+  }
+
+  /**
+   * 新增事件监听
+   * @param eventType
+   * @param listener
+   */
+  public addEventListener (eventType: EventType, listener: EventListener) {
+    return super.addEventListener(eventType, listener)
+  }
+
+  /**
+   * 移除事件监听
+   * @param eventType
+   * @param listener
+   */
+  public removeEventListener (eventType: EventType, listener: EventListener) {
+    return super.removeEventListener(eventType, listener)
   }
 
   /**

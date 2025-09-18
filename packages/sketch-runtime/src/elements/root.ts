@@ -10,7 +10,7 @@ interface CreateSketchRootOpt extends CreateSketchElementOpt {
     canvas?: HTMLCanvasElement,
 }
 
-type EventType = 'elementUpdate'|'initialized'
+type EventType = 'elementUpdate' | 'initialized'
 
 /**
  * 画布根节点
@@ -25,11 +25,6 @@ export class SketchRoot extends SketchView {
    * 画布元素
    */
   public canvas?: HTMLCanvasElement
-
-  /**
-   * 事件系统
-   */
-  public eventEmit?: EventEmitter
 
   /**
    * 构造函数
@@ -143,8 +138,8 @@ export class SketchRoot extends SketchView {
    * @param eventType
    * @param listener
    */
-  public addEventListener (eventType:EventType, listener:EventListener) {
-    return this.eventEmit?.addEventListener(eventType, listener)
+  public addEventListener (eventType: EventType, listener: EventListener) {
+    return super.addEventListener(eventType, listener)
   }
 
   /**
@@ -152,15 +147,7 @@ export class SketchRoot extends SketchView {
    * @param eventType
    * @param listener
    */
-  public removeEventListener (eventType:EventType, listener:EventListener) {
-    return this.eventEmit?.removeEventListener(eventType, listener)
-  }
-
-  /**
-   * 触发事件监听
-   * @param event
-   */
-  public dispatchEvent (event:Event) {
-    return this.eventEmit?.dispatchEvent(event)
+  public removeEventListener (eventType: EventType, listener: EventListener) {
+    return super.removeEventListener(eventType, listener)
   }
 }

@@ -1,5 +1,5 @@
 import Taro from '@tarojs/taro'
-import { CreateSketchElementOpt, SketchImage } from '@sketchjs/runtime'
+import { CreateSketchElementOpt, Event, SketchImage } from '@sketchjs/runtime'
 
 interface CreateSketchAppletImageOpt extends CreateSketchElementOpt {
   src: string
@@ -8,7 +8,7 @@ interface CreateSketchAppletImageOpt extends CreateSketchElementOpt {
 /**
  * 图片缓存
  */
-const imageCache = new Map<string, HTMLImageElement>()
+const imageCache = new Map<string, any>()
 
 export class SketchAppletImage extends SketchImage {
   public static create (opt: CreateSketchAppletImageOpt) {
@@ -18,19 +18,25 @@ export class SketchAppletImage extends SketchImage {
 
   /**
    * 加载图片
-   * @param url
+   * @param src
    */
-  loadImage = async (url: string) => {
-    if (!this._root) return
-    if (imageCache[url]) return imageCache[url]
-    const image = (this._root.canvas as unknown as Taro.Canvas).createImage()
-    return new Promise((resolve, reject) => {
-      image.onload = () => {
-        imageCache[url] = image
-        resolve(image)
+  async loadImage (src: string) {
+    try {
+      if (!this._root) return
+      if (!imageCache.has(src)) {
+        const tempImageObj = (this._root.canvas as unknown as Taro.Canvas).createImage()
+        await new Promise((resolve, reject) => {
+          tempImageObj.onload = resolve
+          tempImageObj.onerror = reject
+          tempImageObj.src = src
+        })
+        this.dispatchEvent(new Event('onload', this))
+        imageCache.set(src, tempImageObj)
       }
-      image.onerror = (error) => reject(error)
-      image.src = url // 要加载的图片 url
-    })
+      return imageCache.get(src)!
+    } catch (error) {
+      this.dispatchEvent(new Event('onerror', error))
+      throw error
+    }
   }
 }
