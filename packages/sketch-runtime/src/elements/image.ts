@@ -78,8 +78,8 @@ export class SketchImage extends SketchElement {
    * @desc 初始化图片对象
    */
   public async onMount () {
-    await super.onMount()
     this.imageObj = await this.loadImage(this.src)
+    return super.onMount()
   }
 
   /**

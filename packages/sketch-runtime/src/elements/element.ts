@@ -110,8 +110,9 @@ export class SketchElement {
     // 插入到父节点布局中
     if (!this.parentNode) return
     const { layout: parentLayout, childNodes } = this.parentNode
-    const index = childNodes.findIndex(it => it === this)
-    parentLayout?.insertChild(this.layout, index)
+    const targetIndex = childNodes.indexOf(this)
+    const realIndex = childNodes.slice(0, targetIndex).filter(n => n.layout).length
+    parentLayout?.insertChild(this.layout, realIndex)
   }
 
   /**
