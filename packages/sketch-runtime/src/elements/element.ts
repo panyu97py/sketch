@@ -20,6 +20,11 @@ export class SketchElement {
   public isMounted = false
 
   /**
+   * 布局节点是否已插入父节点
+   */
+  public isLayoutInserted = false
+
+  /**
    * 父节点
    */
   public parentNode: SketchElement | null = null
@@ -32,7 +37,7 @@ export class SketchElement {
   /**
    * 布局节点
    */
-  public layout?: YogaLayoutNode
+  public layout?: YogaLayoutNode | null = null
 
   /**
    * 样式
@@ -95,10 +100,12 @@ export class SketchElement {
   }
 
   /**
-   * 元素初始化
+   * 将当前布局节点插入到父节点中
+   * @private
    */
-  public async onMount () {
-    log('SketchElement.onMount', { node: this })
+  private async insertCurLayoutNodeToParent () {
+    // 移除当前布局节点避免重复插入
+    this.removeCurLayoutNodeFromParent()
 
     // 创建布局节点
     const yoga = await YogaLayoutUtils.load()
@@ -111,8 +118,29 @@ export class SketchElement {
     if (!this.parentNode) return
     const { layout: parentLayout, childNodes } = this.parentNode
     const targetIndex = childNodes.indexOf(this)
-    const realIndex = childNodes.slice(0, targetIndex).filter(n => n.layout).length
+    const realIndex = childNodes.slice(0, targetIndex).filter(n => n.isLayoutInserted).length
     parentLayout?.insertChild(this.layout, realIndex)
+    this.isLayoutInserted = true
+  }
+
+  /**
+   * 将当前布局节点从父节点中移除
+   * @private
+   */
+  private removeCurLayoutNodeFromParent () {
+    if (!this.layout) return
+    this.parentNode?.layout?.removeChild(this.layout)
+    this.layout.free()
+    this.layout = null
+    this.isLayoutInserted = false
+  }
+
+  /**
+   * 元素初始化
+   */
+  public async onMount () {
+    log('SketchElement.onMount', { node: this })
+    return this.insertCurLayoutNodeToParent()
   }
 
   /**
@@ -120,8 +148,7 @@ export class SketchElement {
    */
   public onUnmount () {
     log('SketchElement.onUnmount', { node: this })
-    this.parentNode?.layout?.removeChild(this.layout!)
-    this.layout?.free()
+    return this.removeCurLayoutNodeFromParent()
   }
 
   /**
