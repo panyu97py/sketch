@@ -213,8 +213,8 @@ export class SketchText extends SketchBaseText {
   }
 
   public onUnmount () {
+    this.childNodes.forEach((childNode) => this.removeChild(childNode))
     super.onUnmount()
-    this.childNodes = []
   }
 
   /**
