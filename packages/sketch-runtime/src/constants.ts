@@ -6,9 +6,7 @@ export const DEFAULT_FONT_STYLE: Required<FontStyle> = {
   fontWeight: 400,
   lineHeight: 20,
   fontFamily: 'PingFang SC',
-  fontStyle: 'normal',
-  fontVariant: 'normal',
-  fontStretch: 'normal'
+  fontStyle: 'normal'
 }
 
 export const DEFAULT_FONT_STYLE_PROPERTY = Object.keys(DEFAULT_FONT_STYLE) as Array<keyof FontStyle>
