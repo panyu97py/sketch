@@ -1,6 +1,6 @@
 {
   "name": "@sketchjs/yoga-layout",
-  "version": "0.0.1-alpha.23",
+  "version": "0.0.1-alpha.24",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "author": "yu.pan",

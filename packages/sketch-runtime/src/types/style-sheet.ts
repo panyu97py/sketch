@@ -53,8 +53,6 @@ type FontStyleProperty =
   | 'fontStyle'
   | 'fontWeight'
   | 'fontFamily'
-  | 'fontVariant'
-  | 'fontStretch'
   | 'lineHeight'
 
 type ExtendsCSSDeclaration = Pick<CSSStyleDeclaration, Exclude<YogaSupportedCSSProperties, OverwriteCSSProperties>>
@@ -83,8 +81,6 @@ export interface StyleSheetDeclaration extends Partial<ExtendsCSSDeclaration> {
   fontWeight?: number;
   fontStyle?: string;
   fontFamily?: string;
-  fontVariant?: string;
-  fontStretch?: string;
   textAlign?: CanvasTextAlign
   flex?: number;
   top?: PositionSize;
