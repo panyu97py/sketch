@@ -1,0 +1,15 @@
+{
+  "name": "doc",
+  "version": "0.0.1-alpha.21",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "vitepress": "^1.6.4",
+    "@sketchjs/react": "workspace:*",
+    "@sketchjs/vue": "workspace:*",
+    "@sketchjs/runtime": "workspace:*"
+  }
+}
