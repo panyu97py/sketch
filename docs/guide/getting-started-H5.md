@@ -22,7 +22,7 @@ $ bun add -D @sketchjs/runtime@next
 
 :::
 
-## 创建示例 {#crate-example}
+## 示例代码 {#example}
 
 ::: code-group
 ```typescript [example.ts]
