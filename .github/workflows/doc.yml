@@ -1,0 +1,42 @@
+name: doc
+on:
+  push:
+    branches:
+      - main       # main 分支 push 时触发
+      - feature
+  pull_request:
+    branches:
+      - main       # 针对 main 分支的 PR 也触发
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build VitePress docs
+        run: pnpm run build:doc
+
+      - name: Deploy-pages
+        uses: actions/deploy-pages@v4
+        with:
+          branch: gh-pages           # 发布到 gh-pages 分支
+          folder: .vitepress/dist    # 生成的静态文件目录

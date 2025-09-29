@@ -23,6 +23,7 @@
     "release": "pnpm --filter @sketchjs/* publish",
     "version": "pnpm run test && lerna version",
     "start:doc": "pnpm --filter doc dev",
+    "build:doc": "pnpm --filter doc build",
     "start:example-h5-original": "pnpm --filter example-h5-original dev",
     "start:example-h5-react": "pnpm --filter example-h5-react start",
     "start:example-h5-vue": "pnpm --filter example-h5-vue dev",
