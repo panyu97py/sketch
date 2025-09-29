@@ -5,19 +5,19 @@
 ::: code-group
 
 ```sh [npm]
-$ npm add -D @sketchjs/runtime@next
+$ npm add -D @sketchjs/runtime
 ```
 
 ```sh [pnpm]
-$ pnpm add -D @sketchjs/runtime@next
+$ pnpm add -D @sketchjs/runtime
 ```
 
 ```sh [yarn]
-$ yarn add -D @sketchjs/runtime@next
+$ yarn add -D @sketchjs/runtime
 ```
 
 ```sh [bun]
-$ bun add -D @sketchjs/runtime@next
+$ bun add -D @sketchjs/runtime
 ```
 
 :::
