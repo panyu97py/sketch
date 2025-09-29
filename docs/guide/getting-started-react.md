@@ -5,19 +5,19 @@
 ::: code-group
 
 ```sh [npm]
-$ npm add -D @sketchjs/react
+$ npm add @sketchjs/react
 ```
 
 ```sh [pnpm]
-$ pnpm add -D @sketchjs/react
+$ pnpm add @sketchjs/react
 ```
 
 ```sh [yarn]
-$ yarn add -D @sketchjs/react
+$ yarn add @sketchjs/react
 ```
 
 ```sh [bun]
-$ bun add -D @sketchjs/react
+$ bun add @sketchjs/react
 ```
 
 :::

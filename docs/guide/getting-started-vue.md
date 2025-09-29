@@ -5,19 +5,19 @@
 ::: code-group
 
 ```sh [npm]
-$ npm add -D @sketchjs/vue
+$ npm add @sketchjs/vue
 ```
 
 ```sh [pnpm]
-$ pnpm add -D @sketchjs/vue
+$ pnpm add @sketchjs/vue
 ```
 
 ```sh [yarn]
-$ yarn add -D @sketchjs/vue
+$ yarn add @sketchjs/vue
 ```
 
 ```sh [bun]
-$ bun add -D @sketchjs/vue
+$ bun add @sketchjs/vue
 ```
 
 :::
