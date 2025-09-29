@@ -35,8 +35,12 @@ jobs:
       - name: Build VitePress docs
         run: pnpm run build:doc
 
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .vitepress/dist
+
       - name: Deploy-pages
         uses: actions/deploy-pages@v4
         with:
-          branch: gh-pages           # 发布到 gh-pages 分支
-          folder: .vitepress/dist    # 生成的静态文件目录
+          artifact_name: github-pages
