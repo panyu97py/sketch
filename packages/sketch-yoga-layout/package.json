@@ -5,6 +5,7 @@
   "types": "./src/index.d.ts",
   "author": "yu.pan",
   "license": "MIT",
+  "homepage": "https://panyu97py.github.io/sketch",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
