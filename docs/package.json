@@ -7,9 +7,11 @@
     "preview": "vitepress preview"
   },
   "dependencies": {
-    "vitepress": "^1.6.4",
     "@sketchjs/react": "workspace:*",
+    "@sketchjs/runtime": "workspace:*",
     "@sketchjs/vue": "workspace:*",
-    "@sketchjs/runtime": "workspace:*"
+    "vite": "^5.4.20",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-group-icons": "^1.6.3"
   }
 }
