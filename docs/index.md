@@ -3,7 +3,7 @@ layout: home
 
 hero:
   name: "Sketch"
-  text: "现代化的 Canvas 绘图工具"
+  text: "Canvas 绘图工具"
   tagline: 像写 React Native 一样完成 Canvas 2D 绘图，支持 Vue 和 React 框架
 #  image:
 #    src: /logo.svg
