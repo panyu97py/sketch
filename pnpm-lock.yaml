@@ -554,6 +554,9 @@ importers:
       tsc-alias:
         specifier: ^1.8.16
         version: 1.8.16
+      typescript:
+        specifier: ^5.7.2
+        version: 5.8.3
 
   packages/sketch-framework-vue:
     dependencies:
@@ -697,6 +700,9 @@ importers:
       tsc-alias:
         specifier: ^1.8.16
         version: 1.8.16
+      typescript:
+        specifier: ^5.7.2
+        version: 5.8.3
 
   packages/sketch-yoga-layout: {}
 
