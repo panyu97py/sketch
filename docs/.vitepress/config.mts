@@ -4,6 +4,7 @@ import packageInfo from '../package.json'
 export default defineConfig({
   title: 'Sketchjs',
   description: 'A VitePress Site',
+  base:'/sketch/',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     socialLinks: [
@@ -13,10 +14,6 @@ export default defineConfig({
       }
     ],
     nav: [
-      {
-        text: 'Home',
-        link: '/'
-      },
       {
         text: packageInfo.version,
         link: '/'
@@ -35,6 +32,10 @@ export default defineConfig({
     footer: {
       message: '基于 MIT 许可发布',
       copyright: '版权所有 © 2025-至今 潘宇'
+    },
+    docFooter: {
+      prev: '上一页',
+      next: '下一页'
     },
     sidebar: {
       '/guide/': {

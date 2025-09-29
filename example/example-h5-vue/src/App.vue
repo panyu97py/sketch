@@ -1,7 +1,7 @@
 <template>
   <div class="App" @click="handleToDataURL">
     <canvas class="sketch-canvas" ref="canvasRef"/>
-    <SketchRoot :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
+    <SketchRoot :auto-render="true" :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
       <SketchView :style="style.view">
         <SketchImage :src="logo" :style="style.logo"/>
         <SketchText text="Hello  World!" :style="style.text"/>

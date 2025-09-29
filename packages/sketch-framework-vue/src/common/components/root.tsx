@@ -3,6 +3,7 @@ import { Event, SketchElement, SketchRoot, StyleSheetDeclaration } from '@sketch
 import { useSketchElement } from '@/common/hooks'
 
 export const SketchRootProps = {
+  autoRender: Boolean,
   sketch: Object as PropType<SketchRoot>,
   style: Object as PropType<StyleSheetDeclaration>
 }
@@ -18,13 +19,13 @@ export const InternalSketchRoot = defineComponent({
   emits: SketchRootEmits,
   setup: (props, { slots, emit }) => {
     const handleSketchInitialized = (event: Event<SketchRoot>) => {
-      props.sketch?.render()
+      if (props.autoRender) props.sketch?.render()
       emit('ready', event)
     }
 
     const handleSketchElementUpdate = (event: Event<SketchElement>) => {
       if (!props.sketch?._root.isMounted) return
-      props.sketch?.render()
+      if (props.autoRender) props.sketch?.render()
       emit('update', event)
     }
 

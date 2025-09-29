@@ -1,7 +1,7 @@
 <template>
   <View @tap="handleToDataURL" class='index-view'>
     <Canvas id='sketch-canvas' type='2d' class='sketch-canvas' />
-    <Sketch.Root :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
+    <Sketch.Root :auto-render="true" :style="style.root" :sketch="sketch" @ready="handleSketchInitialized" @update="handleSketchUpdate">
       <Sketch.View :style="style.view">
         <Sketch.Image :src="require('@/assets/logo.svg')" :style="style.logo"/>
         <Sketch.Text text="Hello  World!" :style="style.text"/>
