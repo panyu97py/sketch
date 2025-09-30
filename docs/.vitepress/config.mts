@@ -62,19 +62,18 @@ export default defineConfig({
               },
               {
                 text: '快速开始',
-                base: '/guide/getting-started-',
                 items: [
                   {
                     text: 'react',
-                    link: 'react'
+                    link: 'getting-started-react'
                   },
                   {
                     text: 'vue',
-                    link: 'vue'
+                    link: 'getting-started-vue'
                   },
                   {
                     text: 'H5',
-                    link: 'H5'
+                    link: 'getting-started-H5'
                   },
                 ]
               }
