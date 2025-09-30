@@ -2,6 +2,8 @@
 
 ## 安装 {#installation}
 
+### 前置准备 {#prerequisites}
+
 ::: code-group
 
 ```sh [npm]

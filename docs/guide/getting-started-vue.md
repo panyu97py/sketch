@@ -2,6 +2,10 @@
 
 ## 安装 {#installation}
 
+### 前置准备 {#prerequisites}
+
+- [Vuejs](https://cn.vuejs.org/) 3.0.0 及以上版本。
+
 ::: code-group
 
 ```sh [npm]
