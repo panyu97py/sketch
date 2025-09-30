@@ -1,8 +1,9 @@
-import { debugOption } from '@/utils/debug'
+import { attachLogEnable, log } from '@/utils/debug'
 
 describe('debugOption', () => {
   test('debugOption.debug', () => {
-    debugOption.debug = true
-    expect(debugOption.debug).toBe(true)
+    const tempObj = attachLogEnable({})
+    tempObj.debug = true
+    expect(log.enabled).toBe(true)
   })
 })

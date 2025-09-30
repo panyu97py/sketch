@@ -8,6 +8,7 @@ const commonConfig = {
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [],
   moduleNameMapper: {
+    '^@sketchjs/react$': '<rootDir>/src/index.ts',
     '^@/(.*)$': '<rootDir>/src/$1' // 配置 @ 路径别名
   }
 }
@@ -18,10 +19,7 @@ const appletProjectConfig = merge(commonConfig, {
   setupFiles: [
     '<rootDir>/jest.env.applet.ts',
     'jest-canvas-mock'
-  ],
-  moduleNameMapper: {
-    '^@sketchjs/react$': '<rootDir>/src/platform-applet/index.ts'
-  }
+  ]
 })
 
 const webProjectConfig = merge(commonConfig, {
@@ -30,11 +28,7 @@ const webProjectConfig = merge(commonConfig, {
   setupFiles: [
     '<rootDir>/jest.env.applet.ts',
     'jest-canvas-mock'
-  ],
-  moduleNameMapper: {
-    '^@sketchjs/react$': '<rootDir>/src/platform-web/index.ts'
-
-  }
+  ]
 })
 
 export default {

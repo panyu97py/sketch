@@ -1,6 +1,3 @@
 const useWasm = process.env.YOGA_USE_WASM
-if (useWasm) {
-  module.exports = require('./load-use-wasm')
-} else {
-  module.exports = require('./load-no-wasm')
-}
+module.exports = useWasm ? require('./load-use-wasm') : require('./load-no-wasm')
+module.exports.default = module.exports

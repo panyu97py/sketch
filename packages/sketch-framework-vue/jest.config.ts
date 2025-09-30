@@ -9,6 +9,7 @@ const commonConfig = {
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [],
   moduleNameMapper: {
+    '^@sketchjs/vue$': '<rootDir>/src/index.ts',
     '^@vue/test-utils$': '@vue/test-utils',
     '^@/(.*)$': '<rootDir>/src/$1' // 配置 @ 路径别名
   }
@@ -20,10 +21,7 @@ const appletProjectConfig = merge(commonConfig, {
   setupFiles: [
     '<rootDir>/jest.env.applet.ts',
     'jest-canvas-mock'
-  ],
-  moduleNameMapper: {
-    '^@sketchjs/vue$': '<rootDir>/src/platform-applet/index.ts'
-  }
+  ]
 })
 
 const webProjectConfig = merge(commonConfig, {
@@ -32,10 +30,7 @@ const webProjectConfig = merge(commonConfig, {
   setupFiles: [
     '<rootDir>/jest.env.web.ts',
     'jest-canvas-mock'
-  ],
-  moduleNameMapper: {
-    '^@sketchjs/vue$': '<rootDir>/src/platform-web/index.ts'
-  }
+  ]
 })
 
 export default {
