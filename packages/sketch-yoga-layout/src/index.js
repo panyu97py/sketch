@@ -1,6 +1,4 @@
-const useWasm = process.env.YOGA_USE_WASM
-if (useWasm) {
-  module.exports = require('./load-use-wasm')
-} else {
-  module.exports = require('./load-no-wasm')
-}
+import { loadYoga as loadUseWasm } from './load-use-wasm'
+import { loadYoga as loadNoWasm } from './load-no-wasm'
+export const loadYoga = process.env.YOGA_USE_WASM ? loadUseWasm : loadNoWasm
+export * from './generated/YGEnums'

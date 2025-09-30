@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { SketchElement } from '@sketchjs/runtime'
-import { SketchElementChild, SketchElementProps } from '@/types'
+import { SketchElementChild, SketchElementProps } from '@/common/types'
 import { noop } from 'lodash-es'
 
 const flattenReactChildren = (children: SketchElementChild) => {

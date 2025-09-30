@@ -1,10 +1,11 @@
 {
   "name": "@sketchjs/react",
-  "version": "0.0.1-alpha.24",
-  "main": "index.js",
-  "types": "dist/types.d.ts",
+  "version": "0.0.1-alpha.26",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "author": "yu.pan",
   "license": "MIT",
+  "homepage": "https://panyu97py.github.io/sketch",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/panyu97py/sketch.git"
@@ -50,6 +51,7 @@
     "lodash": "^4.17.21",
     "react": "^18.0.0",
     "ts-jest": "^29.2.5",
-    "tsc-alias": "^1.8.16"
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.7.2"
   }
 }

@@ -1,0 +1,17 @@
+{
+  "name": "doc",
+  "version": "0.0.1-alpha.26",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "@sketchjs/react": "workspace:*",
+    "@sketchjs/runtime": "workspace:*",
+    "@sketchjs/vue": "workspace:*",
+    "vite": "^5.4.20",
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-group-icons": "^1.6.3"
+  }
+}

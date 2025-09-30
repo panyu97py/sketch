@@ -3,11 +3,12 @@ const commonConfig = {
   transform: {
     '^.+\\.(t|j)sx?$': 'babel-jest'
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'], // 支持的文件扩展名
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'cjs', 'mjs', 'jsx', 'json'], // 支持的文件扩展名
   testMatch: ['**/__tests__/**/*.test.(ts|tsx)'], // 匹配所有测试文件
   testEnvironment: 'jsdom',
   transformIgnorePatterns: [],
   moduleNameMapper: {
+    '^@sketchjs/react$': '<rootDir>/src/index.ts',
     '^@/(.*)$': '<rootDir>/src/$1' // 配置 @ 路径别名
   }
 }
@@ -18,10 +19,7 @@ const appletProjectConfig = merge(commonConfig, {
   setupFiles: [
     '<rootDir>/jest.env.applet.ts',
     'jest-canvas-mock'
-  ],
-  moduleNameMapper: {
-    '^@sketchjs/react$': '<rootDir>/src/platform-applet/index.ts'
-  }
+  ]
 })
 
 const webProjectConfig = merge(commonConfig, {
@@ -30,11 +28,7 @@ const webProjectConfig = merge(commonConfig, {
   setupFiles: [
     '<rootDir>/jest.env.applet.ts',
     'jest-canvas-mock'
-  ],
-  moduleNameMapper: {
-    '^@sketchjs/react$': '<rootDir>/src/platform-web/index.ts'
-
-  }
+  ]
 })
 
 export default {

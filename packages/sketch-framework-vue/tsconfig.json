@@ -12,7 +12,7 @@
     "jsxImportSource": "vue",
     "paths": {
       "@/*": ["src/*"],
-      "@sketchjs/vue": ["index"],
+      "@sketchjs/vue": ["src/index"],
     }
   },
   "include": [

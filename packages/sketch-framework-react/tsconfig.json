@@ -13,7 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": ["src/*"],
-      "@sketchjs/react": ["index"],
+      "@sketchjs/react": ["src/index"],
     }
   },
   "include": ["src", "__tests__"]

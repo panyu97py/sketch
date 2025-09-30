@@ -13,10 +13,7 @@ export default defineConfig({
   build: {
     minify: false,
     lib: {
-      entry: [
-        './src/platform-applet/index.ts',
-        './src/platform-web/index.ts'
-      ],
+      entry: './src/index.ts',
       formats: ['es']
     },
     rollupOptions: {

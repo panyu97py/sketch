@@ -1,6 +1,6 @@
 
 var loadYoga = (() => {
-  var _scriptDir = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : undefined;
+  var _scriptDir = import.meta.url;
   
   return (
 function(loadYoga) {
@@ -86,9 +86,4 @@ if(g.preInit)for("function"==typeof g.preInit&&(g.preInit=[g.preInit]);0<g.preIn
 }
 );
 })();
-if (typeof exports === 'object' && typeof module === 'object')
-  module.exports = loadYoga;
-else if (typeof define === 'function' && define['amd'])
-  define([], function() { return loadYoga; });
-else if (typeof exports === 'object')
-  exports["loadYoga"] = loadYoga;
+export default loadYoga;
