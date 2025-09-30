@@ -7,9 +7,8 @@
  * @format
  */
 
-import loadYogaImpl from '../binaries/yoga-wasm-base64-esm'
+import loadYogaImpl from '../binaries/yoga-wasm-base64'
 import wrapAssembly from './wrapAssembly'
 export async function loadYoga () {
   return wrapAssembly(await loadYogaImpl())
 }
-export * from './generated/YGEnums'

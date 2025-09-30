@@ -50,7 +50,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/binaries)
 
 # ========== ESM 构建 ==========
 set(LINK_OPTIONS_ESM ${LINK_OPTIONS_BASE}
-    "SHELL:-s EXPORT_ES6=0"
+    "SHELL:-s EXPORT_ES6=1"
     "SHELL:-s ENVIRONMENT='web'")
 
 # ESM no WASM
