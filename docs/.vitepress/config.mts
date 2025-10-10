@@ -52,7 +52,6 @@ export default defineConfig({
       {
         text: '简介',
         base: '/guide/',
-        collapsed: false,
         items: [
           {
             text: '什么是 Sketchjs？',
@@ -80,7 +79,6 @@ export default defineConfig({
       {
         text: '组件API',
         base: '/reference/',
-        collapsed: false,
         items: [
           {
             text: 'Stylesheet',
