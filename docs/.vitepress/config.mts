@@ -79,7 +79,7 @@ export default defineConfig({
       },
       {
         text: '组件API',
-        base: '/introduction/',
+        base: '/reference/',
         collapsed: false,
         items: [
           {
