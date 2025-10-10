@@ -85,6 +85,10 @@ export default defineConfig({
             link: 'stylesheet'
           },
           {
+            text: 'Sketch.Element',
+            link: 'sketch-element'
+          },
+          {
             text: 'Sketch.Root',
             link: 'sketch-root'
           },
