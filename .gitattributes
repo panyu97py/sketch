@@ -1,0 +1,2 @@
+# 三方依赖编译产物，忽略统计
+sketch-yoga-layout/binaries/* linguist-vendored
