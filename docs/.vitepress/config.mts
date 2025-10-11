@@ -9,11 +9,11 @@ import {
 export default defineConfig({
   title: 'Sketchjs',
   description: 'A VitePress Site',
-  base:'/sketch/',
-  markdown:{
-    config:(md)=> md.use(groupIconMdPlugin)
+  base: '/sketch/',
+  markdown: {
+    config: (md) => md.use(groupIconMdPlugin)
   },
-  vite:{
+  vite: {
     plugins: [groupIconVitePlugin()],
   },
   themeConfig: {
@@ -48,40 +48,64 @@ export default defineConfig({
       prev: '上一页',
       next: '下一页'
     },
-    sidebar: {
-      '/guide/': {
+    sidebar: [
+      {
+        text: '简介',
         base: '/guide/',
         items: [
           {
-            text: '简介',
-            collapsed: false,
+            text: '什么是 Sketchjs？',
+            link: 'what-is-sketchjs'
+          },
+          {
+            text: '快速开始',
             items: [
               {
-                text: '什么是 Sketchjs？',
-                link: 'what-is-sketchjs'
+                text: 'react',
+                link: 'getting-started-react'
               },
               {
-                text: '快速开始',
-                items: [
-                  {
-                    text: 'react',
-                    link: 'getting-started-react'
-                  },
-                  {
-                    text: 'vue',
-                    link: 'getting-started-vue'
-                  },
-                  {
-                    text: 'H5',
-                    link: 'getting-started-H5'
-                  },
-                ]
-              }
+                text: 'vue',
+                link: 'getting-started-vue'
+              },
+              {
+                text: 'H5',
+                link: 'getting-started-H5'
+              },
             ]
-          },
+          }
         ]
       },
-    }
-
+      {
+        text: '组件API',
+        base: '/reference/',
+        items: [
+          {
+            text: 'Stylesheet',
+            link: 'stylesheet'
+          },
+          {
+            text: 'Sketch.Element',
+            link: 'sketch-element'
+          },
+          {
+            text: 'Sketch.Root',
+            link: 'sketch-root'
+          },
+          {
+            text: 'Sketch.View',
+            link: 'sketch-view'
+          },
+          {
+            text: 'Sketch.Image',
+            link: 'sketch-image'
+          },
+          {
+            text: 'Sketch.Text',
+            link: 'sketch-text'
+          },
+        ]
+      }
+    ]
   }
 })
