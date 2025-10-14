@@ -3,20 +3,16 @@ import { Event, SketchImage, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { useSketchElement } from '@/common/hooks'
 import { SketchAppletImage } from '@/platform-applet/elements'
 
-export const SketchImageProps = {
-  src: String,
-  style: Object as PropType<StyleSheetDeclaration>
-}
-
-export const SketchImageEmits = {
-  load: (event: Event<SketchAppletImage>) => event instanceof Event,
-  error: (event: Event<Error>) => event instanceof Event
-}
-
 export const InternalSketchWebImage = defineComponent({
   name: 'SketchWebImage',
-  props: SketchImageProps,
-  emits: SketchImageEmits,
+  props: {
+    src: String,
+    style: Object as PropType<StyleSheetDeclaration>
+  },
+  emits: {
+    load: (event: Event<SketchAppletImage>) => event instanceof Event,
+    error: (event: Event<Error>) => event instanceof Event
+  },
   setup: (props, { slots, emit }) => {
     const sketchWebImage = computed(() => SketchImage.create({ src: props.src || '', style: props.style }))
 

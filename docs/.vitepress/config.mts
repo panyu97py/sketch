@@ -1,9 +1,11 @@
 import { defineConfig } from 'vitepress'
 import packageInfo from '../package.json'
+import path from 'path'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,
 } from 'vitepress-plugin-group-icons'
+import { ApiDocGenPlugin } from 'vitepress-plugin-docgen-api'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -11,10 +13,29 @@ export default defineConfig({
   description: 'A VitePress Site',
   base: '/sketch/',
   markdown: {
-    config: (md) => md.use(groupIconMdPlugin)
+    config: (md) => {
+      md.use(groupIconMdPlugin)
+      // md.use(ApiDocGenMdPlugin)
+    }
   },
   vite: {
-    plugins: [groupIconVitePlugin()],
+    plugins: [
+      groupIconVitePlugin(),
+      ApiDocGenPlugin({
+        alias:  {
+          '@sketchjs/runtime':path.resolve(process.cwd(),'../packages/sketch-runtime/src'),
+          '@sketchjs/react':path.resolve(process.cwd(),'../packages/sketch-framework-react/src'),
+          '@sketchjs/vue':path.resolve(process.cwd(),'../packages/sketch-framework-vue/src')
+        },
+        columns: [
+          { label: '属性', key:'attribute' },
+          { label: '类型', key:'type' },
+          { label: '必填', key:'required' },
+          { label: '默认值', key:'default' },
+          { label: '描述', key:'description' }
+        ]
+    })
+    ],
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config

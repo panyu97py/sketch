@@ -2,21 +2,17 @@ import { watchEffect, defineComponent, PropType } from 'vue'
 import { Event, SketchElement, SketchRoot, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { useSketchElement } from '@/common/hooks'
 
-export const SketchRootProps = {
-  autoRender: Boolean,
-  sketch: Object as PropType<SketchRoot>,
-  style: Object as PropType<StyleSheetDeclaration>
-}
-
-export const SketchRootEmits = {
-  ready: (event: Event<SketchRoot>) => event instanceof Event,
-  update: (event: Event<SketchElement>) => event instanceof Event
-}
-
 export const InternalSketchRoot = defineComponent({
   name: 'SketchRoot',
-  props: SketchRootProps,
-  emits: SketchRootEmits,
+  props: {
+    autoRender: Boolean,
+    sketch: Object as PropType<SketchRoot>,
+    style: Object as PropType<StyleSheetDeclaration>
+  },
+  emits: {
+    ready: (event: Event<SketchRoot>) => event instanceof Event,
+    update: (event: Event<SketchElement>) => event instanceof Event
+  },
   setup: (props, { slots, emit }) => {
     const handleSketchInitialized = (event: Event<SketchRoot>) => {
       if (props.autoRender) props.sketch?.render()
