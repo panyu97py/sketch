@@ -3,8 +3,11 @@ import type { ContainerDirective } from 'mdast-util-directive'
 import { arrayToMdTable, resolveAlias } from '@/utils'
 import reactDocGenTypescript from 'react-docgen-typescript'
 import { parse as vueDocGenParse } from 'vue-docgen-api'
-import { Plugin as UnifiedPlugin } from 'unified'
+import { Plugin as UnifiedPlugin, unified } from 'unified'
 import { Options, TableColumnConfig } from './types'
+import remarkStringify from 'remark-stringify'
+import { u as build } from 'unist-builder'
+import remarkGfm from 'remark-gfm'
 
 interface ParserConfig {
   type: string;
@@ -47,6 +50,7 @@ const defaultColumns: TableColumnConfig[] = [
  */
 export const remarkGenApiDoc: UnifiedPlugin<[Options]> = (opt) => {
   const { directiveName = 'api', alias, columns = defaultColumns } = opt || {}
+
   return async (tree) => {
     const configs: ParserConfig[] = []
 
@@ -63,21 +67,14 @@ export const remarkGenApiDoc: UnifiedPlugin<[Options]> = (opt) => {
         if (config.type === 'vue') return vueDocGen(config)
         return null
       })()
-      return { ...config, docAst }
+      if (!docAst) return { ...config, docAst, docStr: null }
+      const docStr = unified()
+        .use(remarkGfm)
+        .use(remarkStringify).stringify(build('root', [docAst]))
+      return { ...config, docAst, docStr }
     }))
 
-    const resultMapBySrc = docGenResult.reduce((result, item) => {
-      if (!item?.src) return result
-      return { ...result, [item.src]: item.docAst }
-    }, {})
-
-    console.log({ resultMapBySrc })
-    //
-    // visit(tree, 'containerDirective', (node: ContainerDirective, index:number, parent:any) => {
-    //   const { src, type } = node.attributes || {}
-    //   const docAst = resultMapBySrc[src!]
-    //   if (node.name !== directiveName || !src || !type || !docAst) return
-    //   parent.children.splice(index, 1, docAst)
-    // })
+    // TODO 保存 docGenResult 至虚拟模块, 由 markdown-it 读取替换
+    console.log({ docGenResult })
   }
 }
