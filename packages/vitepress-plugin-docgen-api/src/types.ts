@@ -1,3 +1,18 @@
 export interface Options {
-  alias?: Record<string, string>
+  alias?: Record<string, string>,
+  columns?:TableColumnConfig[]
+}
+
+export interface TableRowData {
+  type?:string
+  attribute?:string
+  required?:boolean
+  default?:boolean
+  description?:string
+}
+
+export interface TableColumnConfig {
+  label: string
+  value?: (data: TableRowData) => string
+  key: keyof TableRowData
 }

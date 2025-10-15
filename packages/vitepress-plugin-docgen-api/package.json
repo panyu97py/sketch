@@ -14,7 +14,7 @@
   },
   "keywords": [],
   "author": "yu.pan",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.17.1",
   "peerDependencies": {
     "markdown-it": "*",
@@ -22,6 +22,7 @@
     "vitepress": "*"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.12",
     "eslint": "^8.19.0",
     "lint-staged": "^13.3.0",
     "tsconfig-paths": "^4.2.0",
@@ -30,6 +31,7 @@
     "vite": "^5.4.20"
   },
   "dependencies": {
+    "lodash-es": "^4.17.21",
     "mdast-util-directive": "^3.1.0",
     "react-docgen-typescript": "^2.4.0",
     "remark": "^15.0.1",
