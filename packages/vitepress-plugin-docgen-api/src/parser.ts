@@ -71,11 +71,13 @@ export const remarkGenApiDoc: UnifiedPlugin<[Options]> = (opt) => {
       return { ...result, [item.src]: item.docAst }
     }, {})
 
-    visit(tree, 'containerDirective', (node: ContainerDirective, index:number, parent:any) => {
-      const { src, type } = node.attributes || {}
-      const docAst = resultMapBySrc[src!]
-      if (node.name !== directiveName || !src || !type || !docAst) return
-      parent.children.splice(index, 1, docAst)
-    })
+    console.log({ resultMapBySrc })
+    //
+    // visit(tree, 'containerDirective', (node: ContainerDirective, index:number, parent:any) => {
+    //   const { src, type } = node.attributes || {}
+    //   const docAst = resultMapBySrc[src!]
+    //   if (node.name !== directiveName || !src || !type || !docAst) return
+    //   parent.children.splice(index, 1, docAst)
+    // })
   }
 }

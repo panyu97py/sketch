@@ -20,9 +20,7 @@ export const ApiDocGenPlugin = (opt:Options): VitePlugin => {
         .use(remarkGenApiDoc, opt)
         .use(remarkGfm)
         .use(remarkStringify)
-      const file = await processor.process(code)
-
-      return { code: String(file.value), map: null }
+      await processor.process(code)
     }
   }
 }
