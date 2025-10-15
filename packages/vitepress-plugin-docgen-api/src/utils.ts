@@ -1,21 +1,6 @@
 import { TableColumnConfig, TableRowData } from '@/types'
 import { get } from 'lodash-es'
-
-/**
- * 数组转 Markdown 表格行
- * @param arr
- */
-export const arrayToMdRow = (arr: string[]) => `| ${arr.join(' | ')} |`
-
-/**
- * 配置转换为 Markdown 表格头
- * @param config
- */
-export const tableConfigToHeader = (config:TableColumnConfig[]) => {
-  const headers = arrayToMdRow(config.map(item => item.label))
-  const separator = arrayToMdRow(config.map(() => '------'))
-  return [headers, separator]
-}
+import { u as build } from 'unist-builder'
 
 /**
  * 解析别名
@@ -37,13 +22,17 @@ export const resolveAlias = (filePath: string, alias?: Record<string, string>) =
  * @param config
  */
 export const arrayToMdTable = (data:TableRowData[] = [], config:TableColumnConfig[] = []) => {
-  const tableHeader = tableConfigToHeader(config)
-  const dataRows = data.map(dataItem => {
-    const tempArr = config.map(configItem => {
+  const tableProps = { align: config.map(item => item.align || 'center') }
+  const tableHeader = build('tableRow', config.map(item => {
+    return build('tableCell', [build('text', item.label)])
+  }))
+  const tableDataRows = data.map((rowDataItem:TableRowData) => {
+    const rowChildren = config.map(configItem => {
       const { key, value } = configItem
-      return String(value?.(dataItem) || get(dataItem, key) || '')
+      const finalValue = String(value?.(rowDataItem) || get(rowDataItem, key) || '')
+      return build('tableCell', [build('text', finalValue)])
     })
-    return arrayToMdRow(tempArr)
+    return build('tableRow', rowChildren)
   })
-  return [...tableHeader, ...dataRows].join('\n')
+  return build('table', tableProps, [tableHeader, ...tableDataRows])
 }

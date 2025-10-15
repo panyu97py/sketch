@@ -22,11 +22,11 @@ export default defineConfig({
     plugins: [
       groupIconVitePlugin(),
       ApiDocGenPlugin({
-      alias:{
-        '@sketchjs/runtime':path.resolve(process.cwd(),'../packages/sketch-runtime/src'),
-        '@sketchjs/react':path.resolve(process.cwd(),'../packages/sketch-framework-react/src'),
-        '@sketchjs/vue':path.resolve(process.cwd(),'../packages/sketch-framework-vue/src')
-      },
+        alias:  {
+          '@sketchjs/runtime':path.resolve(process.cwd(),'../packages/sketch-runtime/src'),
+          '@sketchjs/react':path.resolve(process.cwd(),'../packages/sketch-framework-react/src'),
+          '@sketchjs/vue':path.resolve(process.cwd(),'../packages/sketch-framework-vue/src')
+        },
         columns: [
           { label: '属性', key:'attribute' },
           { label: '类型', key:'type' },

@@ -36,9 +36,11 @@
     "react-docgen-typescript": "^2.4.0",
     "remark": "^15.0.1",
     "remark-directive": "^4.0.0",
+    "remark-gfm": "^4.0.1",
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
     "unified": "^11.0.5",
+    "unist-builder": "^4.0.0",
     "unist-util-visit": "^5.0.0",
     "vue-docgen-api": "^4.79.2"
   }

@@ -1,4 +1,5 @@
 export interface Options {
+  directiveName?:string,
   alias?: Record<string, string>,
   columns?:TableColumnConfig[]
 }
@@ -14,5 +15,6 @@ export interface TableRowData {
 export interface TableColumnConfig {
   label: string
   value?: (data: TableRowData) => string
+  align?:'left'| 'center'| 'right'
   key: keyof TableRowData
 }

@@ -10,7 +10,7 @@ interface ParserConfig {
   type: string;
   src: string;
   filePath: string
-  columns:TableColumnConfig[]
+  columns: TableColumnConfig[]
 }
 
 /**
@@ -33,26 +33,49 @@ const vueDocGen = async (config: ParserConfig) => {
   return arrayToMdTable([], config.columns)
 }
 
+const defaultColumns: TableColumnConfig[] = [
+  { label: '属性', key: 'attribute' },
+  { label: '类型', key: 'type' },
+  { label: '默认值', key: 'default' },
+  { label: '是否必填', key: 'required' },
+  { label: '描述', key: 'description' }
+]
+
 /**
  * 生成 api 文档
  * @param opt
  */
 export const remarkGenApiDoc: UnifiedPlugin<[Options]> = (opt) => {
+  const { directiveName = 'api', alias, columns = defaultColumns } = opt || {}
   return async (tree) => {
     const configs: ParserConfig[] = []
 
     visit(tree, 'containerDirective', (node: ContainerDirective) => {
       const { src, type } = node.attributes || {}
-      if (!src || !type) return
-      const filePath = resolveAlias(src, opt?.alias)
-      configs.push({ src, filePath, type, columns: opt?.columns || [] })
+      if (node.name !== directiveName || !src || !type) return
+      const filePath = resolveAlias(src, alias)
+      configs.push({ src, filePath, type, columns })
     })
 
-    const result = await Promise.all(configs.map(async (config) => {
-      if (config.type === 'react') return reactDocGen(config)
-      if (config.type === 'vue') return vueDocGen(config)
+    const docGenResult = await Promise.all(configs.map(async (config) => {
+      const docAst = await (() => {
+        if (config.type === 'react') return reactDocGen(config)
+        if (config.type === 'vue') return vueDocGen(config)
+        return null
+      })()
+      return { ...config, docAst }
     }))
 
-    console.log({ result })
+    const resultMapBySrc = docGenResult.reduce((result, item) => {
+      if (!item?.src) return result
+      return { ...result, [item.src]: item.docAst }
+    }, {})
+
+    visit(tree, 'containerDirective', (node: ContainerDirective, index:number, parent:any) => {
+      const { src, type } = node.attributes || {}
+      const docAst = resultMapBySrc[src!]
+      if (node.name !== directiveName || !src || !type || !docAst) return
+      parent.children.splice(index, 1, docAst)
+    })
   }
 }

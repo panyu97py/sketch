@@ -3,6 +3,7 @@ import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkDirective from 'remark-directive'
 import remarkStringify from 'remark-stringify'
+import remarkGfm from 'remark-gfm'
 import { remarkGenApiDoc } from '@/parser'
 import { Options } from './types'
 
@@ -17,10 +18,11 @@ export const ApiDocGenPlugin = (opt:Options): VitePlugin => {
         .use(remarkParse)
         .use(remarkDirective)
         .use(remarkGenApiDoc, opt)
+        .use(remarkGfm)
         .use(remarkStringify)
-      await processor.process(code)
-      console.log({ code })
-      return code
+      const file = await processor.process(code)
+
+      return { code: String(file.value), map: null }
     }
   }
 }
