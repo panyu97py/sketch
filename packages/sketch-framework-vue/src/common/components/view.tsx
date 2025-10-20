@@ -5,6 +5,9 @@ import { useSketchElement } from '@/common/hooks'
 export const InternalSketchView = defineComponent({
   name: 'SketchView',
   props: {
+    /**
+     * 样式
+     */
     style: Object as PropType<StyleSheetDeclaration>
   },
   setup: (props, { slots }) => {

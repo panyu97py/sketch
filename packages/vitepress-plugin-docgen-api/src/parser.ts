@@ -1,7 +1,7 @@
 import { arrayToMdTable, parseContainerAttr, resolveAlias } from '@/utils'
 import reactDocGenTypescript from 'react-docgen-typescript'
 import { parse as vueDocGenParse } from 'vue-docgen-api'
-import { Options, ParserConfig } from './types'
+import { Options, ParserConfig, TableRowData } from './types'
 import MarkdownIt from 'markdown-it'
 import container from 'markdown-it-container'
 import type { Token } from 'markdown-it'
@@ -10,15 +10,20 @@ import remarkGfm from 'remark-gfm'
 import remarkStringify from 'remark-stringify'
 import { u as build } from 'unist-builder'
 import { defaultColumns } from '@/constants'
+import type { PropItem } from 'react-docgen-typescript'
 
 /**
  * 生成react文档
  * @param config
  */
 const reactDocGen = (config: ParserConfig) => {
-  const docs = reactDocGenTypescript.parse(config.filePath)
-  console.log({ ...config, docs })
-  return arrayToMdTable([], config.columns)
+  const propFilter = (prop: PropItem) => !prop.description?.includes('@internal')
+  const [doc] = reactDocGenTypescript.parse(config.filePath, { propFilter })
+  const data = Object.values(doc.props).map<TableRowData>(propItem=>{
+    const { name, type, required, defaultValue, description } = propItem
+    return { attribute: name, type: type.name, required, defaultValue, description }
+  })
+  return arrayToMdTable(data, config.columns)
 }
 
 /**
@@ -26,9 +31,16 @@ const reactDocGen = (config: ParserConfig) => {
  * @param config
  */
 const vueDocGen = async (config: ParserConfig) => {
-  const docs = await vueDocGenParse(config.filePath, { jsx: true })
-  console.log({ ...config, docs })
-  return arrayToMdTable([], config.columns)
+  const doc = await vueDocGenParse(config.filePath, { jsx: true })
+  const propsData = (doc?.props||[]).map(propItem =>{
+    const { name, type, description, required, defaultValue } = propItem
+    return { attribute: name, type: type?.name, required: Boolean(required), defaultValue, description }
+  })
+  const eventsData = (doc?.events||[]).map(eventItem =>{
+    const { name, description } = eventItem
+    return { attribute: name, description }
+  })
+  return arrayToMdTable([...propsData,...eventsData], config.columns)
 }
 
 /**

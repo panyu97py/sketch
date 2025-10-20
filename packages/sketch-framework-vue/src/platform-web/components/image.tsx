@@ -6,11 +6,25 @@ import { SketchAppletImage } from '@/platform-applet/elements'
 export const InternalSketchWebImage = defineComponent({
   name: 'SketchWebImage',
   props: {
+    /**
+     * 资源路径
+     */
     src: String,
+    /**
+     * 样式
+     */
     style: Object as PropType<StyleSheetDeclaration>
   },
   emits: {
+    /**
+     * 资源加载完成
+     * @param event
+     */
     load: (event: Event<SketchAppletImage>) => event instanceof Event,
+    /**
+     * 资源加载失败
+     * @param event
+     */
     error: (event: Event<Error>) => event instanceof Event
   },
   setup: (props, { slots, emit }) => {

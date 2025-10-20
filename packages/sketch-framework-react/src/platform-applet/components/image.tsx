@@ -6,8 +6,19 @@ import { useSketchElement, useToRef } from '@/common/hooks'
 import { noop } from 'lodash-es'
 
 export interface InternalSketchAppletImageProps extends SketchElementProps {
+  /**
+   * 资源路径
+   */
   src?: string
+  /**
+   * 资源加载完成
+   * @param error
+   */
   onLoad?: (error: Event<SketchAppletImage>) => void
+  /**
+   * 资源加载失败
+   * @param error
+   */
   onError?: (error: Event<Error>) => void
 }
 

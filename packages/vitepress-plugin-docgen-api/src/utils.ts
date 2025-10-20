@@ -1,5 +1,5 @@
 import { TableColumnConfig, TableRowData } from '@/types'
-import { get } from 'lodash-es'
+import { get, isNil } from 'lodash-es'
 import { u as build } from 'unist-builder'
 import { Token } from 'markdown-it'
 
@@ -30,7 +30,8 @@ export const arrayToMdTable = (data:TableRowData[] = [], config:TableColumnConfi
   const tableDataRows = data.map((rowDataItem:TableRowData) => {
     const rowChildren = config.map(configItem => {
       const { key, value } = configItem
-      const finalValue = String(value?.(rowDataItem) || get(rowDataItem, key) || '')
+      const tempVal = value ? value(rowDataItem) : get(rowDataItem, key)
+      const finalValue = String(isNil(tempVal) ? '-': tempVal)
       return build('tableCell', [build('text', finalValue)])
     })
     return build('tableRow', rowChildren)

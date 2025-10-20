@@ -19,8 +19,8 @@ export interface ParserResultItem extends ParserConfig {
 export interface TableRowData {
   type?:string
   attribute?:string
-  required?:boolean
-  default?:boolean
+  required?: boolean | string
+  defaultValue?:boolean
   description?:string
 }
 

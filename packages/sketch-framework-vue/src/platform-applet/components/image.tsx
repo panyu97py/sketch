@@ -6,11 +6,25 @@ import { Event, StyleSheetDeclaration } from '@sketchjs/runtime'
 export const InternalSketchAppletImage = defineComponent({
   name: 'SketchAppletImage',
   props: {
+    /**
+     * 资源路径
+     */
     src: String,
+    /**
+     * 样式
+     */
     style: Object as PropType<StyleSheetDeclaration>
   },
   emits: {
+    /**
+     * 资源加载完成
+     * @param event
+     */
     load: (event: Event<SketchAppletImage>) => event instanceof Event,
+    /**
+     * 资源加载失败
+     * @param event
+     */
     error: (event: Event<Error>) => event instanceof Event
   },
   setup: (props, { slots, emit }) => {
