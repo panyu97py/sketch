@@ -6,6 +6,7 @@ import {
   groupIconVitePlugin,
 } from 'vitepress-plugin-group-icons'
 import { ApiDocGenPlugin } from 'vitepress-plugin-docgen-api'
+import vueJsxPlugin from '@vitejs/plugin-vue-jsx'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -15,11 +16,11 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       md.use(groupIconMdPlugin)
-      // md.use(ApiDocGenMdPlugin)
     }
   },
   vite: {
     plugins: [
+      vueJsxPlugin(),
       groupIconVitePlugin(),
       ApiDocGenPlugin({
         alias:  {
