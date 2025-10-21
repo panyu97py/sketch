@@ -26,14 +26,7 @@ export default defineConfig({
           '@sketchjs/runtime':path.resolve(process.cwd(),'../packages/sketch-runtime/src'),
           '@sketchjs/react':path.resolve(process.cwd(),'../packages/sketch-framework-react/src'),
           '@sketchjs/vue':path.resolve(process.cwd(),'../packages/sketch-framework-vue/src')
-        },
-        columns: [
-          { label: '属性', key:'attribute' },
-          { label: '类型', key:'type' },
-          { label: '必填', key:'required' },
-          { label: '默认值', key:'default' },
-          { label: '描述', key:'description' }
-        ]
+        }
     })
     ],
   },
