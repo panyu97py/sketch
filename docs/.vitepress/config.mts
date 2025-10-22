@@ -96,10 +96,6 @@ export default defineConfig({
         base: '/reference/',
         items: [
           {
-            text: 'Stylesheet',
-            link: 'stylesheet'
-          },
-          {
             text: 'Sketch.Element',
             link: 'sketch-element'
           },
@@ -118,6 +114,11 @@ export default defineConfig({
           {
             text: 'Sketch.Text',
             link: 'sketch-text'
+          },
+
+          {
+            text: 'Stylesheet',
+            link: 'stylesheet'
           },
         ]
       }
