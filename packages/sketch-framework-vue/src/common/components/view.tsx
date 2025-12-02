@@ -2,13 +2,14 @@ import { computed, defineComponent, PropType } from 'vue'
 import { SketchView, StyleSheetDeclaration } from '@sketchjs/runtime'
 import { useSketchElement } from '@/common/hooks'
 
-export const SketchViewProps = {
-  style: Object as PropType<StyleSheetDeclaration>
-}
-
 export const InternalSketchView = defineComponent({
   name: 'SketchView',
-  props: SketchViewProps,
+  props: {
+    /**
+     * 样式
+     */
+    style: Object as PropType<StyleSheetDeclaration>
+  },
   setup: (props, { slots }) => {
     const sketchView = computed(() => SketchView.create({ style: props.style }))
 

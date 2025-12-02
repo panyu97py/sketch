@@ -4,7 +4,10 @@ import { useSketchElement } from '../hooks'
 import { SketchElementProps } from '@/common/types'
 
 export interface InternalSketchTextProps extends Omit<SketchElementProps, 'children'> {
-    text?: string;
+  /**
+   * 文本内容
+   */
+  text?: string;
 }
 
 export const InternalSketchText: React.FC<InternalSketchTextProps> = (props) => {

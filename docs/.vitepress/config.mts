@@ -1,9 +1,12 @@
 import { defineConfig } from 'vitepress'
 import packageInfo from '../package.json'
+import path from 'path'
 import {
   groupIconMdPlugin,
   groupIconVitePlugin,
 } from 'vitepress-plugin-group-icons'
+import { ApiDocGenPlugin } from 'vitepress-plugin-docgen-api'
+import vueJsxPlugin from '@vitejs/plugin-vue-jsx'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -11,10 +14,22 @@ export default defineConfig({
   description: 'A VitePress Site',
   base: '/sketch/',
   markdown: {
-    config: (md) => md.use(groupIconMdPlugin)
+    config: (md) => {
+      md.use(groupIconMdPlugin)
+    }
   },
   vite: {
-    plugins: [groupIconVitePlugin()],
+    plugins: [
+      vueJsxPlugin(),
+      groupIconVitePlugin(),
+      ApiDocGenPlugin({
+        alias:  {
+          '@sketchjs/runtime':path.resolve(process.cwd(),'../packages/sketch-runtime/src'),
+          '@sketchjs/react':path.resolve(process.cwd(),'../packages/sketch-framework-react/src'),
+          '@sketchjs/vue':path.resolve(process.cwd(),'../packages/sketch-framework-vue/src')
+        }
+    })
+    ],
   },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -81,10 +96,6 @@ export default defineConfig({
         base: '/reference/',
         items: [
           {
-            text: 'Stylesheet',
-            link: 'stylesheet'
-          },
-          {
             text: 'Sketch.Element',
             link: 'sketch-element'
           },
@@ -103,6 +114,11 @@ export default defineConfig({
           {
             text: 'Sketch.Text',
             link: 'sketch-text'
+          },
+
+          {
+            text: 'Stylesheet',
+            link: 'stylesheet'
           },
         ]
       }

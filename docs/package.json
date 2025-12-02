@@ -10,8 +10,14 @@
     "@sketchjs/react": "workspace:*",
     "@sketchjs/runtime": "workspace:*",
     "@sketchjs/vue": "workspace:*",
-    "vite": "^5.4.20",
+    "@types/react": "^18.0.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue-jsx": "^4.1.2",
+    "react": "^18.0.0",
+    "vite": "6.2.1",
     "vitepress": "^1.6.4",
-    "vitepress-plugin-group-icons": "^1.6.3"
+    "vitepress-plugin-docgen-api": "workspace:*",
+    "vitepress-plugin-group-icons": "^1.6.3",
+    "vue": "3.5.13"
   }
 }

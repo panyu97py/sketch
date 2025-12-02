@@ -5,9 +5,23 @@ import { useSketchElement, useToRef } from '../hooks'
 import { SketchElementProps } from '../types'
 
 export interface InternalSketchRootProps extends Pick<SketchElementProps, 'style'|'children'> {
+  /**
+   * sketch 实例
+   */
   sketch?: SketchRoot
+  /**
+   * 是否自动渲染
+   */
   autoRender?: boolean
+  /**
+   * 初始化完成事件回调
+   * @param event
+   */
   onReady?: (event: Event<SketchRoot>) => void
+  /**
+   * 元素更新事件回调
+   * @param event
+   */
   onUpdate?: (event: Event<SketchElement>) => void
 }
 

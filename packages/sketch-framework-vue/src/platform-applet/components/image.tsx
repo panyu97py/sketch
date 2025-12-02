@@ -3,20 +3,30 @@ import { useSketchElement } from '@/common/hooks'
 import { SketchAppletImage } from '../elements'
 import { Event, StyleSheetDeclaration } from '@sketchjs/runtime'
 
-export const SketchImageProps = {
-  src: String,
-  style: Object as PropType<StyleSheetDeclaration>
-}
-
-export const SketchImageEmits = {
-  load: (event: Event<SketchAppletImage>) => event instanceof Event,
-  error: (event: Event<Error>) => event instanceof Event
-}
-
 export const InternalSketchAppletImage = defineComponent({
   name: 'SketchAppletImage',
-  props: SketchImageProps,
-  emits: SketchImageEmits,
+  props: {
+    /**
+     * 资源路径
+     */
+    src: String,
+    /**
+     * 样式
+     */
+    style: Object as PropType<StyleSheetDeclaration>
+  },
+  emits: {
+    /**
+     * 资源加载完成
+     * @param event
+     */
+    load: (event: Event<SketchAppletImage>) => event instanceof Event,
+    /**
+     * 资源加载失败
+     * @param event
+     */
+    error: (event: Event<Error>) => event instanceof Event
+  },
   setup: (props, { slots, emit }) => {
     const sketchAppletImage = computed(() => SketchAppletImage.create({ src: props.src || '', style: props.style }))
 
