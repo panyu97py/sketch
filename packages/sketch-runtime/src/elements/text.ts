@@ -56,7 +56,10 @@ class SketchBaseText extends SketchElement {
   splitTextByWidth = (text: string, maxWidth: number) => {
     if (!this._root) return []
     if (!maxWidth) return [text]
-    const textArr = `${text}`.split('')
+    const textLineArr = `${text}`.replace(/\r\n/g, '\n').split(/(\n)/)
+    const textArr = textLineArr.reduce<string[]>((prev, cur) => {
+      return cur === '\n' ? [...prev, cur] : [...prev, ...cur.split('')]
+    }, [])
     const intVal = { curLineText: '', lineTextArr: [] }
     const { lineTextArr } = textArr.reduce((result, textItem: string, index: number, list: string[]) => {
       const { curLineText, lineTextArr } = result
