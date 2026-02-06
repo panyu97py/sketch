@@ -1,6 +1,7 @@
 # @sketchjs/yoga-layout
 
 > 基于 [`yoga-layout`](https://www.yogalayout.dev/) 编译的 WebAssembly 版本，专为 Sketch.js 框架优化，支持在浏览器和 Node.js 环境中使用 Flexbox 布局引擎。
+> header: 123276157121f8d87d1245f94cf5f87edeeb18b6
 
 ## 🎯 适用场景
 
