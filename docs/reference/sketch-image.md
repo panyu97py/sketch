@@ -1,7 +1,16 @@
 # Sketch.Image
 
-`Sketch.Image` 是 Sketch 的图片节点组件，用于在画布上渲染图片内容。  
-通常作为 `Sketch.Root` 或 `Sketch.View` 的子节点使用。
+`Sketch.Image` 是 Sketch 的图片节点组件，用于在画布上渲染图片内容。通常作为 `Sketch.Root` 或 `Sketch.View` 的子节点使用。
+
+## 适用场景
+
+- 渲染本地或网络图片
+- 作为背景图、头像、图标等图像元素
+
+## 功能特性
+
+- 图片加载与缓存复用
+- 支持圆角裁剪与布局尺寸控制
 
 ## 示例
 
@@ -25,9 +34,15 @@
 ::: api {src="@sketchjs/vue/platform-web/components/image.tsx" type="vue"}
 :::
 
+## 常用属性说明
+
+- `src`：图片地址或资源路径
+- `onLoad`：图片加载完成回调
+- `onError`：图片加载失败回调
+
 ## 使用说明 / 注意事项
 
 - `Sketch.Image` 必须挂载在 `Sketch.Root` 或 `Sketch.View` 内
-- 图片资源通过 `src` 属性传入，可支持本地或网络地址
-- 样式建议通过 `StyleSheet.create()` 管理，包括宽高、裁剪、对齐方式
-- 避免在大量图片节点中频繁更新，否则可能影响渲染性能  
+- 样式建议通过 `StyleSheet.create()` 管理，常用 `width/height/borderRadius`
+- 大量图片频繁更新会影响渲染性能
+- 同一 `src` 会被缓存复用，减少重复加载成本

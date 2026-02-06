@@ -1,8 +1,16 @@
 # 快速开始（React）
 
-## 安装 {#installation}
+## 前置准备 {#prerequisites}
 
-### 前置准备 {#prerequisites}
+- React 16.8+（需要 Hooks）
+- 支持 Canvas 的浏览器环境
+
+## 适用场景 {#use-cases}
+
+- React 项目中的 Canvas UI
+- 需要组件化组织复杂绘图
+
+## 安装 {#installation}
 
 ::: code-group
 
@@ -24,44 +32,32 @@ $ bun add @sketchjs/react
 
 :::
 
-## 示例代码 {#example}
+## 基础用法 {#example}
 
 ::: code-group
-```tsx [example.tsx]
+```tsx [App.tsx]
+import React, { useEffect, useRef } from 'react'
 import { Sketch } from '@sketchjs/react'
 import { styleSheet } from './styleSheet'
 import logo from './logo.png'
 
 function App () {
   const sketch = Sketch.useSketch()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const canvasRef = React.useRef<HTMLCanvasElement>(null)
-
-  /**
-   * 将当前 sketch 内容导出为 dataURL
-   */
   const handleToDataURL = () => {
     const dataUrl = sketch.toDataURL('image/png', 1)
     console.log({ dataUrl })
   }
 
-  /**
-   * 每次 sketch 更新完成回调
-   */
   const handleSketchUpdate = () => {
     console.log('sketch update')
   }
 
-  /**
-   * sketch 初始化完成回调
-   */
   const handleSketchInitialized = () => {
     console.log('sketch initialized')
   }
 
-  /**
-   * 初始化 Sketch 实例
-   */
   const initSketch = () => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
@@ -90,9 +86,11 @@ function App () {
     </div>
   )
 }
+
+export default App
 ```
 
-```typescript [stylesheet.ts]
+```ts [styleSheet.ts]
 import { StyleSheet } from '@sketchjs/react'
 
 export const styleSheet = StyleSheet.create({
@@ -124,3 +122,28 @@ export const styleSheet = StyleSheet.create({
 ```
 
 :::
+
+## 使用说明 {#notes}
+
+- `Sketch.Root` 需要传入 `sketch` 实例，并在 `init` 完成后开始渲染
+- 设置 `autoRender` 后，初始化与更新会自动触发 `render`
+- Canvas 的像素尺寸由 `Sketch.Root` 的样式决定，建议明确 `width/height`
+- 若需要手动控制渲染时机，设置 `autoRender={false}` 并调用 `sketch.render()`
+
+## 配置提示 {#config}
+
+- 若需要异步加载或跨端能力，请结合 Taro 与对应插件配置
+
+## 初始化流程 {#init-flow}
+
+1. `Sketch.useSketch()` 创建实例
+2. 获取 `canvas` 与 `ctx`
+3. 调用 `sketch.init({ canvas, ctx })`
+4. 在 `Sketch.Root` 中挂载节点树并渲染
+
+## 常见问题 {#faq}
+
+- 为什么画布是空白的？
+- 请确认 `canvas` 和 `ctx` 都有效，并且 `Sketch.Root` 设置了 `width/height`
+- 组件更新后没有重新渲染？
+- 开启 `autoRender` 或在更新后手动调用 `sketch.render()`

@@ -1,8 +1,16 @@
 # 快速开始（H5）
 
-## 安装 {#installation}
+## 前置准备 {#prerequisites}
 
-### 前置准备 {#prerequisites}
+- 支持 Canvas 的浏览器环境
+- 构建工具可解析静态资源（图片、样式）
+
+## 适用场景 {#use-cases}
+
+- 纯 H5 或无框架环境
+- 需要直接控制渲染流程
+
+## 安装 {#installation}
 
 ::: code-group
 
@@ -24,14 +32,40 @@ $ bun add @sketchjs/runtime
 
 :::
 
-## 示例代码 {#example}
+## 基础用法 {#example}
 
 ::: code-group
-```typescript [example.ts]
-import { SketchRoot, SketchText, SketchView, StyleSheet, debugOption, SketchImage } from '@sketchjs/runtime'
-import { styleSheet } from './stylesheet'
+```ts [main.ts]
+import { SketchRoot, SketchText, SketchView, StyleSheet, SketchImage } from '@sketchjs/runtime'
 import logo from './assets/logo.png'
 import './styles.less'
+
+const styleSheet = StyleSheet.create({
+  root: {
+    width: 500,
+    height: 500,
+    backgroundColor: '#ffffff'
+  },
+  view: {
+    width: 500,
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  logo: {
+    width: 200,
+    height: 200
+  },
+  text: {
+    width: 500,
+    marginTop: 20,
+    color: '#282c34',
+    fontSize: 50,
+    fontWeight: 400,
+    lineHeight: 50,
+    textAlign: 'center'
+  }
+})
 
 (async () => {
   const app = document.getElementById('app')
@@ -61,37 +95,25 @@ import './styles.less'
 
   return root.render()
 })()
-
-```
-
-```typescript [stylesheet.ts]
-import { StyleSheet } from '@sketchjs/runtime'
-export const styleSheet = StyleSheet.create({
-  root: {
-    width: 500,
-    height: 500,
-    backgroundColor: '#ffffff'
-  },
-  view: {
-    width: 500,
-    height: 500,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  logo: {
-    width: 200,
-    height: 200
-  },
-  text: {
-    width: 500,
-    marginTop: 20,
-    color: '#282c34',
-    fontSize: 50,
-    fontWeight: 400,
-    lineHeight: 50,
-    textAlign: 'center'
-  }
-})
 ```
 
 :::
+
+## 使用说明 {#notes}
+
+- `SketchRoot.create` 需要 `canvas` 与 `ctx`，并在 `await root.init()` 后可渲染
+- 样式中的 `width/height` 会直接影响 Canvas 的像素尺寸
+- 若需要手动控制渲染时机，可在节点更新后调用 `root.render()`
+
+## 初始化流程 {#init-flow}
+
+1. 创建 `canvas` 与 `ctx`
+2. `SketchRoot.create` 生成根节点
+3. 调用 `root.init()` 完成挂载
+4. 创建子节点并 `appendChild`
+5. 调用 `root.render()` 进行渲染
+
+## 常见问题 {#faq}
+
+- 图片不显示？
+- 请确认 `src` 能正确加载，网络资源需要允许跨域

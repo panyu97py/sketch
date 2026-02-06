@@ -10,10 +10,10 @@ hero:
 #    alt: Sketch Logo
   actions:
     - theme: brand
-      text: 什么是sketchjs
+      text: 什么是 Sketch
       link: /guide/what-is-sketchjs
     - theme: alt
-      text: github
+      text: GitHub
       link: https://github.com/panyu97py/sketch
 
 features:
@@ -24,6 +24,9 @@ features:
   - title: ⚡ 高性能布局
     details: 基于 Yoga Layout 的 Flexbox 布局引擎，提供强大的布局能力
   - title: 🛠️ TypeScript 支持
-    details: 完整的类型定义和智能提示，提供更好的开发体验
+    details: 完整的类型定义和智能提示，适合中大型项目
+  - title: 🧩 可组合的节点树
+    details: Root/View/Text/Image 等基础节点组合成渲染树
+  - title: 📦 运行时与框架解耦
+    details: 核心运行时独立，可扩展到更多框架或运行环境
 ---
-
