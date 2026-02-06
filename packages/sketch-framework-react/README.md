@@ -2,24 +2,38 @@
 
 Sketch 的 React 组件封装，提供与 React 组件一致的使用体验。
 
-## 适用场景
+## 🎯 适用场景
 
 - Web/H5 的 Canvas 组件化渲染
 - 需要 React 生态下的状态管理与组合能力
 
-## 功能特性
+## ✨ 功能特性
 
 - `Sketch.Root/View/Image/Text` 组件化 API
 - 支持 `autoRender` 自动渲染
 - 与 React Hooks 生态兼容
 
-## 安装
+## 📦 安装
+
+### npm
 
 ```sh
 npm add @sketchjs/react
 ```
 
-## 基础用法（Web/H5）
+### pnpm
+
+```sh
+pnpm add @sketchjs/react
+```
+
+### yarn
+
+```sh
+yarn add @sketchjs/react
+```
+
+## 🚀 快速开始（Web/H5）
 
 ```tsx
 import React, { useEffect, useRef } from 'react'
@@ -79,7 +93,7 @@ export default function App () {
 }
 ```
 
-## Taro 小程序使用
+## 📱 小程序使用
 
 ### 配置环境变量
 
@@ -165,13 +179,13 @@ const Index: React.FC = () => {
 export default Index
 ```
 
-## 使用说明
+## 📝 使用说明
 
 - `Sketch.Root` 依赖 `sketch.init({ canvas, ctx })`
 - `autoRender` 会在初始化与更新时自动渲染
 - 需要手动渲染时，可关闭 `autoRender` 并调用 `sketch.render()`
 
-## 常见问题
+## ❓ 常见问题
 
 - 画布空白？
 - 请确认 `canvas` 与 `ctx` 有效，并设置了根节点 `width/height`

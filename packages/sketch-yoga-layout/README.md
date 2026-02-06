@@ -2,12 +2,12 @@
 
 > 基于 [`yoga-layout`](https://www.yogalayout.dev/) 编译的 WebAssembly 版本，专为 Sketch.js 框架优化，支持在浏览器和 Node.js 环境中使用 Flexbox 布局引擎。
 
-## 适用场景
+## 🎯 适用场景
 
 - 需要在浏览器中使用 Yoga Layout
 - 需要在 Node.js 中进行布局计算
 
-## 特性
+## ✨ 特性
 
 - 🚀 **高性能**: 使用 WebAssembly 编译的 Yoga 布局引擎
 - 📱 **跨平台**: 支持浏览器和 Node.js 环境
@@ -15,13 +15,27 @@
 - 📐 **Flexbox**: 完整的 Flexbox 布局算法实现
 - 🎯 **轻量级**: 优化的二进制文件大小
 
-## 安装
+## 📦 安装
+
+### npm
 
 ```bash
 npm install @sketchjs/yoga-layout
 ```
 
-## 快速开始
+### pnpm
+
+```bash
+pnpm add @sketchjs/yoga-layout
+```
+
+### yarn
+
+```bash
+yarn add @sketchjs/yoga-layout
+```
+
+## 🚀 快速开始
 
 ### 在浏览器中使用
 
@@ -89,7 +103,7 @@ async function calculateLayout() {
 calculateLayout();
 ```
 
-## API 参考
+## 📖 API 参考
 
 ### 主要函数
 
@@ -123,7 +137,7 @@ calculateLayout();
 
 完整的枚举定义请参考 `src/generated/YGEnums.d.ts`。
 
-## 编译说明
+## 🛠️ 编译说明
 
 ### 前提条件
 
@@ -165,7 +179,7 @@ calculateLayout();
 - **调试信息**: 生产环境禁用调试符号
 - **内存管理**: 使用 emmalloc 内存分配器
 
-## 文件结构
+## 🗂️ 文件结构
 
 ```
 sketch-yoga-layout/
@@ -182,14 +196,14 @@ sketch-yoga-layout/
 └── package.json        # 包配置
 ```
 
-## 性能优化
+## ⚡ 性能优化
 
 - **单文件打包**: 使用 `SINGLE_FILE=1` 将 WASM 内联到 JavaScript 中
 - **内存优化**: 启用 `ALLOW_MEMORY_GROWTH=1` 支持动态内存增长
 - **体积优化**: 使用 `-Os` 优化级别和 LTO 减小文件体积
 - **安全优化**: 禁用动态代码执行 (`DYNAMIC_EXECUTION=0`)
 
-## 浏览器兼容性
+## 🌐 浏览器兼容性
 
 - Chrome 57+
 - Firefox 52+
@@ -198,21 +212,20 @@ sketch-yoga-layout/
 
 需要支持 WebAssembly 的现代浏览器。
 
-## 注意事项
+## ⚠️ 注意事项
 
 - 浏览器环境推荐使用 `loadYoga()` 异步加载
 - 若不使用 WASM，可尝试 `loadYogaNoWasm()` 作为降级方案
 
-## 贡献
+## 🤝 贡献
 
 欢迎提交 Issue 和 Pull Request！
 
-## 许可证
+## 📄 许可证
 
 MIT License
 
-## 相关链接
+## 🔗 相关链接
 
 - [Sketch.js 主项目](https://github.com/panyu97py/sketch)
 - [Yoga Layout 官方文档](https://yogalayout.dev/)
-- [Emscripten 文档](https://emscripten.org/)
