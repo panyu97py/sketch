@@ -1,6 +1,6 @@
 {
   "name": "doc",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
