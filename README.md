@@ -58,67 +58,129 @@ Web、H5、小程序等环境中复用一套绘图代码。
 - `@sketchjs/react` / `@sketchjs/vue`：框架层封装，负责组件渲染与生命周期对接
 - `@sketchjs/yoga-layout`：Yoga 布局引擎的 WebAssembly 版本
 
+## 📱 平台兼容
+
+| 平台       | 支持状态   | 说明              |
+|----------|--------|-----------------|
+| Web / H5 | ✅ 完全支持 | 使用标准 Canvas API |
+| 微信小程序    | ✅ 支持   | 通过 Taro 等框架适配   |
+| 支付宝小程序   | ✅ 支持   | 通过 Taro 等框架适配   |
+
+## 💡 核心概念
+
+### 渲染树结构
+
+Sketch 使用类似 React Native 的渲染树结构：
+
+```
+Sketch.Root
+├── Sketch.View
+│   ├── Sketch.Text
+│   ├── Sketch.Image
+│   └── Sketch.View
+└── Sketch.View
+```
+
+### 布局系统
+
+基于 [Yoga Layout](https://yogalayout.com/) 的 Flexbox 布局引擎：
+
+- 支持 `flexDirection`, `justifyContent`, `alignItems` 等属性
+- 自动计算元素位置和尺寸
+- 响应式布局支持
+
+### 样式系统
+
+使用 `StyleSheet.create()` 创建样式对象：
+
+```ts
+const styles = StyleSheet.create({
+  container: {
+    width: 300,
+    height: 200,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  text: {
+    fontSize: 16,
+    color: '#333',
+    fontWeight: 'bold'
+  }
+})
+```
+
+## 📦 包说明
+
+| 包名                                                                 | 版本                                                                                                                    | 描述                         |
+|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------|
+| [`@sketchjs/runtime`](./packages/sketch-runtime/README.md)         | [![npm](https://img.shields.io/npm/v/@sketchjs/runtime.svg)](https://www.npmjs.com/package/@sketchjs/runtime)         | 运行时核心与渲染调度                 |
+| [`@sketchjs/react`](./packages/sketch-framework-react/README.md)   | [![npm](https://img.shields.io/npm/v/@sketchjs/react.svg)](https://www.npmjs.com/package/@sketchjs/react)             | React 组件封装                 |
+| [`@sketchjs/vue`](./packages/sketch-framework-vue/README.md)       | [![npm](https://img.shields.io/npm/v/@sketchjs/vue.svg)](https://www.npmjs.com/package/@sketchjs/vue)                 | Vue 组件封装                   |
+| [`@sketchjs/yoga-layout`](./packages/sketch-yoga-layout/README.md) | [![npm](https://img.shields.io/npm/v/@sketchjs/yoga-layout.svg)](https://www.npmjs.com/package/@sketchjs/yoga-layout) | Yoga Layout WebAssembly 版本 |
+
+
 ## 🚀 快速开始
 
 ### 安装
 
 根据你的框架选择安装对应的包：
 
-**React**
+#### **React**
 
-### npm
+##### npm
 
 ```sh
 npm add @sketchjs/react
 ```
 
-### pnpm
+##### pnpm
 
 ```sh
 pnpm add @sketchjs/react
 ```
 
-### yarn
+##### yarn
 
 ```sh
 yarn add @sketchjs/react
 ```
 
-**Vue**
+#### **Vue**
 
-### npm
+##### npm
 
 ```sh
 npm add @sketchjs/vue
 ```
 
-### pnpm
+##### pnpm
 
 ```sh
 pnpm add @sketchjs/vue
 ```
 
-### yarn
+##### yarn
 
 ```sh
 yarn add @sketchjs/vue
 ```
 
-**仅运行时（高级用法）**
+#### **仅运行时（高级用法）**
 
-### npm
+##### npm
 
 ```sh
 npm add @sketchjs/runtime
 ```
 
-### pnpm
+##### pnpm
 
 ```sh
 pnpm add @sketchjs/runtime
 ```
 
-### yarn
+##### yarn
 
 ```sh
 yarn add @sketchjs/runtime
@@ -227,59 +289,6 @@ export default function App () {
 </script>
 ```
 
-## 💡 核心概念
-
-### 渲染树结构
-
-Sketch 使用类似 React Native 的渲染树结构：
-
-```
-Sketch.Root
-├── Sketch.View
-│   ├── Sketch.Text
-│   ├── Sketch.Image
-│   └── Sketch.View
-└── Sketch.View
-```
-
-### 布局系统
-
-基于 [Yoga Layout](https://yogalayout.com/) 的 Flexbox 布局引擎：
-
-- 支持 `flexDirection`, `justifyContent`, `alignItems` 等属性
-- 自动计算元素位置和尺寸
-- 响应式布局支持
-
-### 样式系统
-
-使用 `StyleSheet.create()` 创建样式对象：
-
-```ts
-const styles = StyleSheet.create({
-  container: {
-    width: 300,
-    height: 200,
-    backgroundColor: '#f0f0f0',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: 'bold'
-  }
-})
-```
-
-## 📦 包说明
-
-| 包名                                                                 | 版本                                                                                                                    | 描述                         |
-|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|----------------------------|
-| [`@sketchjs/runtime`](./packages/sketch-runtime/README.md)         | [![npm](https://img.shields.io/npm/v/@sketchjs/runtime.svg)](https://www.npmjs.com/package/@sketchjs/runtime)         | 运行时核心与渲染调度                 |
-| [`@sketchjs/react`](./packages/sketch-framework-react/README.md)   | [![npm](https://img.shields.io/npm/v/@sketchjs/react.svg)](https://www.npmjs.com/package/@sketchjs/react)             | React 组件封装                 |
-| [`@sketchjs/vue`](./packages/sketch-framework-vue/README.md)       | [![npm](https://img.shields.io/npm/v/@sketchjs/vue.svg)](https://www.npmjs.com/package/@sketchjs/vue)                 | Vue 组件封装                   |
-| [`@sketchjs/yoga-layout`](./packages/sketch-yoga-layout/README.md) | [![npm](https://img.shields.io/npm/v/@sketchjs/yoga-layout.svg)](https://www.npmjs.com/package/@sketchjs/yoga-layout) | Yoga Layout WebAssembly 版本 |
-
 ## 🔧 进阶用法
 
 ### 手动渲染控制
@@ -335,21 +344,7 @@ class CustomElement extends SketchElement {
 }
 ```
 
-## 📱 平台兼容
 
-| 平台       | 支持状态   | 说明              |
-|----------|--------|-----------------|
-| Web / H5 | ✅ 完全支持 | 使用标准 Canvas API |
-| 微信小程序    | ✅ 支持   | 通过 Taro 等框架适配   |
-| 支付宝小程序   | ✅ 支持   | 通过 Taro 等框架适配   |
-
-## 🎯 适用场景
-
-- 🎨 **海报生成** - 复杂的图文排版和样式控制
-- 📊 **数据可视化** - 图表、仪表盘等可视化组件
-- 📱 **跨端 UI** - 需要一致体验的 2D 绘图界面
-- 🖼️ **图片处理** - 图片合成、滤镜效果等
-- 🎮 **游戏 UI** - 简单的游戏界面元素
 
 ## ❓ 常见问题
 
