@@ -1,26 +1,28 @@
-# sketch - 绘图工具
+# @sketchjs/react
 
-实现像写 RN 一样完成 canvas 2d 绘图
+Sketch 的 React 组件封装，提供与 React 组件一致的使用体验。
 
-### 安装
+## 适用场景
 
-#### 使用`npm`安装
-```shell
-npm install @sketchjs/react
+- Web/H5 的 Canvas 组件化渲染
+- 需要 React 生态下的状态管理与组合能力
+
+## 功能特性
+
+- `Sketch.Root/View/Image/Text` 组件化 API
+- 支持 `autoRender` 自动渲染
+- 与 React Hooks 生态兼容
+
+## 安装
+
+```sh
+npm add @sketchjs/react
 ```
-#### 使用`yarn`安装
-```shell
-yarn add @sketchjs/react
-```
 
-#### 使用`pnpm`安装
-```shell
-pnpm add @sketchjs/react
-```
+## 基础用法（Web/H5）
 
-### H5 使用`sketch`实现`Canvas` 2d 绘图
 ```tsx
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { StyleSheet, Sketch } from '@sketchjs/react'
 import logo from './logo.png'
 import './App.css'
@@ -52,23 +54,9 @@ const style = StyleSheet.create({
   }
 })
 
-function App () {
+export default function App () {
   const sketch = Sketch.useSketch()
-
-  const canvasRef = React.useRef<HTMLCanvasElement>(null)
-
-  const handleToDataURL = () => {
-    const dataUrl = sketch.toDataURL('image/png', 1)
-    console.log({ dataUrl })
-  }
-
-  const handleSketchUpdate = () => {
-    console.log('sketch update')
-  }
-
-  const handleSketchInitialized = () => {
-    console.log('sketch initialized')
-  }
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -78,9 +66,9 @@ function App () {
   }, [])
 
   return (
-    <div className="App" onClick={handleToDataURL}>
-      <canvas className="sketch-canvas" ref={canvasRef}/>
-      <Sketch.Root style={style.root} sketch={sketch} onReady={handleSketchInitialized} onUpdate={handleSketchUpdate}>
+    <div className="App">
+      <canvas className="sketch-canvas" ref={canvasRef} />
+      <Sketch.Root style={style.root} sketch={sketch} autoRender>
         <Sketch.View style={style.view}>
           <Sketch.Image src={logo} style={style.logo}/>
           <Sketch.Text text="Hello  World!" style={style.text}/>
@@ -89,23 +77,24 @@ function App () {
     </div>
   )
 }
-
-export default App
 ```
 
-### Taro 小程序使用`sketch`实现`Canvas` 2d 绘图
+## Taro 小程序使用
+
+### 配置环境变量
 
 ```ts
 import { defineConfig } from '@tarojs/cli'
 
 export default defineConfig({
   defineConstants: {
-    'process.env.SKETCH_PLATFORM': '"APPLET"',  // 使用小程序端 sketch 实现
-    'process.env.YOGA_USE_WASM': 'false',  // 不使用 WASM 实现
-  },
+    'process.env.SKETCH_PLATFORM': '"APPLET"',
+    'process.env.YOGA_USE_WASM': 'false'
+  }
 })
-
 ```
+
+### 页面示例
 
 ```tsx
 import { View, Canvas } from '@tarojs/components'
@@ -125,7 +114,7 @@ const style = StyleSheet.create({
     width: 500,
     height: 500,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   logo: {
     width: 200,
@@ -143,22 +132,17 @@ const style = StyleSheet.create({
 })
 
 const Index: React.FC = () => {
-
   const sketch = Sketch.useSketch()
-
-  const handleSketchReady = () => {
-    sketch.render()
-  }
 
   const initCanvas = async () => {
     const canvasNode: HTMLCanvasElement = await new Promise((resolve) => {
       const selectorQuery = Taro.createSelectorQuery()
       const callback = (res:any) => resolve(res?.node)
-      selectorQuery.select('#sketch-canvas').fields({ node: true },callback).exec()
+      selectorQuery.select('#sketch-canvas').fields({ node: true }, callback).exec()
     })
     const canvasCtx = canvasNode.getContext('2d')
     if (!canvasNode || !canvasCtx) return
-    return sketch.init({canvas:canvasNode, ctx: canvasCtx}).then(()=>sketch.render())
+    return sketch.init({ canvas: canvasNode, ctx: canvasCtx }).then(() => sketch.render())
   }
 
   useEffect(() => {
@@ -168,7 +152,7 @@ const Index: React.FC = () => {
   return (
     <View className='index-view'>
       <Canvas id='sketch-canvas' type='2d' className='sketch-canvas' />
-      <Sketch.Root sketch={sketch} style={style.root} onReady={handleSketchReady}>
+      <Sketch.Root sketch={sketch} style={style.root} autoRender>
         <Sketch.View style={style.rootView}>
           <Sketch.Image src={logo} style={style.logo} />
           <Sketch.Text text='Hello  World!' style={style.text} />
@@ -177,6 +161,17 @@ const Index: React.FC = () => {
     </View>
   )
 }
-export default Index
 
+export default Index
 ```
+
+## 使用说明
+
+- `Sketch.Root` 依赖 `sketch.init({ canvas, ctx })`
+- `autoRender` 会在初始化与更新时自动渲染
+- 需要手动渲染时，可关闭 `autoRender` 并调用 `sketch.render()`
+
+## 常见问题
+
+- 画布空白？
+- 请确认 `canvas` 与 `ctx` 有效，并设置了根节点 `width/height`

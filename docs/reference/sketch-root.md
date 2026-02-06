@@ -1,12 +1,17 @@
 # Sketch.Root
 
-`Sketch.Root` 是 Sketch 应用的根节点组件，用于：
+`Sketch.Root` 是 Sketch 应用的根节点组件，用于初始化渲染环境、挂载 `Sketch` 实例，并驱动整棵渲染树的渲染。
 
-- 初始化渲染环境
-- 挂载 Sketch 实例
-- 响应生命周期事件（初始化完成 / 元素更新）
+## 适用场景
 
-通常与 `<canvas>` 配合使用，是整个渲染树的核心容器。
+- 在 Web/H5 环境中绑定 `<canvas>` 并启动渲染
+- 管理渲染生命周期（初始化、更新、重绘）
+- 作为整棵渲染树的容器
+
+## 功能特性
+
+- 持有 `canvas/ctx` 并驱动渲染
+- 统一分发 `initialized` 与 `elementUpdate` 事件
 
 ## 示例
 
@@ -32,6 +37,6 @@
 
 ## 使用说明 / 注意事项
 
-- 若 `autoRender` 为 `false`，需手动调用 `sketch.render()`
-- 对于性能优化，可关闭 `autoRender` 并手动触发渲染
-- 样式使用 `StyleSheet.create()` 统一管理
+- `Sketch.Root` 必须在 `sketch.init({ canvas, ctx })` 成功后使用
+- 若 `autoRender` 为 `false`，需要手动调用 `sketch.render()`
+- `style.width/height` 会决定 Canvas 像素尺寸
