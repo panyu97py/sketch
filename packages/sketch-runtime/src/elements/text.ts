@@ -2,6 +2,7 @@ import { DEFAULT_FONT_STYLE, DEFAULT_FONT_STYLE_PROPERTY } from '@/constants'
 import { FontStyle, StyleSheetCssProperty, StyleSheetDeclaration } from '@/types'
 import { log } from '@/utils'
 import { CreateSketchElementOpt, SketchElement } from './element'
+import { Align, Edge } from '@sketchjs/yoga-layout'
 
 /**
  * 基础文本元素
@@ -10,7 +11,7 @@ class SketchBaseText extends SketchElement {
   /**
    * 单行文本可用样式属性
    */
-  readonly SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS: StyleSheetCssProperty[] = [...DEFAULT_FONT_STYLE_PROPERTY, 'color', 'width', 'height', 'textAlign']
+  readonly SINGLE_LINE_TEXT_USE_ABLE_STYLE_KEYS: StyleSheetCssProperty[] = [...DEFAULT_FONT_STYLE_PROPERTY, 'color', 'textAlign']
 
   /**
    * 生成文本样式
@@ -54,8 +55,8 @@ class SketchBaseText extends SketchElement {
    * @param maxWidth
    */
   splitTextByWidth = (text: string, maxWidth: number) => {
-    if (!this._root) return []
-    if (!maxWidth) return [text]
+    if (!this._root) return {}
+    if (!maxWidth || maxWidth === Infinity) return { firstLineText: text, textLineArr: [text], lineCount: 1 }
     const textLineArr = `${text}`.replace(/\r\n/g, '\n').split(/(\n)/)
     const textArr = textLineArr.reduce<string[]>((prev, cur) => {
       return cur === '\n' ? [...prev, cur] : [...prev, ...cur.split('')]
@@ -82,7 +83,10 @@ class SketchBaseText extends SketchElement {
       // 默认兜底，但不会被执行
       return { curLineText: '', lineTextArr }
     }, intVal)
-    return lineTextArr
+
+    const [firstLineText] = lineTextArr
+
+    return { firstLineText, lineTextArr, lineCount: lineTextArr.length }
   }
 }
 
@@ -120,24 +124,10 @@ class SketchSingLineText extends SketchBaseText {
    */
   async onMount () {
     await super.onMount()
-    const { height, width, lineHeight } = this.style || {}
+    const { lineHeight } = this.style || {}
     const { width: textWidth = 0 } = this.calculateTextWidth(this.text) || {}
-    this.layout!.setHeight(height || lineHeight)
-    this.layout!.setWidth(width || textWidth)
-  }
-
-  calculateTextElementPositionByStyle = () => {
-    const { textAlign = 'left' } = this.style || {}
-    const { left, ...otherPositionInfo } = this.calculateElementAbsolutePosition()
-    const { width: elementWidth } = this.getElementSize()
-    const { width: textWidth = 0 } = this.calculateTextWidth(this.text) || {}
-    const finalLeft = (() => {
-      if (textAlign === 'left') return left
-      if (textAlign === 'right') return left + elementWidth
-      if (textAlign === 'center') return left + elementWidth / 2
-    })()
-    const finalRight = finalLeft + textWidth
-    return { left: finalLeft, right: finalRight, ...otherPositionInfo }
+    this.layout!.setHeight(lineHeight)
+    this.layout!.setWidth(textWidth)
   }
 
   /**
@@ -148,20 +138,19 @@ class SketchSingLineText extends SketchBaseText {
 
     // 计算布局位置
     this._root!.calculateLayout()
-    const { left, top } = this.calculateTextElementPositionByStyle()
+    const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
 
     log('SketchSingLineText.render', { left, top, width, height, node: this })
 
     // 渲染元素
-    const { color = 'black', textAlign = 'left' } = this.style || {}
+    const { color = 'black' } = this.style || {}
     const { ctx } = this._root!
     if (!ctx) return
 
     ctx.save()
     ctx.textBaseline = 'middle'
     ctx.fillStyle = color
-    ctx.textAlign = textAlign
     ctx.font = this.generateFontStyle(this.style as FontStyle)
     ctx.fillText(this.text, left, top + height / 2, width)
     ctx.restore()
@@ -200,14 +189,40 @@ export class SketchText extends SketchBaseText {
     if (!this._root) return
     await super.onMount()
     const { lineHeight = 0 } = this.style || {}
-    const { width } = this.getElementSize()
-    const lineTextArr = this.splitTextByWidth(this.text, width)
-    const [firstLineText = ''] = lineTextArr
+    const { width, height } = this.getElementSize()
+    const paddingLeft = this.layout!.getComputedPadding(Edge.Left) || 0
+    const paddingRight = this.layout!.getComputedPadding(Edge.Right) || 0
+    const paddingTop = this.layout!.getComputedPadding(Edge.Top) || 0
+    const paddingBottom = this.layout!.getComputedPadding(Edge.Bottom) || 0
+
+    const textContainerWidth = width ? width - paddingLeft - paddingRight : Infinity
+    const textContainerHeight = height ? height - paddingTop - paddingBottom : Infinity
+
+    const { lineTextArr = [], firstLineText = '', lineCount = 0 } = this.splitTextByWidth(this.text, textContainerWidth)
     const { width: firstLineTextWidth = 0 } = this.calculateTextWidth(firstLineText) || {}
-    const finalWidth = width || firstLineTextWidth // TODO 应该增加左右 padding，不然基于文字长度计算的自动宽度会不对
-    const finalHeight = lineTextArr.length * lineHeight // TODO 应该增加上下 padding，不然基于文字长度计算的自动宽度会不对
+
+    const finalWidth = (() => {
+      if (textContainerWidth && textContainerWidth !== Infinity) return width
+      return firstLineTextWidth + paddingTop + paddingBottom
+    })()
+
+    const finalHeight = (() => {
+      if (textContainerHeight && textContainerHeight !== Infinity) return height
+      return lineCount * lineHeight + paddingTop + paddingBottom
+    })()
+
+    const finalJustifyContent = (() => {
+      const { textAlign = 'left' } = this.style || {}
+      if (textAlign === 'center') return Align.Center
+      if (textAlign === 'right') return Align.FlexEnd
+      if (textAlign === 'left') return Align.FlexStart
+      return Align.FlexStart
+    })()
+
     this.layout!.setWidth(finalWidth)
     this.layout!.setHeight(finalHeight)
+    this.layout!.setAlignItems(finalJustifyContent)
+
     const singleLineTextStyle = this.generateSketchSingleLineTextStyle(this.style || {})
     lineTextArr.forEach((lineText) => {
       const textElement = SketchSingLineText.create({ text: lineText, style: singleLineTextStyle })
