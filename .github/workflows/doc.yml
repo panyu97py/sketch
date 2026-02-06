@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main       # main 分支 push 时触发
-      - doc
 
 permissions:
   contents: read
