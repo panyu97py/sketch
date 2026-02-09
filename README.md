@@ -301,13 +301,6 @@ const sketch = Sketch.useSketch()
 // 手动触发渲染
 sketch.render()
 
-// 批量更新后渲染
-sketch.batchUpdate(() => {
-  // 多个更新操作
-  element1.updateStyle(newStyle1)
-  element2.updateStyle(newStyle2)
-})
-sketch.render()
 ```
 
 ### 事件处理
