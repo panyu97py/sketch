@@ -26,17 +26,6 @@ export class SketchView extends SketchElement {
 
     log('SketchView.render', { left, top, width, height, node: this })
 
-    // 渲染元素
-    const { ctx } = this._root!
-    if (!ctx) return
-    ctx.save()
-    ctx.fillStyle = this.style?.backgroundColor || 'transparent'
-    ctx.lineWidth = this.style?.borderWidth || 0
-    ctx.strokeStyle = this.style?.borderColor || 'transparent'
-    ctx.beginPath();
-    (ctx as any).roundRect(left, top, width, height, this.style?.borderRadius || [0, 0, 0, 0])
-    ctx.fill()
-    ctx.stroke()
-    ctx.restore()
+    super.render()
   }
 }

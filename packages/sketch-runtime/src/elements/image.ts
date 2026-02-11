@@ -114,17 +114,16 @@ export class SketchImage extends SketchElement {
     log('SketchImage.render', { left, top, width, height, node: this })
 
     // 渲染元素
-    const { backgroundColor = 'transparent', borderRadius = [0, 0, 0, 0] } = this.style || {}
     const { ctx } = this._root!
+
     if (!ctx) return
 
     ctx.save()
-    ctx.fillStyle = backgroundColor
-    ctx.beginPath()
-    ctx.roundRect(left, top, width, height, borderRadius)
-    ctx.closePath()
-    ctx.clip()
+
+    super.render(false)
+
     ctx.drawImage(this.imageObj, left, top, width, height)
+
     ctx.restore()
   }
 }

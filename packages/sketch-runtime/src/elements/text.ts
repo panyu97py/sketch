@@ -250,5 +250,7 @@ export class SketchText extends SketchBaseText {
     const { width, height } = this.getElementSize()
 
     log('SketchText.render', { left, top, width, height, node: this })
+
+    super.render()
   }
 }
