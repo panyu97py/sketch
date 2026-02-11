@@ -283,7 +283,14 @@ export class SketchElement {
     this._root!.calculateLayout()
     const { left, top } = this.calculateElementAbsolutePosition()
     const { width, height } = this.getElementSize()
-    const { borderRadius = [0, 0, 0, 0] } = this.style || {}
+    const { borderStyle, borderRadius = [0, 0, 0, 0], borderWidth = 0 } = this.style || {}
+
+    const segments = (() => {
+      if (borderStyle === 'dashed') return [borderWidth * 2, borderWidth]
+      if (borderStyle === 'dotted') return [borderWidth, borderWidth]
+      if (borderStyle === 'solid') return []
+      return []
+    })()
 
     // 渲染元素
     const { ctx } = this._root!
@@ -294,6 +301,7 @@ export class SketchElement {
     ctx.strokeStyle = this.style?.borderColor || 'transparent'
     ctx.beginPath()
     ctx.roundRect(left, top, width, height, borderRadius)
+    ctx.setLineDash(segments)
     ctx.closePath()
     ctx.clip()
     ctx.fill()
