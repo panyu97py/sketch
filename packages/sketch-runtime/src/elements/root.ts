@@ -3,7 +3,6 @@ import { StyleSheetDeclaration } from '@/types'
 import { Event, EventEmitter, EventListener, log } from '@/utils'
 import { patchRoundRect } from '@/patch'
 import { CreateSketchElementOpt, SketchElement } from './element'
-import { SketchView } from './view'
 
 interface CreateSketchRootOpt extends CreateSketchElementOpt {
     ctx?: CanvasRenderingContext2D,
@@ -15,7 +14,7 @@ type EventType = 'elementUpdate' | 'initialized'
 /**
  * 画布根节点
  */
-export class SketchRoot extends SketchView {
+export class SketchRoot extends SketchElement {
   /**
    * 画布上下文
    */

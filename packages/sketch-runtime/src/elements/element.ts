@@ -276,5 +276,36 @@ export class SketchElement {
     return this.eventEmit?.dispatchEvent(event)
   }
 
-  render () {}
+  render (saveState = true) {
+    if (!this.renderable) return
+
+    // 计算布局位置
+    this._root!.calculateLayout()
+    const { left, top } = this.calculateElementAbsolutePosition()
+    const { width, height } = this.getElementSize()
+    const { borderStyle, borderRadius = [0, 0, 0, 0], borderWidth = 0 } = this.style || {}
+
+    const segments = (() => {
+      if (borderStyle === 'dashed') return [borderWidth * 2, borderWidth]
+      if (borderStyle === 'dotted') return [borderWidth, borderWidth]
+      if (borderStyle === 'solid') return []
+      return []
+    })()
+
+    // 渲染元素
+    const { ctx } = this._root!
+    if (!ctx) return
+    saveState && ctx.save()
+    ctx.fillStyle = this.style?.backgroundColor || 'transparent'
+    ctx.lineWidth = this.style?.borderWidth || 0
+    ctx.strokeStyle = this.style?.borderColor || 'transparent'
+    ctx.beginPath()
+    ctx.roundRect(left, top, width, height, borderRadius)
+    ctx.setLineDash(segments)
+    ctx.closePath()
+    ctx.clip()
+    ctx.fill()
+    ctx.stroke()
+    saveState && ctx.restore()
+  }
 }

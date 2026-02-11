@@ -89,6 +89,7 @@ export interface StyleSheetDeclaration extends Partial<ExtendsCSSDeclaration> {
   left?: PositionSize;
   borderWidth?: number;
   borderColor?: Color;
+  borderStyle?: 'solid' | 'dashed' | 'dotted';
   borderRadius?: number | number[];
   borderTopLeftRadius?: number;
   borderTopRightRadius?: number;
